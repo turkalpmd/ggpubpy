@@ -761,7 +761,7 @@ def plot_shift(
         bodies = cast(List[PolyCollection], vl["bodies"])
         for idx, color, offset in zip([0, 1], ["#88bedc", "#cfcfcf"], [-1.2, -0.8]):
             path = bodies[idx].get_paths()[0]
-            verts: np.ndarray = path.vertices
+            verts: np.ndarray = cast(np.ndarray, path.vertices)
             if idx == 0:
                 verts[:, 1][verts[:, 1] >= 1] = 1
             else:
