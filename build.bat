@@ -36,6 +36,8 @@ echo Clean completed.
 goto end
 
 :build
+echo Cleaning previous distributions...
+if exist dist rmdir /s /q dist
 echo Building package...
 python -m build
 if %errorlevel% neq 0 (
