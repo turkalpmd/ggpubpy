@@ -1,7 +1,10 @@
 [![PyPI version](https://img.shields.io/pypi/v/ggpubpy)](https://pypi.org/project/ggpubpy)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ggpubpy)](https://pypi.org/project/ggpubpy)
 [![Downloads](https://img.shields.io/pypi/dm/ggpubpy)](https://pypi.org/project/ggpubpy)
-[![Build Status](https://github.com/turkalpmd/ggpubpy/workflows/CI/badge.svg)](https://github.com/turkalpmd/ggpubpy/actions)
+[![PyPI - Wheel](https://img.shields.io/pypi/wheel/ggpubpy)](https://pypi.org/project/ggpubpy)
 [![License](https://img.shields.io/pypi/l/ggpubpy)](https://github.com/turkalpmd/ggpubpy/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/turkalpmd/ggpubpy?style=social)](https://github.com/turkalpmd/ggpubpy)
+[![GitHub forks](https://img.shields.io/github/forks/turkalpmd/ggpubpy?style=social)](https://github.com/turkalpmd/ggpubpy)
 
 # ggpubpy: 'matplotlib' Based Publication-Ready Plots
 
@@ -9,17 +12,25 @@ Matplotlib is an excellent and flexible package for elegant data visualization i
 
 The **ggpubpy** library provides a suite of easy-to-use functions for creating and customizing Matplotlib-based, publication-ready plots—complete with built-in statistical tests and automatic p-value or significance star annotations. This project is directly inspired by R's [ggpubr](https://github.com/kassambara/ggpubr) package.
 
-Find out more at: https://github.com/turkalpmd/ggpubpy
+**📦 PyPI Package**: https://pypi.org/project/ggpubpy/  
+**🐙 GitHub Repository**: https://github.com/turkalpmd/ggpubpy  
+**📚 Documentation**: Coming soon with Sphinx docs
 
 ---
 
 ## Installation and loading
 
-Install the latest release from PyPI:
+Install the latest stable release from PyPI (recommended):
 
 ```bash
 pip install ggpubpy
 ```
+
+**Why install from PyPI?**
+- ✅ Stable, tested releases
+- ✅ Automatic dependency management
+- ✅ Easy updates with `pip install --upgrade ggpubpy`
+- ✅ Compatible with virtual environments
 
 Or install the development version directly from GitHub:
 
@@ -217,3 +228,14 @@ See [CONTRIBUTING.md](docs/contributing.rst) for detailed guidelines.
 ## License
 
 **ggpubpy** is released under the MIT License. See [LICENSE](https://github.com/turkalpmd/ggpubpy/blob/main/LICENSE) for details.
+
+---
+
+## 📈 Project Status
+
+🎉 **PUBLISHED ON PyPI**: June 20, 2025  
+📦 **Latest Version**: 0.1.0  
+🌟 **Status**: Stable and ready for production use  
+🤝 **Contributing**: Open for community contributions  
+
+**Install now**: `pip install ggpubpy`

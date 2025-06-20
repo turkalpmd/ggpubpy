@@ -15,32 +15,32 @@ import os
 
 def run_tests():
     """Run comprehensive tests for ggpubpy package."""
-    print("🔍 Running comprehensive ggpubpy tests...")
+    print("[INFO] Running comprehensive ggpubpy tests...")
     print("=" * 50)
     
     # Test 1: Package import
     try:
         import ggpubpy
-        print("✅ ggpubpy import successful")
+        print("[PASS] ggpubpy import successful")
     except Exception as e:
-        print(f"❌ ggpubpy import failed: {e}")
+        print(f"[FAIL] ggpubpy import failed: {e}")
         return False
     
     # Test 2: Main functions import
     try:
         from ggpubpy import violinggplot, boxggplot, load_iris
-        print("✅ Main functions import successful")
+        print("[PASS] Main functions import successful")
     except Exception as e:
-        print(f"❌ Main functions import failed: {e}")
+        print(f"[FAIL] Main functions import failed: {e}")
         return False
     
     # Test 3: Dataset loading
     try:
         iris = load_iris()
-        print(f"✅ Iris dataset loaded: {len(iris)} rows, {len(iris.columns)} columns")
+        print(f"[PASS] Iris dataset loaded: {len(iris)} rows, {len(iris.columns)} columns")
         print(f"   Species: {list(iris['species'].unique())}")
     except Exception as e:
-        print(f"❌ Dataset loading failed: {e}")
+        print(f"[FAIL] Dataset loading failed: {e}")
         return False
     
     # Test 4: Plot creation (non-interactive)
@@ -52,35 +52,36 @@ def run_tests():
         # Test violin plot
         fig, ax = violinggplot(iris, x='species', y='sepal_length')
         plt.close()
-        print("✅ Violin plot creation successful")
+        print("[PASS] Violin plot creation successful")
         
         # Test box plot
         fig, ax = boxggplot(iris, x='species', y='sepal_length')  
         plt.close()
-        print("✅ Box plot creation successful")
+        print("[PASS] Box plot creation successful")
         
         # Test with parameters
         fig, ax = violinggplot(iris, x='species', y='sepal_length', 
                               parametric=True, global_test=True, pairwise_test=True)
         plt.close()
-        print("✅ Parametric violin plot with stats successful")
+        print("[PASS] Parametric violin plot with stats successful")
         
         fig, ax = boxggplot(iris, x='species', y='sepal_length',
                            parametric=False, global_test=True, pairwise_test=False)
         plt.close()
-        print("✅ Non-parametric box plot with global test successful")
+        print("[PASS] Non-parametric box plot with global test successful")
         
     except Exception as e:
-        print(f"❌ Plot creation failed: {e}")
+        print(f"[FAIL] Plot creation failed: {e}")
         return False
-      # Test 5: Dataset utilities
+    
+    # Test 5: Dataset utilities
     try:
         from ggpubpy.datasets import get_iris_palette, list_datasets
         palette = get_iris_palette()
         datasets = list_datasets()
-        print(f"✅ Dataset utilities successful: {len(palette)} colors, {len(datasets)} datasets")
+        print(f"[PASS] Dataset utilities successful: {len(palette)} colors, {len(datasets)} datasets")
     except Exception as e:
-        print(f"❌ Dataset utilities failed: {e}")
+        print(f"[FAIL] Dataset utilities failed: {e}")
         return False
     
     # Test 6: Documentation structure
@@ -91,9 +92,9 @@ def run_tests():
         missing_files = [f for f in docs_files if not os.path.exists(f'docs/{f}')]
         if missing_files:
             raise Exception(f"Missing documentation files: {missing_files}")
-        print(f"✅ Documentation structure complete: {len(docs_files)} files")
+        print(f"[PASS] Documentation structure complete: {len(docs_files)} files")
     except Exception as e:
-        print(f"❌ Documentation check failed: {e}")
+        print(f"[FAIL] Documentation check failed: {e}")
         return False
     
     return True
@@ -104,20 +105,20 @@ def main():
     
     print("\n" + "=" * 50)
     if success:
-        print("🎉 ALL TESTS PASSED - Package is ready for publication!")
+        print("[SUCCESS] ALL TESTS PASSED - Package is ready for publication!")
         print()
-        print("📦 Core functionality: ✅")
-        print("📊 Plot generation: ✅") 
-        print("🔧 API consistency: ✅")
-        print("📈 Statistical tests: ✅")
-        print("🎨 Color palettes: ✅")
-        print("📊 Dataset loading: ✅")
-        print("📚 Documentation: ✅")
+        print("[PASS] Core functionality: PASSED")
+        print("[PASS] Plot generation: PASSED") 
+        print("[PASS] API consistency: PASSED")
+        print("[PASS] Statistical tests: PASSED")
+        print("[PASS] Color palettes: PASSED")
+        print("[PASS] Dataset loading: PASSED")
+        print("[PASS] Documentation: PASSED")
         print()
-        print("🚀 Ready to publish to PyPI!")
-        print("🤝 Ready for community contributions!")
+        print("[INFO] Ready to publish to PyPI!")
+        print("[INFO] Ready for community contributions!")
     else:
-        print("❌ TESTS FAILED - Package needs fixes before publication")
+        print("[FAIL] TESTS FAILED - Package needs fixes before publication")
         sys.exit(1)
 
 if __name__ == "__main__":
