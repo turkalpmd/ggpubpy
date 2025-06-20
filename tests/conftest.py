@@ -2,9 +2,13 @@
 Test configuration and fixtures for ggpubpy tests.
 """
 
+import matplotlib
 import numpy as np
 import pandas as pd
 import pytest
+
+# Set matplotlib to use Agg backend for headless testing
+matplotlib.use("Agg")
 
 
 @pytest.fixture

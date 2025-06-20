@@ -3,8 +3,8 @@
 Simple test script to verify package is ready for publication.
 """
 
-import sys
 import os
+import sys
 
 
 def run_simple_tests():

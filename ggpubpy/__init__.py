@@ -8,13 +8,13 @@ automatic p-value or significance star annotations.
 This project is directly inspired by R's ggpubr package.
 """
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __author__ = "Izzet Turkalp Akbasli"
 __email__ = "izzetakbasli@gmail.com"
 
 # Import dataset functions (these don't require scipy)
 from . import datasets
-from .datasets import load_iris, get_iris_palette, list_datasets
+from .datasets import get_iris_palette, list_datasets, load_iris
 
 
 # Lazy imports to avoid scipy import issues during package import
@@ -22,10 +22,10 @@ def _import_plots():
     """Lazy import of plots module."""
     try:
         from .plots import (
-            plot_violin_with_stats,
-            plot_boxplot_with_stats,
-            significance_stars,
             DEFAULT_PALETTE,
+            plot_boxplot_with_stats,
+            plot_violin_with_stats,
+            significance_stars,
         )
 
         return (

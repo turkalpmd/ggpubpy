@@ -5,13 +5,14 @@ Basic usage examples for ggpubpy.
 This script demonstrates the core functionality of ggpubpy using the built-in iris dataset.
 """
 
-import sys
 import os
+import sys
 
 # Add the parent directory to sys.path to import ggpubpy
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import matplotlib.pyplot as plt
+
 import ggpubpy
 
 

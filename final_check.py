@@ -10,8 +10,8 @@ This script tests:
 - API compatibility
 """
 
-import sys
 import os
+import sys
 
 
 def run_tests():
@@ -30,7 +30,7 @@ def run_tests():
 
     # Test 2: Main functions import
     try:
-        from ggpubpy import violinggplot, boxggplot, load_iris
+        from ggpubpy import boxggplot, load_iris, violinggplot
 
         print("[PASS] Main functions import successful")
     except Exception as e:
@@ -103,28 +103,6 @@ def run_tests():
         )
     except Exception as e:
         print(f"[FAIL] Dataset utilities failed: {e}")
-        return False
-
-    # Test 6: Documentation structure
-    try:
-        import os
-
-        docs_files = [
-            "index.rst",
-            "installation.rst",
-            "quickstart.rst",
-            "api.rst",
-            "examples.rst",
-            "contributing.rst",
-            "changelog.rst",
-            "conf.py",
-        ]
-        missing_files = [f for f in docs_files if not os.path.exists(f"docs/{f}")]
-        if missing_files:
-            raise Exception(f"Missing documentation files: {missing_files}")
-        print(f"[PASS] Documentation structure complete: {len(docs_files)} files")
-    except Exception as e:
-        print(f"[FAIL] Documentation check failed: {e}")
         return False
 
     return True

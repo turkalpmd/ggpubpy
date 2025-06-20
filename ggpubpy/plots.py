@@ -12,8 +12,7 @@ import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from scipy.stats import kruskal, mannwhitneyu, f_oneway, ttest_ind
-
+from scipy.stats import f_oneway, kruskal, mannwhitneyu, ttest_ind
 
 # Default color palette - updated with new colors
 DEFAULT_PALETTE = [

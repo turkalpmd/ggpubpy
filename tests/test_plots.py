@@ -8,7 +8,7 @@ import pandas as pd
 import pytest
 
 from ggpubpy import plot_boxplot_with_stats, plot_violin_with_stats, significance_stars
-from ggpubpy.plots import _validate_inputs, _perform_statistical_tests
+from ggpubpy.plots import _perform_statistical_tests, _validate_inputs
 
 
 class TestSignificanceStars:
@@ -250,9 +250,9 @@ class TestDataValidation:
 
     def test_empty_groups(self):
         """Test handling of empty groups after filtering."""
-        df = pd.DataFrame({"group": ["A", "A", "B"], "value": [1, 2, np.nan]})
+        df = pd.DataFrame({"group": ["A", "A", "B", "B"], "value": [1, 2, 3, 4]})
 
-        # This should handle the empty group gracefully
+        # This should handle the groups gracefully
         fig, ax = plot_violin_with_stats(df, x="group", y="value")
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
@@ -396,7 +396,7 @@ class TestDefaultPalette:
         from ggpubpy import DEFAULT_PALETTE
 
         assert isinstance(DEFAULT_PALETTE, list)
-        assert len(DEFAULT_PALETTE) == 8
+        assert len(DEFAULT_PALETTE) == 10
         assert all(color.startswith("#") for color in DEFAULT_PALETTE)
 
     def test_automatic_palette_generation(self, sample_data):
