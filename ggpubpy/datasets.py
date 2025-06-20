@@ -19,16 +19,16 @@ def _get_data_path() -> str:
 def load_iris() -> pd.DataFrame:
     """
     Load the famous iris dataset.
-    
+
     The iris dataset contains measurements of sepal and petal dimensions
     for three species of iris flowers (setosa, versicolor, virginica).
-    
+
     Returns
     -------
     pd.DataFrame
-        DataFrame with columns: sepal_length, sepal_width, petal_length, 
+        DataFrame with columns: sepal_length, sepal_width, petal_length,
         petal_width, species.
-        
+
     Examples
     --------
     >>> from ggpubpy.datasets import load_iris
@@ -43,7 +43,7 @@ def load_iris() -> pd.DataFrame:
 def get_iris_palette() -> Dict[str, str]:
     """
     Get the default color palette for iris species.
-    
+
     Returns
     -------
     dict
@@ -55,17 +55,13 @@ def get_iris_palette() -> Dict[str, str]:
     >>> print(palette)
     {'setosa': '#00AFBB', 'versicolor': '#E7B800', 'virginica': '#FC4E07'}
     """
-    return {
-        "setosa": "#00AFBB",
-        "versicolor": "#E7B800", 
-        "virginica": "#FC4E07"
-    }
+    return {"setosa": "#00AFBB", "versicolor": "#E7B800", "virginica": "#FC4E07"}
 
 
 def list_datasets() -> Dict[str, Any]:
     """
     List all available datasets with descriptions.
-    
+
     Returns
     -------
     dict
@@ -75,7 +71,13 @@ def list_datasets() -> Dict[str, Any]:
         "iris": {
             "description": "The famous iris flower dataset with sepal/petal measurements",
             "shape": (150, 5),
-            "columns": ["sepal_length", "sepal_width", "petal_length", "petal_width", "species"],
-            "loader": load_iris
+            "columns": [
+                "sepal_length",
+                "sepal_width",
+                "petal_length",
+                "petal_width",
+                "species",
+            ],
+            "loader": load_iris,
         }
     }

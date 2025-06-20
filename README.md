@@ -233,7 +233,7 @@ python final_check.py
 ## 📈 Project Status
 
 🎉 **PUBLISHED ON PyPI**: June 20, 2025  
-📦 **Latest Version**: 0.1.2  
+📦 **Latest Version**: 0.1.3  
 🌟 **Status**: Stable and ready for production use  
 🤝 **Contributing**: Open for community contributions  
 

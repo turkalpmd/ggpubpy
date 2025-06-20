@@ -31,12 +31,12 @@ class TestPlotViolinWithStats:
         fig, ax = plot_violin_with_stats(
             sample_data, x="dose", y="len", palette=sample_palette
         )
-        
+
         assert isinstance(fig, plt.Figure)
         assert isinstance(ax, plt.Axes)
         assert ax.get_xlabel() == "dose"
         assert ax.get_ylabel() == "len"
-        
+
         # Close the figure to prevent display
         plt.close(fig)
 
@@ -47,9 +47,9 @@ class TestPlotViolinWithStats:
             x="dose",
             y="len",
             x_label="Dose (mg)",
-            y_label="Length (units)"
+            y_label="Length (units)",
         )
-        
+
         assert ax.get_xlabel() == "Dose (mg)"
         assert ax.get_ylabel() == "Length (units)"
         plt.close(fig)
@@ -59,7 +59,7 @@ class TestPlotViolinWithStats:
         fig, ax = plot_violin_with_stats(
             sample_data, x="dose", y="len", order=[2.0, 1.0, 0.5]
         )
-        
+
         labels = [tick.get_text() for tick in ax.get_xticklabels()]
         assert labels == ["2.0", "1.0", "0.5"]
         plt.close(fig)
@@ -69,7 +69,7 @@ class TestPlotViolinWithStats:
         fig, ax = plot_violin_with_stats(
             sample_data, x="dose", y="len", add_jitter=False
         )
-        
+
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
@@ -79,7 +79,7 @@ class TestPlotViolinWithStats:
         fig, ax = plot_violin_with_stats(
             sample_data, x="dose", y="len", figsize=figsize
         )
-        
+
         assert fig.get_size_inches()[0] == figsize[0]
         assert fig.get_size_inches()[1] == figsize[1]
         plt.close(fig)
@@ -87,26 +87,25 @@ class TestPlotViolinWithStats:
     def test_small_dataset(self, small_data):
         """Test with minimal dataset."""
         fig, ax = plot_violin_with_stats(small_data, x="group", y="value")
-        
+
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
     def test_single_group(self):
         """Test with single group (edge case)."""
         df = pd.DataFrame({"group": ["A"] * 5, "value": [1, 2, 3, 4, 5]})
-        
+
         fig, ax = plot_violin_with_stats(df, x="group", y="value")
-        
+
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
     def test_parametric_violin_plot(self, sample_data, sample_palette):
         """Test parametric violin plot."""
         fig, ax = plot_violin_with_stats(
-            sample_data, x="dose", y="len", 
-            palette=sample_palette, parametric=True
+            sample_data, x="dose", y="len", palette=sample_palette, parametric=True
         )
-        
+
         assert isinstance(fig, plt.Figure)
         assert isinstance(ax, plt.Axes)
         plt.close(fig)
@@ -150,7 +149,7 @@ class TestPlotBoxplotWithStats:
         fig, ax = plot_boxplot_with_stats(
             sample_data, x="dose", y="len", palette=sample_palette
         )
-        
+
         assert isinstance(fig, plt.Figure)
         assert isinstance(ax, plt.Axes)
         assert ax.get_xlabel() == "dose"
@@ -164,9 +163,9 @@ class TestPlotBoxplotWithStats:
             x="dose",
             y="len",
             x_label="Dose (mg)",
-            y_label="Length (units)"
+            y_label="Length (units)",
         )
-        
+
         assert ax.get_xlabel() == "Dose (mg)"
         assert ax.get_ylabel() == "Length (units)"
         plt.close(fig)
@@ -176,7 +175,7 @@ class TestPlotBoxplotWithStats:
         fig, ax = plot_boxplot_with_stats(
             sample_data, x="dose", y="len", order=[2.0, 1.0, 0.5]
         )
-        
+
         labels = [tick.get_text() for tick in ax.get_xticklabels()]
         assert labels == ["2.0", "1.0", "0.5"]
         plt.close(fig)
@@ -187,7 +186,7 @@ class TestPlotBoxplotWithStats:
         fig, ax = plot_boxplot_with_stats(
             sample_data, x="dose", y="len", figsize=figsize
         )
-        
+
         assert fig.get_size_inches()[0] == figsize[0]
         assert fig.get_size_inches()[1] == figsize[1]
         plt.close(fig)
@@ -195,17 +194,16 @@ class TestPlotBoxplotWithStats:
     def test_small_dataset_boxplot(self, small_data):
         """Test boxplot with minimal dataset."""
         fig, ax = plot_boxplot_with_stats(small_data, x="group", y="value")
-        
+
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
     def test_parametric_boxplot(self, sample_data, sample_palette):
         """Test parametric boxplot."""
         fig, ax = plot_boxplot_with_stats(
-            sample_data, x="dose", y="len", 
-            palette=sample_palette, parametric=True
+            sample_data, x="dose", y="len", palette=sample_palette, parametric=True
         )
-        
+
         assert isinstance(fig, plt.Figure)
         assert isinstance(ax, plt.Axes)
         plt.close(fig)
@@ -213,7 +211,9 @@ class TestPlotBoxplotWithStats:
     def test_invalid_parametric_parameter_boxplot(self, sample_data):
         """Test invalid parametric parameter for boxplot."""
         with pytest.raises(AssertionError, match="parametric must be a boolean"):
-            plot_boxplot_with_stats(sample_data, x="dose", y="len", parametric="invalid")
+            plot_boxplot_with_stats(
+                sample_data, x="dose", y="len", parametric="invalid"
+            )
 
     def test_invalid_figsize_boxplot(self, sample_data):
         """Test invalid figsize parameter for boxplot."""
@@ -236,26 +236,22 @@ class TestDataValidation:
 
     def test_missing_values(self):
         """Test handling of missing values."""
-        df = pd.DataFrame({
-            "group": ["A", "A", "B", "B", "A"],
-            "value": [1, 2, np.nan, 4, 5]
-        })
-        
+        df = pd.DataFrame(
+            {"group": ["A", "A", "B", "B", "A"], "value": [1, 2, np.nan, 4, 5]}
+        )
+
         fig, ax = plot_violin_with_stats(df, x="group", y="value")
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
-        
+
         fig, ax = plot_boxplot_with_stats(df, x="group", y="value")
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
     def test_empty_groups(self):
         """Test handling of empty groups after filtering."""
-        df = pd.DataFrame({
-            "group": ["A", "A", "B"],
-            "value": [1, 2, np.nan]
-        })
-        
+        df = pd.DataFrame({"group": ["A", "A", "B"], "value": [1, 2, np.nan]})
+
         # This should handle the empty group gracefully
         fig, ax = plot_violin_with_stats(df, x="group", y="value")
         assert isinstance(fig, plt.Figure)
@@ -305,11 +301,15 @@ class TestStatisticalTests:
     def test_perform_statistical_tests_parametric(self, sample_data):
         """Test parametric statistical tests."""
         levels = sorted(sample_data["dose"].unique())
-        groups = [sample_data[sample_data["dose"] == lvl]["len"].dropna().values 
-                 for lvl in levels]
-        
-        global_stat, global_p, pairwise = _perform_statistical_tests(groups, parametric=True)
-        
+        groups = [
+            sample_data[sample_data["dose"] == lvl]["len"].dropna().values
+            for lvl in levels
+        ]
+
+        global_stat, global_p, pairwise = _perform_statistical_tests(
+            groups, parametric=True
+        )
+
         assert not np.isnan(global_stat)
         assert not np.isnan(global_p)
         assert len(pairwise) == 3  # 3 groups = 3 pairwise comparisons
@@ -317,11 +317,15 @@ class TestStatisticalTests:
     def test_perform_statistical_tests_nonparametric(self, sample_data):
         """Test non-parametric statistical tests."""
         levels = sorted(sample_data["dose"].unique())
-        groups = [sample_data[sample_data["dose"] == lvl]["len"].dropna().values 
-                 for lvl in levels]
-        
-        global_stat, global_p, pairwise = _perform_statistical_tests(groups, parametric=False)
-        
+        groups = [
+            sample_data[sample_data["dose"] == lvl]["len"].dropna().values
+            for lvl in levels
+        ]
+
+        global_stat, global_p, pairwise = _perform_statistical_tests(
+            groups, parametric=False
+        )
+
         assert not np.isnan(global_stat)
         assert not np.isnan(global_p)
         assert len(pairwise) == 3  # 3 groups = 3 pairwise comparisons
@@ -329,9 +333,9 @@ class TestStatisticalTests:
     def test_perform_statistical_tests_single_group(self):
         """Test statistical tests with single group."""
         groups = [np.array([1, 2, 3, 4, 5])]
-        
+
         global_stat, global_p, pairwise = _perform_statistical_tests(groups)
-        
+
         assert np.isnan(global_stat)
         assert np.isnan(global_p)
         assert len(pairwise) == 0
@@ -339,7 +343,7 @@ class TestStatisticalTests:
     def test_perform_statistical_tests_empty_groups(self):
         """Test statistical tests with empty groups."""
         groups = []
-        
+
         with pytest.raises(AssertionError, match="At least one group is required"):
             _perform_statistical_tests(groups)
 
@@ -350,17 +354,23 @@ class TestDatasets:
     def test_load_iris(self):
         """Test loading iris dataset."""
         from ggpubpy.datasets import load_iris
-        
+
         iris = load_iris()
         assert isinstance(iris, pd.DataFrame)
         assert iris.shape == (150, 5)
-        assert list(iris.columns) == ["sepal_length", "sepal_width", "petal_length", "petal_width", "species"]
-        assert set(iris['species'].unique()) == {"setosa", "versicolor", "virginica"}
+        assert list(iris.columns) == [
+            "sepal_length",
+            "sepal_width",
+            "petal_length",
+            "petal_width",
+            "species",
+        ]
+        assert set(iris["species"].unique()) == {"setosa", "versicolor", "virginica"}
 
     def test_get_iris_palette(self):
         """Test iris palette function."""
         from ggpubpy.datasets import get_iris_palette
-        
+
         palette = get_iris_palette()
         assert isinstance(palette, dict)
         assert len(palette) == 3
@@ -371,7 +381,7 @@ class TestDatasets:
     def test_list_datasets(self):
         """Test list datasets function."""
         from ggpubpy.datasets import list_datasets
-        
+
         datasets = list_datasets()
         assert isinstance(datasets, dict)
         assert "iris" in datasets
@@ -384,28 +394,25 @@ class TestDefaultPalette:
     def test_default_palette_import(self):
         """Test importing default palette."""
         from ggpubpy import DEFAULT_PALETTE
-        
+
         assert isinstance(DEFAULT_PALETTE, list)
         assert len(DEFAULT_PALETTE) == 8
         assert all(color.startswith("#") for color in DEFAULT_PALETTE)
 
     def test_automatic_palette_generation(self, sample_data):
         """Test automatic palette generation."""
-        fig, ax = plot_violin_with_stats(
-            sample_data, x="dose", y="len"
-        )
-        
+        fig, ax = plot_violin_with_stats(sample_data, x="dose", y="len")
+
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
     def test_mixed_palette_usage(self, sample_data):
         """Test using partial custom palette with defaults."""
         partial_palette = {0.5: "#FF0000"}  # Only specify one color
-        
+
         fig, ax = plot_violin_with_stats(
-            sample_data, x="dose", y="len",
-            palette=partial_palette
+            sample_data, x="dose", y="len", palette=partial_palette
         )
-        
+
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
