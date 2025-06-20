@@ -212,33 +212,17 @@ pip install -r requirements-dev.txt
 python final_check.py
 ```
 
-See [CONTRIBUTING.md](docs/contributing.rst) for detailed guidelines.
+### Getting Help:
+- 🐛 **GitHub Issues**: Bug reports and feature requests
+- 💬 **GitHub Discussions**: Questions and community discussion
 
 ---
 
-## 📚 Documentation & Support
+## 📚 Support
 
-- **Local Documentation**: [Build locally](#-view-documentation-locally) with Sphinx
-- **API Reference**: Complete function documentation with examples
-- **GitHub Issues**: Bug reports and feature requests
-- **GitHub Discussions**: Questions and community discussion
-
-### 🚀 View Documentation Locally
-
-```bash
-# Install documentation dependencies
-pip install sphinx sphinx-rtd-theme
-
-# Build documentation
-sphinx-build -b html docs docs/_build
-
-# Open in browser (Windows)
-start docs/_build/index.html
-
-# Open in browser (Mac/Linux)
-open docs/_build/index.html  # Mac
-xdg-open docs/_build/index.html  # Linux
-```
+- 🐛 **GitHub Issues**: Bug reports and feature requests
+- 💬 **GitHub Discussions**: Questions and community discussion
+- � **API Reference**: Complete function documentation in code
 
 ---
 
