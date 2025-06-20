@@ -6,12 +6,13 @@ plots with statistical annotations.
 """
 
 import itertools
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.collections import PolyCollection
 from scipy.stats import f_oneway, kruskal, mannwhitneyu, ttest_ind
 
 # Default color palette - updated with new colors
@@ -310,7 +311,7 @@ def plot_violin_with_stats(
         showmedians=False,
         showmeans=False,
     )  # Color the violins with palette
-    bodies = violin_parts["bodies"]
+    bodies = cast(List[PolyCollection], violin_parts["bodies"])
     for idx, body in enumerate(bodies):
         level = levels[idx]
         color = color_palette[level]
