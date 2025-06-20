@@ -14,7 +14,7 @@ The **ggpubpy** library provides a suite of easy-to-use functions for creating a
 
 **📦 PyPI Package**: https://pypi.org/project/ggpubpy/  
 **🐙 GitHub Repository**: https://github.com/turkalpmd/ggpubpy  
-**📚 Documentation**: Available locally (run `sphinx-build -b html docs docs/_build` and open `docs/_build/index.html`)
+**📚 Documentation**: https://turkalpmd.github.io/ggpubpy/ (auto-deployed) | [Build locally](#-view-documentation-locally)
 
 ---
 
@@ -218,7 +218,8 @@ See [CONTRIBUTING.md](docs/contributing.rst) for detailed guidelines.
 
 ## 📚 Documentation & Support
 
-- **Local Documentation**: Run `sphinx-build -b html docs docs/_build` then open `docs/_build/index.html`
+- **Online Documentation**: https://turkalpmd.github.io/ggpubpy/ (automatically deployed)
+- **Local Documentation**: [Build locally](#-view-documentation-locally) 
 - **API Reference**: Complete function documentation with examples
 - **GitHub Issues**: Bug reports and feature requests
 - **GitHub Discussions**: Questions and community discussion
