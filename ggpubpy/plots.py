@@ -753,7 +753,11 @@ def plot_shift(
     ax1.scatter(y, np.full_like(y, -0.2), color="#88bedc", s=10, alpha=0.6, zorder=3)
 
     if violin:
-        vl = ax1.violinplot([y, x], showextrema=False, vert=False, widths=1)
+        import warnings
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", PendingDeprecationWarning)
+            vl = ax1.violinplot([y, x], showextrema=False, vert=False, widths=1)
         bodies = cast(List[PolyCollection], vl["bodies"])
         for idx, color, offset in zip([0, 1], ["#88bedc", "#cfcfcf"], [-1.2, -0.8]):
             path = bodies[idx].get_paths()[0]
