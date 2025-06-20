@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# isort: skip_file
 """
 Final comprehensive test script to verify package is ready for publication.
 
