@@ -11,6 +11,7 @@ This script runs:
 import os
 import subprocess
 import sys
+import traceback
 from typing import List
 
 
@@ -92,9 +93,10 @@ def run_integration_tests() -> bool:
     print("=" * 50)
 
     try:
-        import ggpubpy
+        import matplotlib
+        import matplotlib.pyplot as plt
 
-        print("[PASS] ggpubpy import successful")
+        import ggpubpy
         from ggpubpy import (
             plot_boxplot_with_stats,
             plot_shift,
@@ -102,17 +104,15 @@ def run_integration_tests() -> bool:
         )
         from ggpubpy.datasets import get_iris_palette, list_datasets, load_iris
 
+        matplotlib.use("Agg")  # Configure backend before plotting
+
+        print("[PASS] ggpubpy import successful")
         print("[PASS] Main functions import successful")
 
         iris = load_iris()
         print(
             f"[PASS] Iris dataset loaded: {len(iris)} rows, {len(iris.columns)} columns"
         )
-
-        import matplotlib
-
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
 
         fig, ax = plot_violin_with_stats(iris, x="species", y="sepal_length")
         plt.close(fig)
@@ -135,8 +135,6 @@ def run_integration_tests() -> bool:
         )
 
     except Exception as e:
-        import traceback
-
         print(f"[FAIL] Integration test failed: {e}")
         traceback.print_exc()
         return False
