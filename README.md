@@ -40,7 +40,7 @@ Load the package:
 
 ```python
 import ggpubpy
-from ggpubpy import violinggplot, boxggplot
+from ggpubpy import violinggplot, boxggplot, plot_shift
 from ggpubpy.datasets import load_iris  # Built-in datasets
 ```
 
@@ -134,6 +134,53 @@ fig, ax = ggpubpy.boxggplot(
 ```
 
 ![Box Plot 2-Groups](examples/boxplot_2groups_example.png)
+
+### 📈 Shift plots for distribution comparison
+
+Shift plots provide a powerful visualization for comparing two distributions by showing:
+- **Half-violin plots** showing distribution shapes
+- **Box plots** with quartiles and outliers  
+- **Raw data points** for transparency
+- **Quantile connections** (optional) showing how percentiles shift between groups
+- **Statistical test results** in the title
+- **Quantile difference subplot** (optional) for detailed quantile analysis
+
+#### Basic Shift Plot
+```python
+# Compare two groups with shift plot
+iris_2groups = iris[iris['species'].isin(['setosa', 'versicolor'])]
+x = iris_2groups[iris_2groups['species'] == 'setosa']['sepal_length'].values
+y = iris_2groups[iris_2groups['species'] == 'versicolor']['sepal_length'].values
+
+fig = ggpubpy.plot_shift(
+    x, y, 
+    paired=False, 
+    n_boot=1000,
+    percentiles=[10, 50, 90], 
+    confidence=0.95,
+    show_quantiles=True,  # Show quantile connection lines
+    show_quantile_diff=False,  # Hide quantile difference subplot
+    x_name="Setosa", 
+    y_name="Versicolor"
+)
+```
+
+![Shift Plot Example](examples/shift_plot_example.png)
+
+#### Shift Plot with Quantile Differences
+```python
+# Same plot but with quantile difference subplot
+fig = ggpubpy.plot_shift(
+    x, y,
+    paired=False,
+    show_quantiles=True,
+    show_quantile_diff=True,  # Show quantile difference subplot
+    x_name="Setosa",
+    y_name="Versicolor"
+)
+```
+
+![Shift Plot with Differences](examples/shift_plot_with_diff_example.png)
 
 ### 🎨 Advanced Features
 
@@ -233,7 +280,7 @@ python final_check.py
 ## 📈 Project Status
 
 🎉 **PUBLISHED ON PyPI**: June 20, 2025  
-📦 **Latest Version**: 0.1.3  
+📦 **Latest Version**: 0.2.0  
 🌟 **Status**: Stable and ready for production use  
 🤝 **Contributing**: Open for community contributions  
 

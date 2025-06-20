@@ -7,9 +7,10 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+from typing import List
 
 
-def run_command(cmd, description):
+def run_command(cmd: str, description: str) -> bool:
     """Run a command and return success status."""
     print(f"🔍 {description}...")
     try:
@@ -26,7 +27,7 @@ def run_command(cmd, description):
         return False
 
 
-def check_files_exist():
+def check_files_exist() -> bool:
     """Check required files exist."""
     required_files = [
         "pyproject.toml",
@@ -37,7 +38,7 @@ def check_files_exist():
         "ggpubpy/datasets.py",
     ]
 
-    missing = []
+    missing: List[str] = []
     for file in required_files:
         if not Path(file).exists():
             missing.append(file)
@@ -50,12 +51,12 @@ def check_files_exist():
         return True
 
 
-def main():
+def main() -> None:
     """Run pre-upload checklist."""
     print("🚀 PyPI Upload Pre-flight Checklist")
     print("=" * 40)
 
-    checks = []
+    checks: List[bool] = []
 
     # File existence check
     checks.append(check_files_exist())  # Package can be imported (with timeout)

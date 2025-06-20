@@ -26,7 +26,7 @@ except Exception as e:
 import matplotlib.pyplot as plt
 
 
-def main():
+def main() -> None:
     """Generate all example plots for README."""
     # Generate PNGs in current directory (examples folder)
     examples_dir = "."
@@ -136,6 +136,69 @@ def main():
         print("    ✓ Generated boxplot_2groups_example.png")
     except Exception as e:
         print(f"    ✗ Failed to generate boxplot_2groups_example.png: {e}")
+    # 5. Shift plot - 2 groups (setosa vs versicolor) - Main plot only
+    print("  - shift_plot_example.png (2 groups shift plot - main only)")
+    try:
+        iris_2groups = iris[iris["species"].isin(["setosa", "versicolor"])]
+        x = iris_2groups[iris_2groups["species"] == "setosa"]["sepal_length"].values
+        y = iris_2groups[iris_2groups["species"] == "versicolor"]["sepal_length"].values
+        fig = ggpubpy.plot_shift(
+            x,
+            y,
+            paired=False,
+            n_boot=1000,
+            percentiles=[10, 50, 90],
+            confidence=0.95,
+            violin=True,
+            show_quantiles=True,  # Show quantile connection lines
+            show_quantile_diff=False,  # Only show main plot, no bottom subplot
+            x_name="Setosa",
+            y_name="Versicolor",  # Custom group names
+        )
+        plt.suptitle("Iris Dataset: Setosa vs Versicolor Shift Plot", y=1.02)
+        plt.tight_layout()
+        plt.savefig(
+            os.path.join(examples_dir, "shift_plot_example.png"),
+            dpi=300,
+            bbox_inches="tight",
+        )
+        plt.close()
+        print("    ✓ Generated shift_plot_example.png")
+    except Exception as e:
+        print(f"    ✗ Failed to generate shift_plot_example.png: {e}")
+
+    # 6. Shift plot with quantile differences - 2 groups (setosa vs versicolor)
+    print(
+        "  - shift_plot_with_diff_example.png (2 groups shift plot with quantile differences)"
+    )
+    try:
+        fig = ggpubpy.plot_shift(
+            x,
+            y,
+            paired=False,
+            n_boot=1000,
+            percentiles=[10, 50, 90],
+            confidence=0.95,
+            violin=True,
+            show_quantiles=True,  # Show quantile connection lines
+            show_quantile_diff=True,  # Show both main plot and quantile difference subplot
+            x_name="Setosa",
+            y_name="Versicolor",  # Custom group names
+        )
+        plt.suptitle(
+            "Iris Dataset: Setosa vs Versicolor Shift Plot with Quantile Differences",
+            y=1.02,
+        )
+        plt.tight_layout()
+        plt.savefig(
+            os.path.join(examples_dir, "shift_plot_with_diff_example.png"),
+            dpi=300,
+            bbox_inches="tight",
+        )
+        plt.close()
+        print("    ✓ Generated shift_plot_with_diff_example.png")
+    except Exception as e:
+        print(f"    ✗ Failed to generate shift_plot_with_diff_example.png: {e}")
 
     print("\nSummary:")
     for filename in [
@@ -143,6 +206,8 @@ def main():
         "boxplot_example.png",
         "violin_2groups_example.png",
         "boxplot_2groups_example.png",
+        "shift_plot_example.png",
+        "shift_plot_with_diff_example.png",
     ]:
         filepath = os.path.join(examples_dir, filename)
         if os.path.exists(filepath):

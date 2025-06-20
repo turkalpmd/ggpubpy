@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import ggpubpy
 
 
-def main():
+def main() -> None:
     """Run basic usage examples."""
     # Load the iris dataset
     iris = ggpubpy.datasets.load_iris()
@@ -88,25 +88,16 @@ def main():
     plt.tight_layout()
     plt.savefig("boxplot_2groups_example.png", dpi=150, bbox_inches="tight")
     plt.show()  # Example 5: Custom color palette
-    print("5. Generating plot with custom color palette...")
-    custom_palette = {
-        "setosa": "#00AFBB",  # Teal
-        "versicolor": "#E7B800",  # Gold
-        "virginica": "#FC4E07",  # Orange-red
-    }
-
-    fig, ax = ggpubpy.violinggplot(
-        df=iris,
-        x="species",
-        y="petal_length",
-        x_label="Species",
-        y_label="Petal Length (cm)",
-        palette=custom_palette,
-        parametric=True,  # Use parametric tests (ANOVA + t-test)
+    # Example 6: Shift plot with 2 groups (setosa vs versicolor)
+    print("6. Generating shift plot (2 species: setosa vs versicolor)...")
+    x = iris_2groups[iris_2groups["species"] == "setosa"]["sepal_length"].values
+    y = iris_2groups[iris_2groups["species"] == "versicolor"]["sepal_length"].values
+    fig = ggpubpy.plot_shift(
+        x, y, paired=False, n_boot=500, percentiles=[10, 50, 90], violin=True
     )
-    plt.suptitle("Iris Dataset: Petal Length by Species (Custom Colors)", y=1.02)
+    plt.suptitle("Iris Shift Plot: Sepal Length Difference Quantiles", y=1.02)
     plt.tight_layout()
-    plt.savefig("violin_custom_colors_example.png", dpi=150, bbox_inches="tight")
+    plt.savefig("shift_plot_example_basic.png", dpi=150, bbox_inches="tight")
     plt.show()
 
     print("\nExamples completed! Check the generated PNG files.")

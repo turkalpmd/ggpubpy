@@ -2,132 +2,172 @@
 """
 Final comprehensive test script to verify package is ready for publication.
 
-This script tests:
-- Package imports
-- Core functionality
-- Dataset loading
-- Plot generation
-- API compatibility
+This script runs:
+- Code quality checks (black, isort, mypy)
+- Unit tests (pytest)
+- Integration/smoke tests
 """
 
 import os
+import subprocess
 import sys
+from typing import List
 
 
-def run_tests():
-    """Run comprehensive tests for ggpubpy package."""
-    print("[INFO] Running comprehensive ggpubpy tests...")
+def run_command(command: List[str], description: str) -> bool:
+    """
+    Run a shell command and report its success or failure.
+
+    Parameters
+    ----------
+    command : list
+        The command to execute as a list of strings.
+    description : str
+        A description of what the command is doing.
+
+    Returns
+    -------
+    bool
+        True if the command succeeded, False otherwise.
+    """
+    print(f"\n--- Running {description} ---")
+    try:
+        is_windows = sys.platform == "win32"
+        process = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            check=True,
+            encoding="utf-8",
+            errors="replace",
+            shell=is_windows,
+        )
+        print(process.stdout)
+        if process.stderr:
+            print("--- STDERR ---")
+            print(process.stderr)
+        print(f"[PASS] {description} successful.")
+        return True
+    except FileNotFoundError:
+        print(f"[FAIL] Command '{command[0]}' not found.")
+        print("Please ensure required packages are installed in your environment.")
+        return False
+    except subprocess.CalledProcessError as e:
+        print(f"[FAIL] {description} failed with exit code {e.returncode}.")
+        print("--- STDOUT ---")
+        print(e.stdout)
+        print("--- STDERR ---")
+        print(e.stderr)
+        return False
+    except Exception as e:
+        print(f"[FAIL] An unexpected error occurred: {e}")
+        return False
+
+
+def run_quality_and_unit_tests() -> bool:
+    """
+    Run all code quality checks and unit tests.
+    """
+    print("[INFO] Running Code Quality Checks and Unit Tests...")
     print("=" * 50)
 
-    # Test 1: Package import
+    checks = [
+        (["black", "."], "black (code formatter)"),
+        (["isort", "."], "isort (import sorter)"),
+        (["mypy", "."], "mypy (static type checker)"),
+        (["pytest"], "pytest (unit tests)"),
+    ]
+
+    for command, description in checks:
+        if not run_command(command, description):
+            return False
+
+    print("\n[SUCCESS] All quality checks and unit tests passed.")
+    return True
+
+
+def run_integration_tests() -> bool:
+    """Run comprehensive integration tests for ggpubpy package."""
+    print("\n[INFO] Running Integration and Smoke Tests...")
+    print("=" * 50)
+
     try:
         import ggpubpy
 
         print("[PASS] ggpubpy import successful")
-    except Exception as e:
-        print(f"[FAIL] ggpubpy import failed: {e}")
-        return False
-
-    # Test 2: Main functions import
-    try:
-        from ggpubpy import boxggplot, load_iris, violinggplot
+        from ggpubpy import (
+            plot_boxplot_with_stats,
+            plot_shift,
+            plot_violin_with_stats,
+        )
+        from ggpubpy.datasets import get_iris_palette, list_datasets, load_iris
 
         print("[PASS] Main functions import successful")
-    except Exception as e:
-        print(f"[FAIL] Main functions import failed: {e}")
-        return False
 
-    # Test 3: Dataset loading
-    try:
         iris = load_iris()
         print(
             f"[PASS] Iris dataset loaded: {len(iris)} rows, {len(iris.columns)} columns"
         )
-        print(f"   Species: {list(iris['species'].unique())}")
-    except Exception as e:
-        print(f"[FAIL] Dataset loading failed: {e}")
-        return False
 
-    # Test 4: Plot creation (non-interactive)
-    try:
         import matplotlib
 
-        matplotlib.use("Agg")  # Non-interactive backend
+        matplotlib.use("Agg")
         import matplotlib.pyplot as plt
 
-        # Test violin plot
-        fig, ax = violinggplot(iris, x="species", y="sepal_length")
-        plt.close()
+        fig, ax = plot_violin_with_stats(iris, x="species", y="sepal_length")
+        plt.close(fig)
         print("[PASS] Violin plot creation successful")
 
-        # Test box plot
-        fig, ax = boxggplot(iris, x="species", y="sepal_length")
-        plt.close()
+        fig, ax = plot_boxplot_with_stats(iris, x="species", y="sepal_length")
+        plt.close(fig)
         print("[PASS] Box plot creation successful")
 
-        # Test with parameters
-        fig, ax = violinggplot(
-            iris,
-            x="species",
-            y="sepal_length",
-            parametric=True,
-            global_test=True,
-            pairwise_test=True,
-        )
-        plt.close()
-        print("[PASS] Parametric violin plot with stats successful")
-
-        fig, ax = boxggplot(
-            iris,
-            x="species",
-            y="sepal_length",
-            parametric=False,
-            global_test=True,
-            pairwise_test=False,
-        )
-        plt.close()
-        print("[PASS] Non-parametric box plot with global test successful")
-
-    except Exception as e:
-        print(f"[FAIL] Plot creation failed: {e}")
-        return False
-
-    # Test 5: Dataset utilities
-    try:
-        from ggpubpy.datasets import get_iris_palette, list_datasets
+        x_data = iris[iris["species"] == "setosa"]["sepal_length"].values
+        y_data = iris[iris["species"] == "versicolor"]["sepal_length"].values
+        fig = plot_shift(x_data, y_data)
+        plt.close(fig)
+        print("[PASS] Shift plot creation successful")
 
         palette = get_iris_palette()
         datasets = list_datasets()
         print(
             f"[PASS] Dataset utilities successful: {len(palette)} colors, {len(datasets)} datasets"
         )
+
     except Exception as e:
-        print(f"[FAIL] Dataset utilities failed: {e}")
+        import traceback
+
+        print(f"[FAIL] Integration test failed: {e}")
+        traceback.print_exc()
         return False
 
+    print("\n[SUCCESS] All integration tests passed.")
     return True
 
 
-def main():
+def main() -> None:
     """Main test runner."""
-    success = run_tests()
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(project_root)
+
+    quality_passed = run_quality_and_unit_tests()
+    integration_passed = False
+    if quality_passed:
+        integration_passed = run_integration_tests()
 
     print("\n" + "=" * 50)
-    if success:
-        print("[SUCCESS] ALL TESTS PASSED - Package is ready for publication!")
+    if quality_passed and integration_passed:
+        print(
+            "[SUCCESS] ALL CHECKS AND TESTS PASSED - Package is ready for publication!"
+        )
         print()
-        print("[PASS] Core functionality: PASSED")
-        print("[PASS] Plot generation: PASSED")
-        print("[PASS] API consistency: PASSED")
-        print("[PASS] Statistical tests: PASSED")
-        print("[PASS] Color palettes: PASSED")
-        print("[PASS] Dataset loading: PASSED")
-        print("[PASS] Documentation: PASSED")
+        print("[PASS] Code Quality (black, isort, mypy): PASSED")
+        print("[PASS] Unit Tests (pytest): PASSED")
+        print("[PASS] Integration Tests (imports, plots, data): PASSED")
         print()
         print("[INFO] Ready to publish to PyPI!")
-        print("[INFO] Ready for community contributions!")
     else:
-        print("[FAIL] TESTS FAILED - Package needs fixes before publication")
+        print("[FAIL] CHECKS OR TESTS FAILED - Package needs fixes before publication.")
         sys.exit(1)
 
 

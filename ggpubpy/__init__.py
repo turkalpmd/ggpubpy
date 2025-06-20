@@ -10,7 +10,7 @@ This project is directly inspired by R's ggpubr package.
 
 from typing import Any, List, Tuple
 
-__version__ = "0.1.6"
+__version__ = "0.2.0"
 __author__ = "Izzet Turkalp Akbasli"
 __email__ = "izzetakbasli@gmail.com"
 
@@ -80,6 +80,18 @@ def get_default_palette() -> List[str]:
     return palette
 
 
+# Lazy loader for shift plot
+def plot_shift(x: Any, y: Any, *args: Any, **kwargs: Any) -> Any:
+    """Shift plot comparing two distributions."""
+    try:
+        from .plots import plot_shift as _shift
+    except ImportError as e:
+        raise ImportError(
+            f"Could not import shift plot function. Please ensure dependencies are installed: {e}"
+        )
+    return _shift(x, y, *args, **kwargs)
+
+
 # Simple DEFAULT_PALETTE for basic access without scipy dependency
 DEFAULT_PALETTE = [
     "#00AFBB",
@@ -105,4 +117,5 @@ __all__ = [
     "load_iris",
     "get_iris_palette",
     "list_datasets",
+    "plot_shift",
 ]

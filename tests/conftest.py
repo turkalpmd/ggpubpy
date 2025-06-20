@@ -2,6 +2,8 @@
 Test configuration and fixtures for ggpubpy tests.
 """
 
+from typing import Dict
+
 import matplotlib
 import numpy as np
 import pandas as pd
@@ -12,7 +14,7 @@ matplotlib.use("Agg")
 
 
 @pytest.fixture
-def sample_data():
+def sample_data() -> pd.DataFrame:
     """Create sample test data similar to ToothGrowth dataset."""
     np.random.seed(42)  # For reproducible tests
 
@@ -91,12 +93,12 @@ def sample_data():
 
 
 @pytest.fixture
-def sample_palette():
+def sample_palette() -> Dict[float, str]:
     """Create sample color palette."""
     return {0.5: "#00AFBB", 1.0: "#E7B800", 2.0: "#FC4E07"}
 
 
 @pytest.fixture
-def small_data():
+def small_data() -> pd.DataFrame:
     """Create minimal test data for edge cases."""
     return pd.DataFrame({"group": ["A", "A", "B", "B"], "value": [1, 2, 3, 4]})
