@@ -8,7 +8,9 @@ automatic p-value or significance star annotations.
 This project is directly inspired by R's ggpubr package.
 """
 
-__version__ = "0.1.4"
+from typing import Any, List, Tuple
+
+__version__ = "0.1.5"
 __author__ = "Izzet Turkalp Akbasli"
 __email__ = "izzetakbasli@gmail.com"
 
@@ -18,7 +20,7 @@ from .datasets import get_iris_palette, list_datasets, load_iris
 
 
 # Lazy imports to avoid scipy import issues during package import
-def _import_plots():
+def _import_plots() -> Tuple[Any, Any, Any, List[str]]:
     """Lazy import of plots module."""
     try:
         from .plots import (
@@ -41,38 +43,38 @@ def _import_plots():
 
 
 # Create lazy loading functions
-def violinggplot(*args, **kwargs):
+def violinggplot(*args: Any, **kwargs: Any) -> Any:
     """Create violin plot with statistical annotations."""
     plot_violin_with_stats, _, _, _ = _import_plots()
     return plot_violin_with_stats(*args, **kwargs)
 
 
-def boxggplot(*args, **kwargs):
+def boxggplot(*args: Any, **kwargs: Any) -> Any:
     """Create box plot with statistical annotations."""
     _, plot_boxplot_with_stats, _, _ = _import_plots()
     return plot_boxplot_with_stats(*args, **kwargs)
 
 
-def plot_violin_with_stats(*args, **kwargs):
+def plot_violin_with_stats(*args: Any, **kwargs: Any) -> Any:
     """Create violin plot with statistical annotations."""
     func, _, _, _ = _import_plots()
     return func(*args, **kwargs)
 
 
-def plot_boxplot_with_stats(*args, **kwargs):
+def plot_boxplot_with_stats(*args: Any, **kwargs: Any) -> Any:
     """Create box plot with statistical annotations."""
     _, func, _, _ = _import_plots()
     return func(*args, **kwargs)
 
 
-def significance_stars(*args, **kwargs):
+def significance_stars(*args: Any, **kwargs: Any) -> Any:
     """Convert p-values to significance stars."""
     _, _, func, _ = _import_plots()
     return func(*args, **kwargs)
 
 
 # Lazy DEFAULT_PALETTE access
-def get_default_palette():
+def get_default_palette() -> List[str]:
     """Get default color palette."""
     _, _, _, palette = _import_plots()
     return palette

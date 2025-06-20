@@ -6,7 +6,7 @@ plots with statistical annotations.
 """
 
 import itertools
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
@@ -297,11 +297,11 @@ def plot_violin_with_stats(
 
     # Filter pairwise results if pairwise_test is False
     if not pairwise_test:
-        pairwise = []
-
-    # Create figure
+        pairwise = []  # Create figure
     scaled_figsize = (figsize[0] * figsize_scale, figsize[1] * figsize_scale)
-    fig, ax = plt.subplots(figsize=scaled_figsize)  # Violin plots
+    fig, ax = plt.subplots(figsize=scaled_figsize)
+
+    # Violin plots
     violin_parts = ax.violinplot(
         groups,
         positions=positions,
@@ -309,8 +309,10 @@ def plot_violin_with_stats(
         showextrema=True,
         showmedians=False,
         showmeans=False,
-    )  # Color the violins with palette
-    for idx, body in enumerate(violin_parts["bodies"]):
+    )
+    # Color the violins with palette
+    bodies = violin_parts["bodies"]
+    for idx, body in enumerate(bodies):  # type: ignore[var-annotated,arg-type]
         level = levels[idx]
         color = color_palette[level]
         body.set_facecolor(color)
@@ -346,11 +348,11 @@ def plot_violin_with_stats(
         rng = np.random.default_rng(0)
         for pos, values in zip(positions, groups):
             xs = rng.normal(pos, jitter_std, size=len(values))
-            ax.scatter(xs, values, s=15, color="k", alpha=0.6, zorder=3)
-
-    # Statistical annotations
-    data_min = np.min([np.min(g) for g in groups if len(g) > 0])
-    data_max = np.max([np.max(g) for g in groups if len(g) > 0])
+            ax.scatter(
+                xs, values, s=15, color="k", alpha=0.6, zorder=3
+            )  # Statistical annotations
+    data_min: float = np.min([np.min(g) for g in groups if len(g) > 0])
+    data_max: float = np.max([np.max(g) for g in groups if len(g) > 0])
     span = data_max - data_min
     base = data_max + 0.1 * span
     step = 0.1 * span  # Pairwise annotations
@@ -513,11 +515,9 @@ def plot_boxplot_with_stats(
             xs = rng.normal(pos, jitter_std, size=len(values))
             ax.scatter(
                 xs, values, s=20, color=color, alpha=0.7, marker=marker, zorder=3
-            )
-
-    # Statistical annotations
-    y_min = np.min([np.min(g) for g in groups if len(g) > 0])
-    y_max = np.max([np.max(g) for g in groups if len(g) > 0])
+            )  # Statistical annotations
+    y_min: float = np.min([np.min(g) for g in groups if len(g) > 0])
+    y_max: float = np.max([np.max(g) for g in groups if len(g) > 0])
     span = y_max - y_min
     base = y_max + 0.1 * span
     step = 0.1 * span  # Pairwise annotations
