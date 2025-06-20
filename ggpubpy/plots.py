@@ -599,7 +599,7 @@ def harrelldavis(
             w = w[:, np.newaxis]  # Broadcast weights for column-wise operations
         val = (w * x).sum(axis=axis)
         res.append(val)
-    result = np.squeeze(np.array(res, dtype=np.float64))
+    result: np.ndarray = np.squeeze(np.array(res, dtype=np.float64))
     # Always return as array for consistent typing
     return cast(np.ndarray, np.atleast_1d(result))
 
@@ -761,7 +761,7 @@ def plot_shift(
         bodies = cast(List[PolyCollection], vl["bodies"])
         for idx, color, offset in zip([0, 1], ["#88bedc", "#cfcfcf"], [-1.2, -0.8]):
             path = bodies[idx].get_paths()[0]
-            verts = path.vertices
+            verts: np.ndarray = path.vertices
             if idx == 0:
                 verts[:, 1][verts[:, 1] >= 1] = 1
             else:
