@@ -53,10 +53,11 @@ def main():
     plt.tight_layout()
     plt.savefig('boxplot_3groups_example.png', dpi=150, bbox_inches='tight')
     plt.show()
-    
-    # Example 3: Violin plot with 2 groups (setosa vs versicolor)
+      # Example 3: Violin plot with 2 groups (setosa vs versicolor)
     print("3. Generating violin plot (2 species: setosa vs versicolor)...")
-    iris_2groups = iris[iris['species'].isin(['setosa', 'versicolor'])]    fig, ax = ggpubpy.violinggplot(
+    iris_2groups = iris[iris['species'].isin(['setosa', 'versicolor'])]
+    
+    fig, ax = ggpubpy.violinggplot(
         df=iris_2groups,
         x='species',
         y='sepal_length',
@@ -82,15 +83,15 @@ def main():
     plt.suptitle('Iris Dataset: Setosa vs Versicolor Sepal Length (Box Plot)', y=1.02)
     plt.tight_layout()
     plt.savefig('boxplot_2groups_example.png', dpi=150, bbox_inches='tight')
-    plt.show()
-      # Example 5: Custom color palette
+    plt.show()    # Example 5: Custom color palette
     print("5. Generating plot with custom color palette...")
     custom_palette = {
         'setosa': '#00AFBB',      # Teal
         'versicolor': '#E7B800',  # Gold
         'virginica': '#FC4E07'    # Orange-red
     }
-      fig, ax = ggpubpy.violinggplot(
+    
+    fig, ax = ggpubpy.violinggplot(
         df=iris,
         x='species',
         y='petal_length',

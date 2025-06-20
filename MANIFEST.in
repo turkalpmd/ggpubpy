@@ -7,7 +7,6 @@ include .pre-commit-config.yaml
 recursive-include ggpubpy *.py
 recursive-include tests *.py
 recursive-include examples *.py *.ipynb
-recursive-include docs *.md *.rst *.txt
 
 global-exclude *.pyc
 global-exclude __pycache__

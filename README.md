@@ -1,8 +1,6 @@
 [![PyPI version](https://img.shields.io/pypi/v/ggpubpy)](https://pypi.org/project/ggpubpy)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ggpubpy)](https://pypi.org/project/ggpubpy)
-[![Downloads](https://img.shields.io/pypi/dm/ggpubpy)](https://pypi.org/project/ggpubpy)
-[![PyPI - Wheel](https://img.shields.io/pypi/wheel/ggpubpy)](https://pypi.org/project/ggpubpy)
-[![License](https://img.shields.io/pypi/l/ggpubpy)](https://github.com/turkalpmd/ggpubpy/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/turkalpmd/ggpubpy/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/turkalpmd/ggpubpy?style=social)](https://github.com/turkalpmd/ggpubpy)
 [![GitHub forks](https://img.shields.io/github/forks/turkalpmd/ggpubpy?style=social)](https://github.com/turkalpmd/ggpubpy)
 
