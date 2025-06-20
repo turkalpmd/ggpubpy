@@ -1,22 +1,23 @@
-# ggpubpy Documentation
+ggpubpy Documentation
+====================
 
 Welcome to the **ggpubpy** documentation! 
 
 ggpubpy is a Python library that provides easy-to-use functions for creating publication-ready plots with built-in statistical tests and automatic p-value annotations. Inspired by R's ggpubr package.
 
-```{toctree}
-:maxdepth: 2
-:caption: Contents:
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
-installation
-quickstart
-api
-examples
-contributing
-changelog
-```
+   installation
+   quickstart
+   api
+   examples
+   contributing
+   changelog
 
-## Features
+Features
+--------
 
 - 🎻 **Violin plots** with boxplots and jitter points
 - 📊 **Box plots** with statistical annotations  
@@ -26,27 +27,36 @@ changelog
 - 📦 **Built-in datasets** for quick testing and examples
 - 🔧 **Clean, intuitive API** designed for researchers
 
-## Quick Example
+Quick Example
+-------------
 
-```python
-import ggpubpy
-from ggpubpy.datasets import load_iris
+.. code-block:: python
 
-# Load data
-iris = load_iris()
+   import ggpubpy
+   from ggpubpy.datasets import load_iris
 
-# Create violin plot with statistical tests
-fig, ax = ggpubpy.violinggplot(
-    df=iris, 
-    x="species", 
-    y="sepal_length",
-    x_label="Species", 
-    y_label="Sepal Length (cm)"
-)
-```
+   # Load data
+   iris = load_iris()
 
-## Indices and tables
+   # Create violin plot with statistical tests
+   fig, ax = ggpubpy.violinggplot(
+       df=iris,
+       x="species",
+       y="sepal_length",
+       x_label="Species",
+       y_label="Sepal Length (cm)"
+   )
 
-* {ref}`genindex`
-* {ref}`modindex`
-* {ref}`search`
+Links & Resources
+-----------------
+
+* **PyPI Package**: https://pypi.org/project/ggpubpy/
+* **GitHub Repository**: https://github.com/turkalpmd/ggpubpy
+* **Issue Tracker**: https://github.com/turkalpmd/ggpubpy/issues
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
