@@ -257,17 +257,10 @@ pip install -r requirements-dev.txt
 python final_check.py
 ```
 
-### Getting Help:
-- 🐛 **GitHub Issues**: Bug reports and feature requests
-- 💬 **GitHub Discussions**: Questions and community discussion
-
----
-
-## 📚 Support
-
-- 🐛 **GitHub Issues**: Bug reports and feature requests
-- 💬 **GitHub Discussions**: Questions and community discussion
-- � **API Reference**: Complete function documentation in code
+### Getting Help & Support
+- 🐛 **GitHub Issues**: For bug reports and feature requests.
+- 💬 **GitHub Discussions**: For questions, suggestions, and community discussion.
+- 📚 **API Reference**: Complete function documentation is available in the source code docstrings.
 
 ---
 
