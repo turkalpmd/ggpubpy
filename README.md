@@ -264,6 +264,27 @@ python final_check.py
 
 ---
 
+## 📚 Citation
+
+If you use **ggpubpy** in your work, please cite it as:
+
+Akbasli, I. T. (2025). *Python Based Publication-Ready Plots*. Zenodo. https://doi.org/10.5281/zenodo.15707309
+
+Or in BibTeX:
+
+```bibtex
+@software{akbasli2025ggpubpy,
+  author       = {Izzet Turkalp Akbasli},
+  title        = {Python Based Publication-Ready Plots},
+  year         = {2025},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.15707309},
+  url          = {https://doi.org/10.5281/zenodo.15707309}
+}
+```
+
+---
+
 ## License
 
 **ggpubpy** is released under the MIT License. See [LICENSE](https://github.com/turkalpmd/ggpubpy/blob/main/LICENSE) for details.
