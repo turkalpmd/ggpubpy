@@ -309,10 +309,9 @@ def plot_violin_with_stats(
         showextrema=True,
         showmedians=False,
         showmeans=False,
-    )
-    # Color the violins with palette
+    )  # Color the violins with palette
     bodies = violin_parts["bodies"]
-    for idx, body in enumerate(bodies):  # type: ignore[var-annotated,arg-type]
+    for idx, body in enumerate(bodies):  # type: ignore[var-annotated, arg-type]
         level = levels[idx]
         color = color_palette[level]
         body.set_facecolor(color)
