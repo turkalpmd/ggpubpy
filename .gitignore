@@ -199,3 +199,8 @@ pypirc_example
 *.token
 config/
 secrets/
+
+# Documentation build files
+docs/_build/
+docs/_static/
+docs/_templates/

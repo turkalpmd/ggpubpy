@@ -14,7 +14,7 @@ The **ggpubpy** library provides a suite of easy-to-use functions for creating a
 
 **📦 PyPI Package**: https://pypi.org/project/ggpubpy/  
 **🐙 GitHub Repository**: https://github.com/turkalpmd/ggpubpy  
-**📚 Documentation**: Coming soon with Sphinx docs
+**📚 Documentation**: Available locally (run `sphinx-build -b html docs docs/_build` and open `docs/_build/index.html`)
 
 ---
 
@@ -218,10 +218,27 @@ See [CONTRIBUTING.md](docs/contributing.rst) for detailed guidelines.
 
 ## 📚 Documentation & Support
 
-- **Full Documentation**: [Read the Docs](docs/) (Sphinx-generated)
+- **Local Documentation**: Run `sphinx-build -b html docs docs/_build` then open `docs/_build/index.html`
 - **API Reference**: Complete function documentation with examples
 - **GitHub Issues**: Bug reports and feature requests
 - **GitHub Discussions**: Questions and community discussion
+
+### 🚀 View Documentation Locally
+
+```bash
+# Install documentation dependencies
+pip install sphinx sphinx-rtd-theme
+
+# Build documentation
+sphinx-build -b html docs docs/_build
+
+# Open in browser (Windows)
+start docs/_build/index.html
+
+# Open in browser (Mac/Linux)
+open docs/_build/index.html  # Mac
+xdg-open docs/_build/index.html  # Linux
+```
 
 ---
 
