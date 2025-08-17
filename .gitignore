@@ -200,6 +200,12 @@ pypirc_example
 config/
 secrets/
 
+# Development scripts (internal use only)
+scripts/
+
+# Development documentation (internal use only)
+docs/
+
 # Documentation build files
 docs/_build/
 docs/_static/

@@ -40,7 +40,7 @@ Load the package:
 
 ```python
 import ggpubpy
-from ggpubpy import violinggplot, boxggplot, plot_shift
+from ggpubpy import violinggplot, boxggplot, plot_shift, plot_correlation_matrix
 from ggpubpy.datasets import load_iris  # Built-in datasets
 ```
 
@@ -49,6 +49,8 @@ from ggpubpy.datasets import load_iris  # Built-in datasets
 ## Core Features
 
 - **Violin + boxplot + jitter** in one call  
+- **Correlation matrix plots** with scatter plots, histograms, and statistical annotations
+- **Shift plots** for advanced distribution comparison with quantile analysis
 - **Automatic color palettes** with ColorBrewer-inspired defaults
 - **Built-in datasets** (iris) for quick testing and examples
 - **Flexible group comparisons** - works with 2-group, 3-group, or more
@@ -182,6 +184,59 @@ fig = ggpubpy.plot_shift(
 
 ![Shift Plot with Differences](examples/shift_plot_with_diff_example.png)
 
+### 🔗 Correlation Matrix Plots
+
+Correlation matrix plots provide a comprehensive view of relationships between multiple variables by combining:
+- **Diagonal elements**: Histograms with KDE overlays showing the distribution of each variable
+- **Lower triangle**: Scatter plots with trend lines showing pairwise relationships
+- **Upper triangle**: Correlation coefficients with significance stars for statistical assessment
+
+This visualization is particularly powerful for:
+- **Exploratory data analysis** - quickly identify patterns and relationships
+- **Multicollinearity detection** - spot highly correlated variables
+- **Variable selection** - understand which variables are most informative
+- **Publication-ready figures** - professional appearance with proper statistical annotations
+
+#### Basic Correlation Matrix
+```python
+# Create correlation matrix for iris dataset
+fig, axes = ggpubpy.plot_correlation_matrix(
+    iris,
+    columns=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
+    figsize=(8, 8),
+    color="#27AE60",
+    alpha=0.6,
+    point_size=20,
+    show_stats=True,
+    method="pearson",
+    title="Iris Dataset - Correlation Matrix"
+)
+```
+
+![Correlation Matrix Example](examples/correlation_matrix_example.png)
+
+#### Interpreting the Correlation Matrix:
+- **Diagonal histograms**: Show the distribution shape of each variable (normal, skewed, bimodal, etc.)
+- **Scatter plots (lower triangle)**: Reveal the nature of relationships (linear, non-linear, strength)
+- **Correlation values (upper triangle)**: Quantify relationship strength with significance testing
+- **Color coding**: Strong correlations (|r| ≥ 0.7) in dark red/blue, moderate (|r| ≥ 0.3) in red/blue
+- **Significance stars**: *** (p < 0.001), ** (p < 0.01), * (p < 0.05), no stars (non-significant)
+
+#### Advanced Options
+```python
+# Different correlation methods and customization
+fig, axes = ggpubpy.plot_correlation_matrix(
+    df,
+    columns=['var1', 'var2', 'var3'],  # Specify variables
+    method="spearman",  # or "kendall" for non-parametric
+    color="#E74C3C",
+    alpha=0.7,
+    point_size=25,
+    show_stats=False,  # Hide significance stars
+    title="Custom Correlation Analysis"
+)
+```
+
 ### 🎨 Advanced Features
 
 ```python
@@ -293,9 +348,73 @@ Or in BibTeX:
 
 ## 📈 Project Status
 
-🎉 **PUBLISHED ON PyPI**: June 20, 2025  
-📦 **Latest Version**: 0.2.0  
+🎉 **PUBLISHED ON PyPI**: August 16, 2025  
+📦 **Latest Version**: 0.3.0  
 🌟 **Status**: Stable and ready for production use  
 🤝 **Contributing**: Open for community contributions  
 
 **Install now**: `pip install ggpubpy`
+
+---
+
+## 🛠️ Development
+
+For developers and contributors:
+
+### Development Scripts
+- **`scripts/`** - Development and maintenance utilities
+  - `pre_upload_check.py` - PyPI upload checklist and automation
+  - `final_check.py` - Comprehensive testing and quality checks
+  - `run_checks.sh` - Quick quality checks (Linux/macOS)
+
+### Project Structure
+```
+ggpubpy/
+├── ggpubpy/           # Main package code
+├── tests/             # Test suite
+├── examples/          # Usage examples and generated plots
+├── scripts/           # Development utilities
+├── docs/              # Additional documentation
+└── README.md          # This file
+```
+
+### Running Tests
+```bash
+# Run all tests
+python -m pytest tests/
+
+# Run with coverage
+python -m pytest tests/ --cov=ggpubpy
+
+# Run development checks
+python scripts/final_check.py
+```
+
+---
+
+## Changelog
+
+### Version 0.3.0 (August 16, 2025)
+**🆕 Major Feature Addition: Correlation Matrix Plots**
+
+- ✨ **New function**: `plot_correlation_matrix()` - Create comprehensive correlation matrix visualizations
+- 📊 **Diagonal plots**: Histograms with KDE overlay for univariate distributions
+- 🔗 **Lower triangle**: Scatter plots with trend lines and confidence intervals
+- 📈 **Upper triangle**: Correlation coefficients with statistical significance indicators
+- 🎯 **Multiple methods**: Support for Pearson, Spearman, and Kendall correlations
+- 🎨 **Customizable**: Full control over colors, sizes, transparency, and statistical display
+- 📚 **Documentation**: Comprehensive examples and usage guide added
+- 🧪 **Tests**: Complete test coverage for all new functionality
+
+**Improvements:**
+- Enhanced error handling and input validation
+- Better integration with existing plotting functions
+- Updated examples and documentation
+- Improved code organization and type hints
+
+### Version 0.2.1 (June 20, 2025)
+- Stability improvements and bug fixes
+- Enhanced documentation
+
+### Version 0.2.0 (June 20, 2025)
+- Initial stable release with core plotting functions

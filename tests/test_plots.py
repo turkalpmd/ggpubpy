@@ -11,6 +11,7 @@ import pytest
 
 from ggpubpy import (
     plot_boxplot_with_stats,
+    plot_correlation_matrix,
     plot_shift,
     plot_violin_with_stats,
     significance_stars,
@@ -487,3 +488,149 @@ class TestDefaultPalette:
 
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
+
+
+class TestPlotCorrelationMatrix:
+    """Test the plot_correlation_matrix function."""
+
+    def test_basic_correlation_matrix(
+        self, correlation_test_data: pd.DataFrame
+    ) -> None:
+        """Test basic correlation matrix creation."""
+        fig, axes = plot_correlation_matrix(correlation_test_data)
+
+        assert isinstance(fig, plt.Figure)
+        assert isinstance(axes, np.ndarray)
+        assert axes.shape == (4, 4)  # 4x4 matrix for 4 variables
+        plt.close(fig)
+
+    def test_correlation_matrix_specific_columns(
+        self, correlation_test_data: pd.DataFrame
+    ) -> None:
+        """Test correlation matrix with specific columns."""
+        columns = ["Variable_1", "Variable_2", "Variable_3"]
+        fig, axes = plot_correlation_matrix(correlation_test_data, columns=columns)
+
+        assert isinstance(fig, plt.Figure)
+        assert axes.shape == (3, 3)  # 3x3 matrix for 3 variables
+        plt.close(fig)
+
+    def test_correlation_matrix_custom_params(
+        self, correlation_data: pd.DataFrame
+    ) -> None:
+        """Test correlation matrix with custom parameters."""
+        fig, axes = plot_correlation_matrix(
+            correlation_data,
+            figsize=(8, 8),
+            color="#E74C3C",
+            alpha=0.7,
+            point_size=25,
+            show_stats=True,
+            method="spearman",
+            title="Custom Correlation Matrix",
+        )
+
+        assert isinstance(fig, plt.Figure)
+        assert fig.get_size_inches()[0] == 8
+        assert fig.get_size_inches()[1] == 8
+        plt.close(fig)
+
+    def test_correlation_matrix_different_methods(
+        self, correlation_data: pd.DataFrame
+    ) -> None:
+        """Test correlation matrix with different correlation methods."""
+        methods = ["pearson", "spearman", "kendall"]
+
+        for method in methods:
+            fig, axes = plot_correlation_matrix(correlation_data, method=method)
+            assert isinstance(fig, plt.Figure)
+            plt.close(fig)
+
+    def test_correlation_matrix_no_stats(self, correlation_data: pd.DataFrame) -> None:
+        """Test correlation matrix without statistical annotations."""
+        fig, axes = plot_correlation_matrix(correlation_data, show_stats=False)
+
+        assert isinstance(fig, plt.Figure)
+        plt.close(fig)
+
+    def test_correlation_matrix_iris_data(self) -> None:
+        """Test correlation matrix with iris dataset."""
+        from ggpubpy.datasets import load_iris
+
+        iris = load_iris()
+        numeric_cols = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+
+        fig, axes = plot_correlation_matrix(iris, columns=numeric_cols)
+
+        assert isinstance(fig, plt.Figure)
+        assert axes.shape == (4, 4)
+        plt.close(fig)
+
+    def test_correlation_matrix_invalid_method(
+        self, correlation_data: pd.DataFrame
+    ) -> None:
+        """Test correlation matrix with invalid method."""
+        with pytest.raises(AssertionError, match="method must be"):
+            plot_correlation_matrix(correlation_data, method="invalid")
+
+    def test_correlation_matrix_invalid_alpha(
+        self, correlation_data: pd.DataFrame
+    ) -> None:
+        """Test correlation matrix with invalid alpha."""
+        with pytest.raises(AssertionError, match="alpha must be between 0 and 1"):
+            plot_correlation_matrix(correlation_data, alpha=1.5)
+
+    def test_correlation_matrix_invalid_point_size(
+        self, correlation_data: pd.DataFrame
+    ) -> None:
+        """Test correlation matrix with invalid point size."""
+        with pytest.raises(AssertionError, match="point_size must be positive"):
+            plot_correlation_matrix(correlation_data, point_size=-1)
+
+    def test_correlation_matrix_empty_dataframe(self) -> None:
+        """Test correlation matrix with empty DataFrame."""
+        df = pd.DataFrame()
+        with pytest.raises(AssertionError, match="DataFrame cannot be empty"):
+            plot_correlation_matrix(df)
+
+    def test_correlation_matrix_insufficient_numeric_columns(self) -> None:
+        """Test correlation matrix with insufficient numeric columns."""
+        df = pd.DataFrame({"A": [1, 2, 3], "B": ["x", "y", "z"]})
+        with pytest.raises(AssertionError, match="At least 2 numeric columns required"):
+            plot_correlation_matrix(df)
+
+    def test_correlation_matrix_missing_column(
+        self, correlation_data: pd.DataFrame
+    ) -> None:
+        """Test correlation matrix with missing column."""
+        with pytest.raises(AssertionError, match="Column 'missing' not found"):
+            plot_correlation_matrix(correlation_data, columns=["X1", "missing"])
+
+    def test_correlation_matrix_non_numeric_column(self) -> None:
+        """Test correlation matrix with non-numeric column."""
+        df = pd.DataFrame({"X1": [1, 2, 3], "X2": [4, 5, 6], "X3": ["a", "b", "c"]})
+        with pytest.raises(AssertionError, match="Column 'X3' must be numeric"):
+            plot_correlation_matrix(df, columns=["X1", "X2", "X3"])
+
+    def test_correlation_matrix_with_nan_values(self) -> None:
+        """Test correlation matrix with NaN values."""
+        df = pd.DataFrame(
+            {
+                "X1": [1, 2, np.nan, 4, 5],
+                "X2": [2, 3, 4, np.nan, 6],
+                "X3": [3, 4, 5, 6, 7],
+            }
+        )
+
+        fig, axes = plot_correlation_matrix(df)
+        assert isinstance(fig, plt.Figure)
+        plt.close(fig)
+
+    def test_correlation_matrix_all_nan_values(self) -> None:
+        """Test correlation matrix with all NaN values."""
+        df = pd.DataFrame(
+            {"X1": [np.nan, np.nan, np.nan], "X2": [np.nan, np.nan, np.nan]}
+        )
+
+        with pytest.raises(AssertionError, match="No valid data remaining"):
+            plot_correlation_matrix(df)

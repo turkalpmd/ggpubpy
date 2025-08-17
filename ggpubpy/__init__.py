@@ -10,7 +10,7 @@ This project is directly inspired by R's ggpubr package.
 
 from typing import Any, List, Tuple
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 __author__ = "Izzet Turkalp Akbasli"
 __email__ = "izzetakbasli@gmail.com"
 
@@ -92,6 +92,18 @@ def plot_shift(x: Any, y: Any, *args: Any, **kwargs: Any) -> Any:
     return _shift(x, y, *args, **kwargs)
 
 
+# Lazy loader for correlation matrix plot
+def plot_correlation_matrix(*args: Any, **kwargs: Any) -> Any:
+    """Create a correlation matrix plot with scatter plots and correlation values."""
+    try:
+        from .plots import plot_correlation_matrix as _corr_matrix
+    except ImportError as e:
+        raise ImportError(
+            f"Could not import correlation matrix plot function. Please ensure dependencies are installed: {e}"
+        )
+    return _corr_matrix(*args, **kwargs)
+
+
 # Simple DEFAULT_PALETTE for basic access without scipy dependency
 DEFAULT_PALETTE = [
     "#00AFBB",
@@ -118,4 +130,5 @@ __all__ = [
     "get_iris_palette",
     "list_datasets",
     "plot_shift",
+    "plot_correlation_matrix",
 ]

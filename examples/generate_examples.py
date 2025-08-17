@@ -200,6 +200,31 @@ def main() -> None:
     except Exception as e:
         print(f"    ✗ Failed to generate shift_plot_with_diff_example.png: {e}")
 
+    # 7. Correlation matrix plot - Iris dataset
+    print("  - correlation_matrix_example.png (Iris correlation matrix)")
+    try:
+        fig, axes = ggpubpy.plot_correlation_matrix(
+            iris,
+            columns=["sepal_length", "sepal_width", "petal_length", "petal_width"],
+            figsize=(8, 8),
+            color="#27AE60",
+            alpha=0.6,
+            point_size=20,
+            show_stats=True,
+            method="pearson",
+            title="Iris Dataset - Correlation Matrix",
+        )
+        plt.tight_layout()
+        plt.savefig(
+            os.path.join(examples_dir, "correlation_matrix_example.png"),
+            dpi=300,
+            bbox_inches="tight",
+        )
+        plt.close()
+        print("    ✓ Generated correlation_matrix_example.png")
+    except Exception as e:
+        print(f"    ✗ Failed to generate correlation_matrix_example.png: {e}")
+
     print("\nSummary:")
     for filename in [
         "violin_example.png",
@@ -208,6 +233,7 @@ def main() -> None:
         "boxplot_2groups_example.png",
         "shift_plot_example.png",
         "shift_plot_with_diff_example.png",
+        "correlation_matrix_example.png",
     ]:
         filepath = os.path.join(examples_dir, filename)
         if os.path.exists(filepath):

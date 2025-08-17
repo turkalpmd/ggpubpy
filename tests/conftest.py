@@ -102,3 +102,34 @@ def sample_palette() -> Dict[float, str]:
 def small_data() -> pd.DataFrame:
     """Create minimal test data for edge cases."""
     return pd.DataFrame({"group": ["A", "A", "B", "B"], "value": [1, 2, 3, 4]})
+
+
+@pytest.fixture
+def correlation_test_data() -> pd.DataFrame:
+    """Create test data for correlation matrix tests."""
+    np.random.seed(42)
+    n = 100
+
+    # Create variables with different correlation patterns
+    x1 = np.random.normal(50, 10, n)
+    x2 = 0.8 * x1 + np.random.normal(0, 5, n)  # Strong positive correlation
+    x3 = 0.5 * x1 + np.random.normal(0, 8, n)  # Moderate positive correlation
+    x4 = np.random.normal(30, 8, n)  # No correlation with others
+
+    return pd.DataFrame(
+        {"Variable_1": x1, "Variable_2": x2, "Variable_3": x3, "Variable_4": x4}
+    )
+
+
+@pytest.fixture
+def correlation_data() -> pd.DataFrame:
+    """Create alternative correlation test data."""
+    np.random.seed(123)
+    n = 50
+
+    # Create simple correlated variables
+    x1 = np.random.normal(0, 1, n)
+    x2 = 0.7 * x1 + np.random.normal(0, 0.5, n)
+    x3 = -0.4 * x1 + np.random.normal(0, 0.8, n)
+
+    return pd.DataFrame({"X1": x1, "X2": x2, "X3": x3})
