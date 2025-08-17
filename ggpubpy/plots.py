@@ -150,16 +150,16 @@ def significance_stars(p: float) -> str:
     Returns
     -------
     str
-        Star notation: "****" for p < 1e-4, "***" for p < 1e-3,
-        "**" for p < 0.01, "*" for p < 0.05, "ns" for p >= 0.05.
+        Star notation: "****" for p <= 1e-4, "***" for p <= 1e-3,
+        "**" for p <= 0.01, "*" for p <= 0.05, "ns" for p > 0.05.
     """
-    if p < 1e-4:
+    if p <= 1e-4:
         return "****"
-    if p < 1e-3:
+    if p <= 1e-3:
         return "***"
-    if p < 0.01:
+    if p <= 0.01:
         return "**"
-    if p < 0.05:
+    if p <= 0.05:
         return "*"
     return "ns"
 
