@@ -16,7 +16,13 @@ __email__ = "izzetakbasli@gmail.com"
 
 # Import dataset functions (these don't require scipy)
 from . import datasets
-from .datasets import get_iris_palette, get_titanic_palette, list_datasets, load_iris, load_titanic
+from .datasets import (
+    get_iris_palette,
+    get_titanic_palette,
+    list_datasets,
+    load_iris,
+    load_titanic,
+)
 
 
 # Lazy imports to avoid scipy import issues during package import

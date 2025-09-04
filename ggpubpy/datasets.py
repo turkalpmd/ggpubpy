@@ -90,7 +90,7 @@ def get_titanic_palette() -> Dict[str, str]:
     -------
     dict
         Dictionary mapping category names to hex colors.
-        
+
     Examples
     --------
     >>> from ggpubpy.datasets import get_titanic_palette
@@ -99,10 +99,24 @@ def get_titanic_palette() -> Dict[str, str]:
     {'Survived': {'0': '#E74C3C', '1': '#2ECC71'}, 'Pclass': {'1': '#F39C12', '2': '#3498DB', '3': '#9B59B6'}, 'Sex': {'male': '#3498DB', 'female': '#E91E63'}}
     """
     return {
-        "Survived": {"0": "#E74C3C", "1": "#2ECC71"},  # Red for died, Green for survived
-        "Pclass": {"1": "#F39C12", "2": "#3498DB", "3": "#9B59B6"},  # Orange, Blue, Purple
-        "Sex": {"male": "#3498DB", "female": "#E91E63"},  # Blue for male, Pink for female
-        "Embarked": {"C": "#E74C3C", "Q": "#F39C12", "S": "#2ECC71"}  # Red, Orange, Green
+        "Survived": {
+            "0": "#E74C3C",
+            "1": "#2ECC71",
+        },  # Red for died, Green for survived
+        "Pclass": {
+            "1": "#F39C12",
+            "2": "#3498DB",
+            "3": "#9B59B6",
+        },  # Orange, Blue, Purple
+        "Sex": {
+            "male": "#3498DB",
+            "female": "#E91E63",
+        },  # Blue for male, Pink for female
+        "Embarked": {
+            "C": "#E74C3C",
+            "Q": "#F39C12",
+            "S": "#2ECC71",
+        },  # Red, Orange, Green
     }
 
 
@@ -146,5 +160,5 @@ def list_datasets() -> Dict[str, Any]:
                 "Embarked",
             ],
             "loader": load_titanic,
-        }
+        },
     }

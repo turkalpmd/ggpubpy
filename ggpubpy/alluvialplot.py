@@ -12,8 +12,8 @@ import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib.figure import Figure
 from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 
 def plot_alluvial(
@@ -80,21 +80,21 @@ def plot_alluvial(
     >>> from ggpubpy import load_titanic
     >>> import pandas as pd
     >>> import numpy as np
-    >>> 
+    >>>
     >>> # Load and prepare Titanic data
     >>> titanic = load_titanic()
     >>> titanic = titanic.dropna(subset=["Age"])
     >>> titanic["Class"] = titanic["Pclass"].map({1: "1st", 2: "2nd", 3: "3rd"})
     >>> titanic["AgeCat"] = np.where(titanic["Age"] < 18, "Child", "Adult")
     >>> titanic["Survived"] = titanic["Survived"].astype(str).replace({"0": "No", "1": "Yes"})
-    >>> 
+    >>>
     >>> # Create frequency table with alluvium IDs
     >>> titanic_tab = (titanic.groupby(["Class", "Sex", "AgeCat", "Survived"])
     ...                    .size()
     ...                    .reset_index(name="Freq")
     ...                    .rename(columns={"AgeCat": "Age"}))
     >>> titanic_tab["alluvium"] = titanic_tab.index
-    >>> 
+    >>>
     >>> # Create alluvial plot
     >>> fig, ax = plot_alluvial(
     ...     titanic_tab,
@@ -115,33 +115,45 @@ def plot_alluvial(
     # Input validation
     if not isinstance(df, pd.DataFrame):
         raise TypeError("df must be a pandas DataFrame")
-    
+
     if not isinstance(dims, list) or len(dims) < 2:
         raise ValueError("dims must be a list with at least 2 elements")
-    
+
     for col in dims + [value_col, color_by, id_col]:
         if col not in df.columns:
             raise ValueError(f"Column '{col}' not found in DataFrame")
-    
+
     if df[value_col].dtype not in [np.int64, np.float64]:
         raise ValueError(f"Column '{value_col}' must be numeric")
-    
+
     # Calculate x positions for each dimension
     x_positions = {d: i for i, d in enumerate(dims)}
 
-    def bezier_curve(x0: float, y0: float, x1: float, y1: float, n: int = 40) -> Tuple[np.ndarray, np.ndarray]:
+    def bezier_curve(
+        x0: float, y0: float, x1: float, y1: float, n: int = 40
+    ) -> Tuple[np.ndarray, np.ndarray]:
         """Create a Bézier curve between two points."""
         dx = x1 - x0
         c1x, c1y = x0 + 0.5 * dx, y0
         c2x, c2y = x1 - 0.5 * dx, y1
         t = np.linspace(0, 1, n)
-        x = (1-t)**3*x0 + 3*(1-t)**2*t*c1x + 3*(1-t)*t**2*c2x + t**3*x1
-        y = (1-t)**3*y0 + 3*(1-t)**2*t*c1y + 3*(1-t)*t**2*c2y + t**3*y1
+        x = (
+            (1 - t) ** 3 * x0
+            + 3 * (1 - t) ** 2 * t * c1x
+            + 3 * (1 - t) * t**2 * c2x
+            + t**3 * x1
+        )
+        y = (
+            (1 - t) ** 3 * y0
+            + 3 * (1 - t) ** 2 * t * c1y
+            + 3 * (1 - t) * t**2 * c2y
+            + t**3 * y1
+        )
         return x, y
 
     # Calculate total height
     H = df[value_col].sum()
-    
+
     # Calculate positions for each alluvium at each dimension
     positions = {axis: {} for axis in dims}
     for axis in dims:
@@ -159,12 +171,21 @@ def plot_alluvial(
     # Generate color map if not provided
     if not color_map:
         uniq = df[color_by].unique()
-        palette = ["#F17C7E", "#6CCECB", "#FFD700", "#9370DB", "#87CEEB", "#FFA07A", "#98FB98", "#F0E68C"]
+        palette = [
+            "#F17C7E",
+            "#6CCECB",
+            "#FFD700",
+            "#9370DB",
+            "#87CEEB",
+            "#FFA07A",
+            "#98FB98",
+            "#F0E68C",
+        ]
         color_map = {u: palette[i % len(palette)] for i, u in enumerate(uniq)}
 
     # Create figure and axis
     fig, ax = plt.subplots(figsize=figsize)
-    
+
     # Draw flow polygons
     for aid, g in df.groupby(id_col):
         c = color_map.get(g[color_by].iloc[0], "gray")
@@ -172,21 +193,21 @@ def plot_alluvial(
             x0, x1 = x_positions[a], x_positions[b]
             y0b, y0t = positions[a][aid]
             y1b, y1t = positions[b][aid]
-            
+
             # Create Bézier curves for top and bottom of flow
             xt, yt = bezier_curve(x0, y0t, x1, y1t)
             xb, yb = bezier_curve(x0, y0b, x1, y1b)
-            
+
             # Combine curves to form polygon
             xs = np.concatenate([xt, xb[::-1]])
             ys = np.concatenate([yt, yb[::-1]])
             codes = [mpath.Path.MOVETO] + [mpath.Path.LINETO] * (len(xs) - 1)
-            
+
             patch = mpatches.PathPatch(
                 mpath.Path(list(zip(xs, ys)), codes),
                 facecolor=c,
                 edgecolor="none",
-                alpha=alpha
+                alpha=alpha,
             )
             ax.add_patch(patch)
 
@@ -198,16 +219,22 @@ def plot_alluvial(
         for cat in cats:
             h = float(df.loc[df[axis] == cat, value_col].sum())
             rect = mpatches.Rectangle(
-                (x_positions[axis] - width/2, y_cursor),
-                width, h,
+                (x_positions[axis] - width / 2, y_cursor),
+                width,
+                h,
                 facecolor="white",
                 edgecolor="black",
-                zorder=10
+                zorder=10,
             )
             ax.add_patch(rect)
             ax.text(
-                x_positions[axis], y_cursor + h/2, cat,
-                ha="center", va="center", fontsize=9, zorder=11
+                x_positions[axis],
+                y_cursor + h / 2,
+                cat,
+                ha="center",
+                va="center",
+                fontsize=9,
+                zorder=11,
             )
             y_cursor += h
 
@@ -218,21 +245,24 @@ def plot_alluvial(
     ax.set_xticklabels(dims)
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
-    
+
     # Add title
     if title or subtitle:
         full_title = f"{title}\n{subtitle}" if subtitle else title
         ax.set_title(full_title, loc="left", fontsize=12)
-    
+
     # Add legend
-    handles = [mpatches.Patch(facecolor=color_map[k], edgecolor="none", label=k) for k in color_map]
+    handles = [
+        mpatches.Patch(facecolor=color_map[k], edgecolor="none", label=k)
+        for k in color_map
+    ]
     ax.legend(handles=handles, title=color_by, frameon=False, loc="upper right")
-    
+
     # Clean up spines
     for s in ["top", "right"]:
         ax.spines[s].set_visible(False)
     ax.grid(False)
-    
+
     plt.tight_layout()
     return fig, ax
 

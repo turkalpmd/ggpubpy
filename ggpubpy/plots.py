@@ -9,8 +9,6 @@ plots with statistical annotations.
 from .alluvialplot import plot_alluvial, plot_alluvial_with_stats
 from .boxplot import plot_boxplot_with_stats
 from .correlation_matrix import plot_correlation_matrix
-from .shiftplot import plot_shift
-from .violinplot import plot_violin_with_stats
 
 # Import helper functions for backward compatibility
 from .helper import (
@@ -23,13 +21,15 @@ from .helper import (
     harrelldavis,
     significance_stars,
 )
+from .shiftplot import plot_shift
+from .violinplot import plot_violin_with_stats
 
 # Export all functions for backward compatibility
 __all__ = [
     "plot_alluvial",
     "plot_alluvial_with_stats",
     "plot_violin_with_stats",
-    "plot_boxplot_with_stats", 
+    "plot_boxplot_with_stats",
     "plot_shift",
     "plot_correlation_matrix",
     "DEFAULT_PALETTE",

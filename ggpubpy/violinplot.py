@@ -194,6 +194,7 @@ def plot_violin_with_stats(
 
     # Legend
     import matplotlib.patches as mpatches
+
     handles = [mpatches.Patch(color=color_palette[l], label=l) for l in levels]
     ax.legend(handles=handles, title=(x_label or x))
 
