@@ -10,13 +10,13 @@ This project is directly inspired by R's ggpubr package.
 
 from typing import Any, List, Tuple
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __author__ = "Izzet Turkalp Akbasli"
 __email__ = "izzetakbasli@gmail.com"
 
 # Import dataset functions (these don't require scipy)
 from . import datasets
-from .datasets import get_iris_palette, list_datasets, load_iris
+from .datasets import get_iris_palette, get_titanic_palette, list_datasets, load_iris, load_titanic
 
 
 # Lazy imports to avoid scipy import issues during package import
@@ -43,13 +43,13 @@ def _import_plots() -> Tuple[Any, Any, Any, List[str]]:
 
 
 # Create lazy loading functions
-def violinggplot(*args: Any, **kwargs: Any) -> Any:
+def plot_violin(*args: Any, **kwargs: Any) -> Any:
     """Create violin plot with statistical annotations."""
     plot_violin_with_stats, _, _, _ = _import_plots()
     return plot_violin_with_stats(*args, **kwargs)
 
 
-def boxggplot(*args: Any, **kwargs: Any) -> Any:
+def plot_boxplot(*args: Any, **kwargs: Any) -> Any:
     """Create box plot with statistical annotations."""
     _, plot_boxplot_with_stats, _, _ = _import_plots()
     return plot_boxplot_with_stats(*args, **kwargs)
@@ -104,6 +104,30 @@ def plot_correlation_matrix(*args: Any, **kwargs: Any) -> Any:
     return _corr_matrix(*args, **kwargs)
 
 
+# Lazy loader for alluvial plot
+def plot_alluvial(*args: Any, **kwargs: Any) -> Any:
+    """Create an alluvial (flow) diagram with explicit alluvium IDs."""
+    try:
+        from .alluvialplot import plot_alluvial as _alluvial
+    except ImportError as e:
+        raise ImportError(
+            f"Could not import alluvial plot function. Please ensure dependencies are installed: {e}"
+        )
+    return _alluvial(*args, **kwargs)
+
+
+# Lazy loader for alluvial plot with stats
+def plot_alluvial_with_stats(*args: Any, **kwargs: Any) -> Any:
+    """Create an alluvial plot with optional statistical annotations."""
+    try:
+        from .alluvialplot import plot_alluvial_with_stats as _alluvial_stats
+    except ImportError as e:
+        raise ImportError(
+            f"Could not import alluvial plot with stats function. Please ensure dependencies are installed: {e}"
+        )
+    return _alluvial_stats(*args, **kwargs)
+
+
 # Simple DEFAULT_PALETTE for basic access without scipy dependency
 DEFAULT_PALETTE = [
     "#00AFBB",
@@ -121,14 +145,18 @@ DEFAULT_PALETTE = [
 __all__ = [
     "plot_violin_with_stats",
     "plot_boxplot_with_stats",
-    "violinggplot",
-    "boxggplot",
+    "plot_violin",
+    "plot_boxplot",
     "significance_stars",
     "DEFAULT_PALETTE",
     "datasets",
     "load_iris",
+    "load_titanic",
     "get_iris_palette",
+    "get_titanic_palette",
     "list_datasets",
     "plot_shift",
     "plot_correlation_matrix",
+    "plot_alluvial",
+    "plot_alluvial_with_stats",
 ]

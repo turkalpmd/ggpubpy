@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ggpubpy"
-version = "0.3.0"
-description = "matplotlib Based Publication-Ready Plots"
+version = "0.4.0"
+description = "matplotlib Based Publication-Ready Plots with Statistical Tests"
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [
@@ -21,11 +21,18 @@ keywords = [
     "statistics",
     "publication",
     "ggplot",
-    "data-science"
+    "data-science",
+    "alluvial",
+    "flow-diagram",
+    "correlation-matrix",
+    "boxplot",
+    "violin-plot",
+    "shift-plot"
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -35,7 +42,9 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Visualization",
-    "Topic :: Scientific/Engineering :: Information Analysis"
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Framework :: Matplotlib"
 ]
 requires-python = ">=3.8"
 dependencies = [
@@ -58,11 +67,11 @@ dev = [
     "build>=0.8.0"
 ]
 docs = [
-    "sphinx>=5.0.0",
+    "sphinx>=4.0.0",
     "sphinx-rtd-theme>=1.0.0",
-    "sphinx-autodoc-typehints>=1.19.0",
-    "nbsphinx>=0.8.0",
-    "jupyter>=1.0.0"
+    "myst-parser>=0.18.0",
+    "sphinx-autodoc-typehints>=1.12.0",
+    "linkify-it-py>=2.0.0"
 ]
 examples = [
     "seaborn>=0.11.0",
@@ -73,8 +82,10 @@ examples = [
 [project.urls]
 Homepage = "https://github.com/turkalpmd/ggpubpy"
 Repository = "https://github.com/turkalpmd/ggpubpy.git"
-Documentation = "https://github.com/turkalpmd/ggpubpy/wiki"
+Documentation = "https://ggpubpy.readthedocs.io"
 "Bug Tracker" = "https://github.com/turkalpmd/ggpubpy/issues"
+"Source Code" = "https://github.com/turkalpmd/ggpubpy"
+"Download" = "https://pypi.org/project/ggpubpy/#files"
 
 [tool.setuptools]
 package-dir = {"" = "."}

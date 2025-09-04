@@ -40,6 +40,30 @@ def load_iris() -> pd.DataFrame:
     return pd.read_csv(iris_path)
 
 
+def load_titanic() -> pd.DataFrame:
+    """
+    Load the famous Titanic dataset.
+
+    The Titanic dataset contains information about passengers aboard the RMS Titanic,
+    including survival status, passenger class, age, gender, and other details.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with columns: PassengerId, Survived, Pclass, Name, Sex, Age,
+        SibSp, Parch, Ticket, Fare, Cabin, Embarked.
+
+    Examples
+    --------
+    >>> from ggpubpy.datasets import load_titanic
+    >>> titanic = load_titanic()
+    >>> titanic.head()
+    """
+    data_path = _get_data_path()
+    titanic_path = os.path.join(data_path, "titanic.csv")
+    return pd.read_csv(titanic_path)
+
+
 def get_iris_palette() -> Dict[str, str]:
     """
     Get the default color palette for iris species.
@@ -56,6 +80,30 @@ def get_iris_palette() -> Dict[str, str]:
     {'setosa': '#00AFBB', 'versicolor': '#E7B800', 'virginica': '#FC4E07'}
     """
     return {"setosa": "#00AFBB", "versicolor": "#E7B800", "virginica": "#FC4E07"}
+
+
+def get_titanic_palette() -> Dict[str, str]:
+    """
+    Get the default color palette for Titanic dataset categories.
+
+    Returns
+    -------
+    dict
+        Dictionary mapping category names to hex colors.
+        
+    Examples
+    --------
+    >>> from ggpubpy.datasets import get_titanic_palette
+    >>> palette = get_titanic_palette()
+    >>> print(palette)
+    {'Survived': {'0': '#E74C3C', '1': '#2ECC71'}, 'Pclass': {'1': '#F39C12', '2': '#3498DB', '3': '#9B59B6'}, 'Sex': {'male': '#3498DB', 'female': '#E91E63'}}
+    """
+    return {
+        "Survived": {"0": "#E74C3C", "1": "#2ECC71"},  # Red for died, Green for survived
+        "Pclass": {"1": "#F39C12", "2": "#3498DB", "3": "#9B59B6"},  # Orange, Blue, Purple
+        "Sex": {"male": "#3498DB", "female": "#E91E63"},  # Blue for male, Pink for female
+        "Embarked": {"C": "#E74C3C", "Q": "#F39C12", "S": "#2ECC71"}  # Red, Orange, Green
+    }
 
 
 def list_datasets() -> Dict[str, Any]:
@@ -79,5 +127,24 @@ def list_datasets() -> Dict[str, Any]:
                 "species",
             ],
             "loader": load_iris,
+        },
+        "titanic": {
+            "description": "The famous Titanic passenger dataset with survival information",
+            "shape": (891, 12),
+            "columns": [
+                "PassengerId",
+                "Survived",
+                "Pclass",
+                "Name",
+                "Sex",
+                "Age",
+                "SibSp",
+                "Parch",
+                "Ticket",
+                "Fare",
+                "Cabin",
+                "Embarked",
+            ],
+            "loader": load_titanic,
         }
     }

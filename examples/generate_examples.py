@@ -47,7 +47,7 @@ def main() -> None:
     )  # 1. Violin plot - 3 groups (all species) - NON-PARAMETRIC
     print("  - violin_example.png (3 groups, non-parametric)")
     try:
-        fig, ax = ggpubpy.violinggplot(
+        fig, ax = ggpubpy.plot_violin(
             df=iris,
             x="species",
             y="sepal_length",
@@ -70,7 +70,7 @@ def main() -> None:
     # 2. Box plot - 3 groups (all species) - PARAMETRIC
     print("  - boxplot_example.png (3 groups, parametric)")
     try:
-        fig, ax = ggpubpy.boxggplot(
+        fig, ax = ggpubpy.plot_boxplot(
             df=iris,
             x="species",
             y="sepal_length",
@@ -94,7 +94,7 @@ def main() -> None:
     print("  - violin_2groups_example.png (2 groups, parametric)")
     try:
         iris_2groups = iris[iris["species"].isin(["setosa", "versicolor"])]
-        fig, ax = ggpubpy.violinggplot(
+        fig, ax = ggpubpy.plot_violin(
             df=iris_2groups,
             x="species",
             y="sepal_length",
@@ -117,7 +117,7 @@ def main() -> None:
     # 4. Box plot - 2 groups (setosa vs versicolor) - NON-PARAMETRIC
     print("  - boxplot_2groups_example.png (2 groups, non-parametric)")
     try:
-        fig, ax = ggpubpy.boxggplot(
+        fig, ax = ggpubpy.plot_boxplot(
             df=iris_2groups,
             x="species",
             y="sepal_length",

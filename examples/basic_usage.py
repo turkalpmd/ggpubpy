@@ -28,7 +28,7 @@ def main() -> None:
     print(f"Species: {iris['species'].unique()}")
     print()  # Example 1: Violin plot with 3 groups (all species)
     print("1. Generating violin plot (3 species)...")
-    fig, ax = ggpubpy.violinggplot(
+    fig, ax = ggpubpy.plot_violin(
         df=iris,
         x="species",
         y="sepal_length",
@@ -43,7 +43,7 @@ def main() -> None:
 
     # Example 2: Box plot with 3 groups (all species)
     print("2. Generating box plot (3 species)...")
-    fig, ax = ggpubpy.boxggplot(
+    fig, ax = ggpubpy.plot_boxplot(
         df=iris,
         x="species",
         y="sepal_length",
@@ -59,7 +59,7 @@ def main() -> None:
     print("3. Generating violin plot (2 species: setosa vs versicolor)...")
     iris_2groups = iris[iris["species"].isin(["setosa", "versicolor"])]
 
-    fig, ax = ggpubpy.violinggplot(
+    fig, ax = ggpubpy.plot_violin(
         df=iris_2groups,
         x="species",
         y="sepal_length",
@@ -76,7 +76,7 @@ def main() -> None:
 
     # Example 4: Box plot with 2 groups (setosa vs versicolor)
     print("4. Generating box plot (2 species: setosa vs versicolor)...")
-    fig, ax = ggpubpy.boxggplot(
+    fig, ax = ggpubpy.plot_boxplot(
         df=iris_2groups,
         x="species",
         y="sepal_length",
