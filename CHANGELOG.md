@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2024-12-19
+
+### Fixed
+- **Type checking**: Fixed all mypy type checking errors across the codebase
+- **Type annotations**: Added proper type hints to all functions and variables
+- **Import issues**: Fixed missing matplotlib.pyplot import in pre_upload_check.py
+- **Return types**: Corrected return type annotations in examples and test functions
+- **Dictionary types**: Fixed type mismatches in datasets.py palette functions
+
+### Enhanced
+- **Code quality**: Improved type safety and code maintainability
+- **Development workflow**: All type checking now passes cleanly
+- **Documentation**: Updated Sphinx configuration with proper type annotations
+
 ## [0.4.0] - 2024-09-03
 
 ### Added

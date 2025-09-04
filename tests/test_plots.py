@@ -641,7 +641,7 @@ class TestPlotCorrelationMatrix:
 class TestAlluvialPlots:
     """Test alluvial plot functionality."""
 
-    def test_basic_alluvial_plot(self, sample_data):
+    def test_basic_alluvial_plot(self, sample_data: pd.DataFrame) -> None:
         """Test basic alluvial plot creation."""
         # Create sample alluvial data
         df = pd.DataFrame(
@@ -666,7 +666,7 @@ class TestAlluvialPlots:
         assert ax is not None
         plt.close(fig)
 
-    def test_alluvial_plot_with_orders(self, sample_data):
+    def test_alluvial_plot_with_orders(self, sample_data: pd.DataFrame) -> None:
         """Test alluvial plot with custom orders."""
         df = pd.DataFrame(
             {
@@ -691,7 +691,7 @@ class TestAlluvialPlots:
         assert ax is not None
         plt.close(fig)
 
-    def test_alluvial_plot_with_custom_colors(self, sample_data):
+    def test_alluvial_plot_with_custom_colors(self, sample_data: pd.DataFrame) -> None:
         """Test alluvial plot with custom color map."""
         df = pd.DataFrame(
             {
@@ -716,7 +716,7 @@ class TestAlluvialPlots:
         assert ax is not None
         plt.close(fig)
 
-    def test_alluvial_plot_with_stats(self, sample_data):
+    def test_alluvial_plot_with_stats(self, sample_data: pd.DataFrame) -> None:
         """Test alluvial plot with stats function."""
         df = pd.DataFrame(
             {
@@ -740,7 +740,7 @@ class TestAlluvialPlots:
         assert ax is not None
         plt.close(fig)
 
-    def test_alluvial_plot_validation(self, sample_data):
+    def test_alluvial_plot_validation(self, sample_data: pd.DataFrame) -> None:
         """Test alluvial plot input validation."""
         df = pd.DataFrame(
             {

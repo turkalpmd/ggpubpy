@@ -82,7 +82,7 @@ def get_iris_palette() -> Dict[str, str]:
     return {"setosa": "#00AFBB", "versicolor": "#E7B800", "virginica": "#FC4E07"}
 
 
-def get_titanic_palette() -> Dict[str, str]:
+def get_titanic_palette() -> Dict[str, Dict[str, str]]:
     """
     Get the default color palette for Titanic dataset categories.
 

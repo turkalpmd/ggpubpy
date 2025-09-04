@@ -7,6 +7,7 @@ ggpubpy alluvial plot functions.
 
 import os
 import sys
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,7 +19,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ggpubpy import load_iris, load_titanic, plot_alluvial
 
 
-def titanic_example():
+def titanic_example() -> tuple[Any, Any]:
     """Example using Titanic dataset."""
     print("Creating Titanic alluvial plot...")
 
@@ -64,7 +65,7 @@ def titanic_example():
     return fig, ax
 
 
-def iris_example():
+def iris_example() -> tuple[Any, Any]:
     """Example using Iris dataset."""
     print("Creating Iris alluvial plot...")
 
@@ -107,7 +108,7 @@ def iris_example():
     return fig, ax
 
 
-def custom_example():
+def custom_example() -> tuple[Any, Any]:
     """Example with custom data."""
     print("Creating custom alluvial plot...")
 

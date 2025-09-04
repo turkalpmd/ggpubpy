@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from ggpubpy import load_iris, plot_correlation_matrix
 
 
-def create_sample_data():
+def create_sample_data() -> pd.DataFrame:
     """Create sample data with different correlation patterns."""
     np.random.seed(42)
     n = 150
@@ -34,7 +34,7 @@ def create_sample_data():
     return df
 
 
-def main():
+def main() -> None:
     """Run correlation matrix plot examples."""
     print("Creating correlation matrix plot examples...")
 

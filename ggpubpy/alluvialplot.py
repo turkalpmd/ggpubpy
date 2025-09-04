@@ -155,13 +155,13 @@ def plot_alluvial(
     H = df[value_col].sum()
 
     # Calculate positions for each alluvium at each dimension
-    positions = {axis: {} for axis in dims}
+    positions: dict[str, dict[str, tuple[float, float]]] = {axis: {} for axis in dims}
     for axis in dims:
         cats = orders[axis] if orders and axis in orders else sorted(df[axis].unique())
         y_cursor = 0.0
         for cat in cats:
             sub_df = df[df[axis] == cat]
-            sub = sub_df.sort_values(by=[color_by, id_col])  # type: ignore
+            sub = sub_df.sort_values(by=[color_by, id_col])
             for _, row in sub.iterrows():
                 aid = row[id_col]
                 h = float(row[value_col])
