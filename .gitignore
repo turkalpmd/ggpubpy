@@ -204,7 +204,7 @@ secrets/
 scripts/
 
 # Development documentation (internal use only)
-docs/
+# docs/ - commented out to allow docs/requirements.txt to be tracked
 
 # Documentation build files
 docs/_build/
