@@ -7,6 +7,7 @@ on:
 
 jobs:
   build-and-publish:
+    if: ${{ !contains(github.ref_name, '-') }}
     name: Build and publish to PyPI
     runs-on: ubuntu-latest
     steps:

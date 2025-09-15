@@ -2,8 +2,10 @@
 
 [![Documentation Status](https://readthedocs.org/projects/ggpubpy/badge/?version=latest)](https://ggpubpy.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/ggpubpy.svg)](https://badge.fury.io/py/ggpubpy)
+[![CI](https://github.com/turkalpmd/ggpubpy/actions/workflows/ci.yml/badge.svg)](https://github.com/turkalpmd/ggpubpy/actions/workflows/ci.yml)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TestPyPI](https://img.shields.io/badge/TestPyPI-ggpubpy-informational)](https://test.pypi.org/project/ggpubpy/)
 
 **ggpubpy** is a Python library for creating publication-ready plots with built-in statistical tests and automatic p-value annotations. Inspired by R's ggpubr package, ggpubpy provides easy-to-use functions for creating professional visualizations suitable for scientific publications.
 
@@ -136,6 +138,39 @@ fig, ax = plot_alluvial(
     title="Titanic Survival Analysis"
 )
 ```
+
+## Releasing
+
+Release is automated via GitHub Actions with version safeguards.
+
+- Prep version:
+  - `python scripts/bump_version.py X.Y.Z`
+  - `git commit -am "chore: bump version to X.Y.Z"`
+- Stable release to PyPI:
+  - Tag and push: `git tag vX.Y.Z && git push && git push --tags`
+  - Workflow checks tag = version in `pyproject.toml` and `ggpubpy/__init__.py`.
+  - Publishes to PyPI using `PYPITOKEN` GitHub Secret (user `__token__`).
+- Pre-release to TestPyPI (RC):
+  - Tag with suffix: `git tag vX.Y.Z-rc1 && git push --tags`
+  - Or trigger `Release-TestPyPI` workflow manually (Actions → Run workflow) with the version.
+  - Uses `TEST_PYPI_TOKEN` Secret.
+- Manual upload (fallback):
+  - `python -m build`
+  - `python -m twine upload dist/* --username __token__ --password <PYPI_TOKEN>`
+
+Secrets required in GitHub → Settings → Secrets and variables → Actions:
+- `PYPITOKEN`: PyPI API token
+- `TEST_PYPI_TOKEN`: TestPyPI API token (optional)
+
+## Releasing
+
+- Bump version consistently:
+  - `python scripts/bump_version.py X.Y.Z`
+  - `git commit -am "chore: bump version to X.Y.Z"`
+- Tag and push to trigger release workflow:
+  - `git tag vX.Y.Z && git push && git push --tags`
+- The release workflow verifies the tag matches versions in `pyproject.toml` and `ggpubpy/__init__.py`, then publishes to PyPI using `PYPITOKEN` secret.
+- For TestPyPI, use the manual workflow “Release-TestPyPI” with the desired version, or push an RC tag (e.g., `vX.Y.Z-rc1`) if configured.
 
 ## Statistical Tests
 
