@@ -10,7 +10,7 @@ This project is directly inspired by R's ggpubr package.
 
 from typing import Any, List, Tuple
 
-__version__ = "0.4.3"
+__version__ = "0.4.4"
 __author__ = "Izzet Turkalp Akbasli"
 __email__ = "izzetakbasli@gmail.com"
 

@@ -1,6 +1,17 @@
 
 # Changelog
 
+## [0.4.4] - 2025-09-15
+
+### Fixed
+- Package data: Include `ggpubpy/data/*.csv` (iris.csv, titanic.csv) in wheels/sdist; `load_iris()` and `load_titanic()` work in installed packages.
+
+### Changed
+- Datasets loader now uses `importlib.resources` for robust path resolution.
+- Docs and examples: Full alignment across Shift/Box/Violin/Correlation/Alluvial pages.
+- Added per-feature example scripts and extra Integration/Advanced examples.
+- Example generator now produces all referenced images into `examples/` consistently.
+
 ## [0.4.3] - YYYY-MM-DD
 
 - Bump version to 0.4.3.
