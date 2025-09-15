@@ -19,13 +19,17 @@ import matplotlib.pyplot as plt
 # Load sample data
 iris = load_iris()
 
-# Create boxplot with statistical annotations
+# Create boxplot with statistical annotations (matches examples/boxplot_example.png)
 fig, ax = plot_boxplot_with_stats(
     df=iris,
     x="species",
     y="sepal_length",
-    title="Sepal Length by Species",
-    figsize=(8, 6)
+    x_label="Species",
+    y_label="Sepal Length (cm)",
+    title="Iris: Sepal Length by Species",
+    subtitle="Box plot with ANOVA + pairwise",
+    parametric=True,
+    alpha=0.6,
 )
 
 plt.show()
@@ -65,22 +69,24 @@ plt.show()
 ### Two Groups Example
 
 ```python
-from ggpubpy import plot_boxplot_with_stats, load_titanic
+from ggpubpy import plot_boxplot_with_stats, load_iris
 import matplotlib.pyplot as plt
 
-# Load Titanic data
-titanic = load_titanic()
+# Load Iris data (two groups: setosa vs versicolor)
+iris = load_iris()
+iris_2 = iris[iris["species"].isin(["setosa", "versicolor"])]
 
-# Create boxplot comparing two groups
+# Create boxplot comparing two groups (matches examples/boxplot_2groups_example.png)
 fig, ax = plot_boxplot_with_stats(
-    df=titanic,
-    x="Sex",
-    y="Age",
-    x_label="Gender",
-    y_label="Age (years)",
-    title="Age Distribution by Gender",
-    figsize=(6, 6),
-    parametric=False  # Use non-parametric tests
+    df=iris_2,
+    x="species",
+    y="sepal_length",
+    x_label="Species",
+    y_label="Sepal Length (cm)",
+    title="Iris: Setosa vs Versicolor",
+    subtitle="Box plot with Mann-Whitney U",
+    parametric=False,
+    alpha=0.6,
 )
 
 plt.show()

@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-Generate example plots for README documentation.
+Aggregate runner to generate all example images.
 
-This script generates the example PNGs referenced in the README:
-- violin_example.png (3-group violin plot)
-- boxplot_example.png (3-group box plot)
-- violin_2groups_example.png (2-group violin plot)
-- boxplot_2groups_example.png (2-group box plot)
+Note: Individual examples are maintained in separate scripts:
+- violinplot_examples.py
+- boxplot_examples.py
+- shiftplot_examples.py
+- correlation_matrix_example.py
+- alluvial_examples.py
+
+This runner imports and executes their main functions for convenience.
 """
 
 import os
@@ -28,216 +31,38 @@ import matplotlib.pyplot as plt
 
 def main() -> None:
     """Generate all example plots for README."""
-    # Generate PNGs in current directory (examples folder)
-    examples_dir = "."
+    print("Running individual example scripts to generate all images...")
+    # Violin
+    try:
+        import examples.violinplot_examples as vexp
 
-    # Load the iris dataset
-    print("Loading iris dataset...")
-    try:
-        iris = ggpubpy.datasets.load_iris()
-        print(f"✓ Loaded iris dataset with {len(iris)} rows")
-        print(f"  Columns: {list(iris.columns)}")
-        print(f"  Species: {iris['species'].unique()}")
+        vexp.main()
     except Exception as e:
-        print(f"✗ Failed to load iris dataset: {e}")
-        return
+        print(f"✗ Violin examples failed: {e}")
 
-    print(
-        "Generating example plots..."
-    )  # 1. Violin plot - 3 groups (all species) - NON-PARAMETRIC
-    print("  - violin_example.png (3 groups, non-parametric)")
+    # Boxplot
     try:
-        fig, ax = ggpubpy.plot_violin(
-            df=iris,
-            x="species",
-            y="sepal_length",
-            x_label="Species",
-            y_label="Sepal Length (cm)",
-            title="Iris: Sepal Length by Species",
-            subtitle="Violin plot with non-parametric tests",
-            parametric=False,  # Non-parametric tests
-            alpha=0.6,
-        )
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(examples_dir, "violin_example.png"),
-            dpi=300,
-            bbox_inches="tight",
-        )
-        plt.close()
-        print("    ✓ Generated violin_example.png")
-    except Exception as e:
-        print(f"    ✗ Failed to generate violin_example.png: {e}")
+        import examples.boxplot_examples as bexp
 
-    # 2. Box plot - 3 groups (all species) - PARAMETRIC
-    print("  - boxplot_example.png (3 groups, parametric)")
-    try:
-        fig, ax = ggpubpy.plot_boxplot(
-            df=iris,
-            x="species",
-            y="sepal_length",
-            x_label="Species",
-            y_label="Sepal Length (cm)",
-            title="Iris: Sepal Length by Species",
-            subtitle="Box plot with ANOVA + pairwise",
-            parametric=True,  # Parametric tests (ANOVA)
-            alpha=0.6,
-        )
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(examples_dir, "boxplot_example.png"),
-            dpi=300,
-            bbox_inches="tight",
-        )
-        plt.close()
-        print("    ✓ Generated boxplot_example.png")
+        bexp.main()
     except Exception as e:
-        print(f"    ✗ Failed to generate boxplot_example.png: {e}")
+        print(f"✗ Boxplot examples failed: {e}")
 
-    # 3. Violin plot - 2 groups (setosa vs versicolor) - PARAMETRIC
-    print("  - violin_2groups_example.png (2 groups, parametric)")
+    # Shift plot
     try:
-        iris_2groups = iris[iris["species"].isin(["setosa", "versicolor"])]
-        fig, ax = ggpubpy.plot_violin(
-            df=iris_2groups,
-            x="species",
-            y="sepal_length",
-            x_label="Species",
-            y_label="Sepal Length (cm)",
-            title="Iris: Setosa vs Versicolor",
-            subtitle="Violin plot with t-test",
-            parametric=True,  # Parametric tests (t-test)
-            alpha=0.6,
-        )
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(examples_dir, "violin_2groups_example.png"),
-            dpi=300,
-            bbox_inches="tight",
-        )
-        plt.close()
-        print("    ✓ Generated violin_2groups_example.png")
-    except Exception as e:
-        print(f"    ✗ Failed to generate violin_2groups_example.png: {e}")
+        import examples.shiftplot_examples as shfexp
 
-    # 4. Box plot - 2 groups (setosa vs versicolor) - NON-PARAMETRIC
-    print("  - boxplot_2groups_example.png (2 groups, non-parametric)")
-    try:
-        fig, ax = ggpubpy.plot_boxplot(
-            df=iris_2groups,
-            x="species",
-            y="sepal_length",
-            x_label="Species",
-            y_label="Sepal Length (cm)",
-            title="Iris: Setosa vs Versicolor",
-            subtitle="Box plot with Mann-Whitney U",
-            parametric=False,  # Non-parametric tests (Mann-Whitney U)
-            alpha=0.6,
-        )
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(examples_dir, "boxplot_2groups_example.png"),
-            dpi=300,
-            bbox_inches="tight",
-        )
-        plt.close()
-        print("    ✓ Generated boxplot_2groups_example.png")
+        shfexp.main()
     except Exception as e:
-        print(f"    ✗ Failed to generate boxplot_2groups_example.png: {e}")
-    # 5. Shift plot - 2 groups (setosa vs versicolor) - Main plot only
-    print("  - shift_plot_example.png (2 groups shift plot - main only)")
-    try:
-        iris_2groups = iris[iris["species"].isin(["setosa", "versicolor"])]
-        x = iris_2groups[iris_2groups["species"] == "setosa"]["sepal_length"].values
-        y = iris_2groups[iris_2groups["species"] == "versicolor"]["sepal_length"].values
-        fig = ggpubpy.plot_shift(
-            x,
-            y,
-            paired=False,
-            n_boot=1000,
-            percentiles=[10, 50, 90],
-            confidence=0.95,
-            violin=True,
-            show_quantiles=True,  # Show quantile connection lines
-            show_quantile_diff=False,  # Only show main plot, no bottom subplot
-            x_label="Setosa",
-            y_label="Versicolor",  # Custom group names
-            title="Iris: Setosa vs Versicolor Shift Plot",
-            subtitle="Main plot with quantile connectors",
-            color="#27AE60",
-            line_color="#2C3E50",
-            alpha=0.8,
-        )
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(examples_dir, "shift_plot_example.png"),
-            dpi=300,
-            bbox_inches="tight",
-        )
-        plt.close()
-        print("    ✓ Generated shift_plot_example.png")
-    except Exception as e:
-        print(f"    ✗ Failed to generate shift_plot_example.png: {e}")
+        print(f"✗ Shift plot examples failed: {e}")
 
-    # 6. Shift plot with quantile differences - 2 groups (setosa vs versicolor)
-    print(
-        "  - shift_plot_with_diff_example.png (2 groups shift plot with quantile differences)"
-    )
+    # Correlation matrices
     try:
-        fig = ggpubpy.plot_shift(
-            x,
-            y,
-            paired=False,
-            n_boot=1000,
-            percentiles=[10, 50, 90],
-            confidence=0.95,
-            violin=True,
-            show_quantiles=True,  # Show quantile connection lines
-            show_quantile_diff=True,  # Show both main plot and quantile difference subplot
-            x_label="Setosa",
-            y_label="Versicolor",  # Custom group names
-            title="Iris: Setosa vs Versicolor Shift Plot",
-            subtitle="With quantile differences subplot",
-            color="#27AE60",
-            line_color="#2C3E50",
-            alpha=0.8,
-        )
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(examples_dir, "shift_plot_with_diff_example.png"),
-            dpi=300,
-            bbox_inches="tight",
-        )
-        plt.close()
-        print("    ✓ Generated shift_plot_with_diff_example.png")
-    except Exception as e:
-        print(f"    ✗ Failed to generate shift_plot_with_diff_example.png: {e}")
+        import examples.correlation_matrix_example as cmexp
 
-    # 7. Correlation matrix plot - Iris dataset
-    print("  - correlation_matrix_example.png (Iris correlation matrix)")
-    try:
-        fig, axes = ggpubpy.plot_correlation_matrix(
-            iris,
-            columns=["sepal_length", "sepal_width", "petal_length", "petal_width"],
-            figsize=(8, 8),
-            color="#27AE60",
-            alpha=0.6,
-            point_size=20,
-            show_stats=True,
-            method="pearson",
-            title="Iris Dataset - Correlation Matrix",
-            subtitle="Pearson method with significance stars",
-        )
-        plt.tight_layout()
-        plt.savefig(
-            os.path.join(examples_dir, "correlation_matrix_example.png"),
-            dpi=300,
-            bbox_inches="tight",
-        )
-        plt.close()
-        print("    ✓ Generated correlation_matrix_example.png")
+        cmexp.main()
     except Exception as e:
-        print(f"    ✗ Failed to generate correlation_matrix_example.png: {e}")
+        print(f"✗ Correlation examples failed: {e}")
 
     print("\nSummary:")
     for filename in [

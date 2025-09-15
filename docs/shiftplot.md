@@ -86,69 +86,74 @@ plt.show()
 
 ![Shift Plot Example](../examples/shift_plot_example.png)
 
-### Shift Plot with Difference Visualization
+### Shift Plot with Quantile Connectors (Main only)
 
 ```python
-from ggpubpy import plot_shift
+from ggpubpy import plot_shift, load_iris
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Create sample data with clear treatment effect
-np.random.seed(42)
-n = 25
-before = np.random.normal(8, 1.5, n)
-after = before + np.random.normal(2, 1, n)  # Clear improvement
+# Use Iris data: Setosa vs Versicolor sepal length
+iris = load_iris()
+x = iris[iris["species"] == "setosa"]["sepal_length"].values
+y = iris[iris["species"] == "versicolor"]["sepal_length"].values
 
-# Create shift plot with difference visualization
+# Main plot with quantile connectors (no bottom subplot)
 fig = plot_shift(
-    x=before,
-    y=after,
-    x_label="Pre-treatment",
-    y_label="Post-treatment",
-    title="Treatment Effectiveness",
-    subtitle="Individual patient outcomes",
-    color='#E74C3C',
-    line_color='#8E44AD',
+    x,
+    y,
+    paired=False,
+    n_boot=1000,
+    percentiles=[10, 50, 90],
+    confidence=0.95,
+    violin=True,
+    show_quantiles=True,
+    show_quantile_diff=False,
+    x_label="Setosa",
+    y_label="Versicolor",
+    title="Iris: Setosa vs Versicolor Shift Plot",
+    subtitle="Main plot with quantile connectors",
+    color="#27AE60",
+    line_color="#2C3E50",
     alpha=0.8,
-    figsize=(10, 7)
 )
 
 plt.show()
 ```
 
-![Shift Plot with Difference Example](../examples/shift_plot_with_diff_example.png)
+![Shift Plot with Difference Example](../examples/shift_plot_example.png)
 
-### Custom Styling Example
+### Shift Plot with Quantile Differences Subplot
 
 ```python
-from ggpubpy import plot_shift
+from ggpubpy import plot_shift, load_iris
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Create sample data
-np.random.seed(42)
-n = 40
-before = np.random.normal(6, 1.2, n)
-after = before + np.random.normal(0.8, 1, n)
+# Iris data: Setosa vs Versicolor
+iris = load_iris()
+x = iris[iris["species"] == "setosa"]["sepal_length"].values
+y = iris[iris["species"] == "versicolor"]["sepal_length"].values
 
-# Create custom styled shift plot
+# Main plot + quantile differences subplot
 fig = plot_shift(
-    x=before,
-    y=after,
-    x_label="Initial Measurement",
-    y_label="Final Measurement",
-    title="Measurement Change Analysis",
-    figsize=(9, 7),
-    alpha=0.6,
-    color='#27AE60',
-    line_color='#E67E22'
+    x,
+    y,
+    paired=False,
+    n_boot=1000,
+    percentiles=[10, 50, 90],
+    confidence=0.95,
+    violin=True,
+    show_quantiles=True,
+    show_quantile_diff=True,
+    x_label="Setosa",
+    y_label="Versicolor",
+    title="Iris: Setosa vs Versicolor Shift Plot",
+    subtitle="With quantile differences subplot",
+    color="#27AE60",
+    line_color="#2C3E50",
+    alpha=0.8,
 )
-
-# Add custom annotations
-ax = fig.axes[0]
-ax.text(0.05, 0.95, 'Points above diagonal\nindicate improvement',
-        transform=ax.transAxes, fontsize=10,
-        bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue", alpha=0.7))
 
 plt.show()
 ```

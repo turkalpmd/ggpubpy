@@ -20,11 +20,18 @@ import matplotlib.pyplot as plt
 # Load sample data
 iris = load_iris()
 
-# Create correlation matrix plot
+# Create correlation matrix plot (matches examples/correlation_matrix_example.png)
 fig, axes = plot_correlation_matrix(
     df=iris,
     columns=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
-    title="Iris Dataset Correlation Matrix"
+    figsize=(8, 8),
+    color="#27AE60",
+    alpha=0.6,
+    point_size=20,
+    show_stats=True,
+    method="pearson",
+    title="Iris Dataset - Correlation Matrix",
+    subtitle="Pearson method with significance stars",
 )
 
 plt.show()
