@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import ggpubpy
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def main() -> None:
@@ -27,7 +28,7 @@ def main() -> None:
         title="Variable Relationships",
     )
     plt.tight_layout()
-    plt.savefig("correlation_integration_corr.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "correlation_integration_corr.png"), dpi=300, bbox_inches="tight")
     plt.close(fig_corr)
 
     # Boxplot integration image
@@ -42,10 +43,9 @@ def main() -> None:
         alpha=0.6,
     )
     plt.tight_layout()
-    plt.savefig("correlation_integration_boxplot.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "correlation_integration_boxplot.png"), dpi=300, bbox_inches="tight")
     plt.close(fig_box)
 
 
 if __name__ == "__main__":
     main()
-

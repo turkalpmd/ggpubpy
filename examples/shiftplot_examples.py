@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import ggpubpy
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def main() -> None:
@@ -29,7 +30,7 @@ def main() -> None:
     y = iris_2groups[iris_2groups["species"] == "versicolor"]["sepal_length"].values
     fig = ggpubpy.plot_shift(x, y)
     plt.tight_layout()
-    plt.savefig("shift_plot_example_basic.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "shift_plot_example_basic.png"), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
     # Main only with quantile connectors
@@ -53,7 +54,7 @@ def main() -> None:
         alpha=0.8,
     )
     plt.tight_layout()
-    plt.savefig("shift_plot_example.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "shift_plot_example.png"), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
     # With quantile differences subplot
@@ -77,7 +78,7 @@ def main() -> None:
         alpha=0.8,
     )
     plt.tight_layout()
-    plt.savefig("shift_plot_with_diff_example.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "shift_plot_with_diff_example.png"), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
     print("Done generating shift plot examples.")

@@ -1,5 +1,0 @@
-[33mef737c9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Add extra_requirements for documentation in Read the Docs configuration
-[33m4ebf75b[m Update version to 0.4.0, enhance project description, and add new plot types including alluvial plots. Update dependencies and classifiers in pyproject.toml. Refactor plotting function names for consistency. Improve README with new features and examples. Add Titanic dataset loading functionality and corresponding color palettes. Update tests to reflect changes in function names and add tests for alluvial plots.
-[33mf101e09[m Remove temporary test file
-[33mbcd496b[m Update significance_stars function for inclusive p-value comparisons and add test suite
-[33mff778c0[m corrplotadded

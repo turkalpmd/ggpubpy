@@ -17,6 +17,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ggpubpy import load_iris, load_titanic, plot_alluvial
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def titanic_example() -> tuple[Any, Any]:
@@ -60,7 +61,9 @@ def titanic_example() -> tuple[Any, Any]:
         subtitle="Class → Sex → Age",
         alpha=0.7,
     )
-
+    # Save image (docs references this filename)
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT_DIR, "alluvial_titanic_example.png"), dpi=300, bbox_inches="tight")
     plt.show()
     return fig, ax
 
@@ -103,7 +106,9 @@ def iris_example() -> tuple[Any, Any]:
         subtitle="Sepal length → Petal length",
         alpha=0.7,
     )
-
+    # Save image (docs references this filename)
+    plt.tight_layout()
+    plt.savefig(os.path.join(OUT_DIR, "alluvial_iris_example.png"), dpi=300, bbox_inches="tight")
     plt.show()
     return fig, ax
 

@@ -19,6 +19,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import ggpubpy
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def integration_examples() -> None:
@@ -37,7 +38,7 @@ def integration_examples() -> None:
         alpha=0.8,
     )
     plt.tight_layout()
-    plt.savefig("shift_plot_integration_shift.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "shift_plot_integration_shift.png"), dpi=300, bbox_inches="tight")
     plt.close(fig_shift)
 
     # Box plot (Iris) for comparison
@@ -55,7 +56,7 @@ def integration_examples() -> None:
         alpha=0.6,
     )
     plt.tight_layout()
-    plt.savefig("shift_plot_integration_boxplot.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "shift_plot_integration_boxplot.png"), dpi=300, bbox_inches="tight")
     plt.close(fig_box)
 
 
@@ -92,7 +93,7 @@ def advanced_example() -> None:
     )
 
     plt.tight_layout()
-    plt.savefig("shift_plot_advanced_wilcoxon.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "shift_plot_advanced_wilcoxon.png"), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -103,4 +104,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

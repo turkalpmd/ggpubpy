@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import ggpubpy
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def main() -> None:
@@ -36,7 +37,7 @@ def main() -> None:
         alpha=0.6,
     )
     plt.tight_layout()
-    plt.savefig("boxplot_example.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "boxplot_example.png"), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
     # 2) 2 groups (non-parametric)
@@ -54,7 +55,7 @@ def main() -> None:
         alpha=0.6,
     )
     plt.tight_layout()
-    plt.savefig("boxplot_2groups_example.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "boxplot_2groups_example.png"), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
     # 3) 3 groups with ordering and palette (for docs example)
@@ -74,7 +75,7 @@ def main() -> None:
         parametric=True,
     )
     plt.tight_layout()
-    plt.savefig("boxplot_3groups_example.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "boxplot_3groups_example.png"), dpi=300, bbox_inches="tight")
     plt.close(fig)
 
     print("Done generating box plot examples.")
@@ -82,4 +83,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
