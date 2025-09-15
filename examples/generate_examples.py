@@ -47,6 +47,13 @@ def main() -> None:
         bexp.main()
     except Exception as e:
         print(f"✗ Boxplot examples failed: {e}")
+    # Boxplot integration
+    try:
+        import examples.boxplot_extra_examples as bextra
+
+        bextra.main()
+    except Exception as e:
+        print(f"✗ Boxplot extra examples failed: {e}")
 
     # Shift plot
     try:
@@ -55,6 +62,13 @@ def main() -> None:
         shfexp.main()
     except Exception as e:
         print(f"✗ Shift plot examples failed: {e}")
+    # Shift plot extra (integration + advanced)
+    try:
+        import examples.shiftplot_extra_examples as shfextra
+
+        shfextra.main()
+    except Exception as e:
+        print(f"✗ Shift plot extra examples failed: {e}")
 
     # Correlation matrices
     try:
@@ -63,6 +77,13 @@ def main() -> None:
         cmexp.main()
     except Exception as e:
         print(f"✗ Correlation examples failed: {e}")
+    # Correlation integration
+    try:
+        import examples.correlation_matrix_extra_examples as cmextra
+
+        cmextra.main()
+    except Exception as e:
+        print(f"✗ Correlation extra examples failed: {e}")
 
     print("\nSummary:")
     for filename in [
@@ -74,6 +95,7 @@ def main() -> None:
         "shift_plot_with_diff_example.png",
         "correlation_matrix_example.png",
     ]:
+        examples_dir = './examples'
         filepath = os.path.join(examples_dir, filename)
         if os.path.exists(filepath):
             print(f"  ✓ {filename}")
