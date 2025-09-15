@@ -7,13 +7,25 @@ and testing purposes.
 
 import os
 from typing import Any, Dict
+from importlib import resources
 
 import pandas as pd
 
 
 def _get_data_path() -> str:
-    """Get the path to the data directory."""
-    return os.path.join(os.path.dirname(__file__), "data")
+    """Get filesystem path to the installed data directory.
+
+    Uses importlib.resources to be robust across installations.
+    """
+    try:
+        # For modern Python, resolve the package resource to a real path
+        from importlib.resources import files
+
+        with resources.as_file(files("ggpubpy") / "data") as p:
+            return str(p)
+    except Exception:
+        # Fallback to relative path next to the module
+        return os.path.join(os.path.dirname(__file__), "data")
 
 
 def load_iris() -> pd.DataFrame:
@@ -35,9 +47,16 @@ def load_iris() -> pd.DataFrame:
     >>> iris = load_iris()
     >>> iris.head()
     """
-    data_path = _get_data_path()
-    iris_path = os.path.join(data_path, "iris.csv")
-    return pd.read_csv(iris_path)
+    # Try reading via importlib.resources first
+    try:
+        from importlib.resources import files
+
+        with resources.as_file(files("ggpubpy") / "data" / "iris.csv") as p:
+            return pd.read_csv(str(p))
+    except Exception:
+        data_path = _get_data_path()
+        iris_path = os.path.join(data_path, "iris.csv")
+        return pd.read_csv(iris_path)
 
 
 def load_titanic() -> pd.DataFrame:
@@ -59,9 +78,15 @@ def load_titanic() -> pd.DataFrame:
     >>> titanic = load_titanic()
     >>> titanic.head()
     """
-    data_path = _get_data_path()
-    titanic_path = os.path.join(data_path, "titanic.csv")
-    return pd.read_csv(titanic_path)
+    try:
+        from importlib.resources import files
+
+        with resources.as_file(files("ggpubpy") / "data" / "titanic.csv") as p:
+            return pd.read_csv(str(p))
+    except Exception:
+        data_path = _get_data_path()
+        titanic_path = os.path.join(data_path, "titanic.csv")
+        return pd.read_csv(titanic_path)
 
 
 def get_iris_palette() -> Dict[str, str]:

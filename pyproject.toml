@@ -90,6 +90,11 @@ Documentation = "https://ggpubpy.readthedocs.io"
 [tool.setuptools]
 package-dir = {"" = "."}
 
+[tool.setuptools.package-data]
+ggpubpy = [
+  "data/*.csv",
+]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["ggpubpy*"]

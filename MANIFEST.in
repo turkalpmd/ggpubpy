@@ -5,6 +5,7 @@ include requirements*.txt
 include .pre-commit-config.yaml
 
 recursive-include ggpubpy *.py
+recursive-include ggpubpy/data *.csv
 recursive-include tests *.py
 recursive-include examples *.py *.ipynb
 
