@@ -23,7 +23,7 @@ before = np.random.normal(5, 1, 50)
 after = before + np.random.normal(0.5, 0.8, 50)
 
 # Create shift plot
-fig, ax = plot_shift(
+fig = plot_shift(
     x=before,
     y=after,
     x_label="Before Treatment",
@@ -51,11 +51,10 @@ plt.show()
 - `alpha` (float): Transparency for points (default: 0.7)
 - `color` (str): Color for points and lines (default: '#2E86AB')
 - `line_color` (str): Color for connecting lines (default: '#A23B72')
-- `add_stats` (bool): Whether to add statistical annotations (default: True)
-- `show_diagonal` (bool): Whether to show diagonal reference line (default: True)
+  
 
 **Returns:**
-- `tuple`: (figure, axes) matplotlib objects
+- `Figure`: matplotlib figure. Access axes via `fig.axes[0]`.
 
 ## Examples
 
@@ -73,7 +72,7 @@ before = np.random.normal(10, 2, n)
 after = before + np.random.normal(1, 1.5, n)
 
 # Create basic shift plot
-fig, ax = plot_shift(
+fig = plot_shift(
     x=before,
     y=after,
     x_label="Baseline Score",
@@ -101,7 +100,7 @@ before = np.random.normal(8, 1.5, n)
 after = before + np.random.normal(2, 1, n)  # Clear improvement
 
 # Create shift plot with difference visualization
-fig, ax = plot_shift(
+fig = plot_shift(
     x=before,
     y=after,
     x_label="Pre-treatment",
@@ -133,7 +132,7 @@ before = np.random.normal(6, 1.2, n)
 after = before + np.random.normal(0.8, 1, n)
 
 # Create custom styled shift plot
-fig, ax = plot_shift(
+fig = plot_shift(
     x=before,
     y=after,
     x_label="Initial Measurement",
@@ -142,14 +141,13 @@ fig, ax = plot_shift(
     figsize=(9, 7),
     alpha=0.6,
     color='#27AE60',
-    line_color='#E67E22',
-    add_stats=True,
-    show_diagonal=True
+    line_color='#E67E22'
 )
 
 # Add custom annotations
-ax.text(0.05, 0.95, 'Points above diagonal\nindicate improvement', 
-        transform=ax.transAxes, fontsize=10, 
+ax = fig.axes[0]
+ax.text(0.05, 0.95, 'Points above diagonal\nindicate improvement',
+        transform=ax.transAxes, fontsize=10,
         bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue", alpha=0.7))
 
 plt.show()
@@ -206,7 +204,7 @@ before = np.random.normal(5, 1, 30)
 after = before + np.random.normal(0.5, 0.8, 30)
 
 # Shift plot for paired analysis
-fig1, ax1 = plot_shift(before, after, "Before", "After")
+fig1 = plot_shift(before, after, x_label="Before", y_label="After")
 
 # Box plot for distribution comparison
 import pandas as pd
@@ -231,9 +229,10 @@ before = np.random.normal(10, 2, 25)
 after = before + np.random.normal(1, 1.5, 25)
 
 # Create plot
-fig, ax = plot_shift(before, after, add_stats=True)
+fig = plot_shift(before, after)
 
 # Add custom statistical information
+ax = fig.axes[0]
 diff = after - before
 wilcoxon_stat, wilcoxon_p = stats.wilcoxon(before, after)
 

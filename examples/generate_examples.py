@@ -53,9 +53,11 @@ def main() -> None:
             y="sepal_length",
             x_label="Species",
             y_label="Sepal Length (cm)",
+            title="Iris: Sepal Length by Species",
+            subtitle="Violin plot with non-parametric tests",
             parametric=False,  # Non-parametric tests
+            alpha=0.6,
         )
-        plt.suptitle("Iris Dataset: Sepal Length by Species (Non-parametric)", y=1.02)
         plt.tight_layout()
         plt.savefig(
             os.path.join(examples_dir, "violin_example.png"),
@@ -76,9 +78,11 @@ def main() -> None:
             y="sepal_length",
             x_label="Species",
             y_label="Sepal Length (cm)",
+            title="Iris: Sepal Length by Species",
+            subtitle="Box plot with ANOVA + pairwise",
             parametric=True,  # Parametric tests (ANOVA)
+            alpha=0.6,
         )
-        plt.suptitle("Iris Dataset: Sepal Length by Species (Parametric)", y=1.02)
         plt.tight_layout()
         plt.savefig(
             os.path.join(examples_dir, "boxplot_example.png"),
@@ -100,9 +104,11 @@ def main() -> None:
             y="sepal_length",
             x_label="Species",
             y_label="Sepal Length (cm)",
+            title="Iris: Setosa vs Versicolor",
+            subtitle="Violin plot with t-test",
             parametric=True,  # Parametric tests (t-test)
+            alpha=0.6,
         )
-        plt.suptitle("Iris Dataset: Setosa vs Versicolor (Parametric)", y=1.02)
         plt.tight_layout()
         plt.savefig(
             os.path.join(examples_dir, "violin_2groups_example.png"),
@@ -123,9 +129,11 @@ def main() -> None:
             y="sepal_length",
             x_label="Species",
             y_label="Sepal Length (cm)",
+            title="Iris: Setosa vs Versicolor",
+            subtitle="Box plot with Mann-Whitney U",
             parametric=False,  # Non-parametric tests (Mann-Whitney U)
+            alpha=0.6,
         )
-        plt.suptitle("Iris Dataset: Setosa vs Versicolor (Non-parametric)", y=1.02)
         plt.tight_layout()
         plt.savefig(
             os.path.join(examples_dir, "boxplot_2groups_example.png"),
@@ -152,10 +160,14 @@ def main() -> None:
             violin=True,
             show_quantiles=True,  # Show quantile connection lines
             show_quantile_diff=False,  # Only show main plot, no bottom subplot
-            x_name="Setosa",
-            y_name="Versicolor",  # Custom group names
+            x_label="Setosa",
+            y_label="Versicolor",  # Custom group names
+            title="Iris: Setosa vs Versicolor Shift Plot",
+            subtitle="Main plot with quantile connectors",
+            color="#27AE60",
+            line_color="#2C3E50",
+            alpha=0.8,
         )
-        plt.suptitle("Iris Dataset: Setosa vs Versicolor Shift Plot", y=1.02)
         plt.tight_layout()
         plt.savefig(
             os.path.join(examples_dir, "shift_plot_example.png"),
@@ -182,12 +194,13 @@ def main() -> None:
             violin=True,
             show_quantiles=True,  # Show quantile connection lines
             show_quantile_diff=True,  # Show both main plot and quantile difference subplot
-            x_name="Setosa",
-            y_name="Versicolor",  # Custom group names
-        )
-        plt.suptitle(
-            "Iris Dataset: Setosa vs Versicolor Shift Plot with Quantile Differences",
-            y=1.02,
+            x_label="Setosa",
+            y_label="Versicolor",  # Custom group names
+            title="Iris: Setosa vs Versicolor Shift Plot",
+            subtitle="With quantile differences subplot",
+            color="#27AE60",
+            line_color="#2C3E50",
+            alpha=0.8,
         )
         plt.tight_layout()
         plt.savefig(
@@ -213,6 +226,7 @@ def main() -> None:
             show_stats=True,
             method="pearson",
             title="Iris Dataset - Correlation Matrix",
+            subtitle="Pearson method with significance stars",
         )
         plt.tight_layout()
         plt.savefig(

@@ -24,6 +24,7 @@ def plot_correlation_matrix(
     show_stats: bool = True,
     method: str = "pearson",
     title: Optional[str] = None,
+    subtitle: Optional[str] = None,
 ) -> Tuple[plt.Figure, np.ndarray]:
     """
     Create a correlation matrix plot with scatter plots in lower triangle
@@ -47,8 +48,8 @@ def plot_correlation_matrix(
         Whether to show statistical significance stars.
     method : str
         Correlation method: 'pearson', 'spearman', or 'kendall'.
-    title : str, optional
-        Plot title.
+    title, subtitle : str, optional
+        Overall plot title and optional subtitle.
 
     Returns
     -------
@@ -286,8 +287,10 @@ def plot_correlation_matrix(
                 )
 
     # Add overall title
-    if title:
-        fig.suptitle(title, fontsize=16, fontweight="bold", y=0.95)
+    if title or subtitle:
+        full_title = f"{title}\n{subtitle}" if subtitle else (title or "")
+        if full_title:
+            fig.suptitle(full_title, fontsize=16, fontweight="bold", y=0.95)
     else:
         method_name = method.capitalize()
         fig.suptitle(

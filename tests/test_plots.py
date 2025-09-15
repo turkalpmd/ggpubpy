@@ -154,6 +154,19 @@ class TestPlotViolinWithStats:
         with pytest.raises(AssertionError, match="box_width must be positive"):
             plot_violin_with_stats(sample_data, x="dose", y="len", box_width=0)
 
+    def test_violin_title_subtitle_alpha(self, sample_data: pd.DataFrame) -> None:
+        """Exercise title/subtitle/alpha on violin plot."""
+        fig, ax = plot_violin_with_stats(
+            sample_data,
+            x="dose",
+            y="len",
+            title="Violin Title",
+            subtitle="Subtitle",
+            alpha=0.5,
+        )
+        assert isinstance(fig, plt.Figure)
+        plt.close(fig)
+
 
 class TestPlotBoxplotWithStats:
     """Test the plot_boxplot_with_stats function."""
@@ -250,6 +263,19 @@ class TestPlotBoxplotWithStats:
         with pytest.raises(AssertionError, match="box_width must be positive"):
             plot_boxplot_with_stats(sample_data, x="dose", y="len", box_width=0)
 
+    def test_boxplot_title_subtitle_alpha(self, sample_data: pd.DataFrame) -> None:
+        """Exercise title/subtitle/alpha on boxplot."""
+        fig, ax = plot_boxplot_with_stats(
+            sample_data,
+            x="dose",
+            y="len",
+            title="Boxplot Title",
+            subtitle="Subtitle",
+            alpha=0.5,
+        )
+        assert isinstance(fig, plt.Figure)
+        plt.close(fig)
+
 
 class TestPlotShift:
     """Test the plot_shift function."""
@@ -298,6 +324,26 @@ class TestPlotShift:
         fig = plot_shift(x, y, parametric=True)
         ax = fig.axes[0]
         assert "t-test" in ax.get_title()
+        plt.close(fig)
+
+    def test_shift_plot_with_labels_and_style(
+        self, shift_data: Tuple[np.ndarray, np.ndarray]
+    ) -> None:
+        """Test shift plot with new optional args."""
+        x, y = shift_data
+        fig = plot_shift(
+            x,
+            y,
+            x_label="Group X",
+            y_label="Group Y",
+            title="Shift Plot",
+            subtitle="Demo",
+            color="#E74C3C",
+            line_color="#2C3E50",
+            alpha=0.7,
+            figsize=(9, 5),
+        )
+        assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
 
@@ -530,6 +576,7 @@ class TestPlotCorrelationMatrix:
             show_stats=True,
             method="spearman",
             title="Custom Correlation Matrix",
+            subtitle="Subtitle",
         )
 
         assert isinstance(fig, plt.Figure)

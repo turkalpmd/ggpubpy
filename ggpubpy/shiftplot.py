@@ -31,6 +31,15 @@ def plot_shift(
     parametric: bool = False,
     x_name: str = "X",
     y_name: str = "Y",
+    # Backward/forward compatibility keyword args (optional)
+    x_label: Optional[str] = None,
+    y_label: Optional[str] = None,
+    title: Optional[str] = None,
+    subtitle: Optional[str] = None,
+    color: Optional[str] = None,
+    line_color: Optional[str] = None,
+    alpha: Optional[float] = None,
+    figsize: Optional[Tuple[float, float]] = None,
 ) -> plt.Figure:
     """Shift plot.
 
@@ -73,6 +82,16 @@ def plot_shift(
     nx, ny = x.size, y.size
     assert nx >= 10 and ny >= 10, "Each sample must have at least 10 observations."
     assert 0 < confidence < 1, "confidence must be between 0 and 1."
+
+    # Optional figsize validation
+    if figsize is not None:
+        assert isinstance(figsize, tuple) and len(figsize) == 2, "figsize must be a tuple"
+
+    # Map optional labels (for compatibility with docs/examples)
+    if x_label is not None:
+        x_name = x_label
+    if y_label is not None:
+        y_name = y_label
     if paired:
         assert (
             nx == ny
@@ -140,10 +159,10 @@ def plot_shift(
         {"value": np.concatenate([x, y]), "variable": ["X"] * nx + ["Y"] * ny}
     )  # Plot distributions
     if show_quantile_diff:
-        fig = plt.figure(figsize=(10, 6))
+        fig = plt.figure(figsize=(figsize if figsize is not None else (10, 6)))
         ax1 = plt.subplot2grid((3, 3), (0, 0), rowspan=2, colspan=3)
     else:
-        fig, ax1 = plt.subplots(figsize=(10, 4))  # Custom boxplots
+        fig, ax1 = plt.subplots(figsize=(figsize if figsize is not None else (10, 4)))  # Custom boxplots
 
     def adj_vals(vals: np.ndarray) -> Tuple[float, float, float, float, float]:
         percentiles_arr = cast(np.ndarray, np.percentile(vals, [25, 50, 75]))
@@ -159,9 +178,14 @@ def plot_shift(
         ax1.hlines(y0, q1, q3, color="k", lw=7, zorder=9)
         ax1.hlines(y0, lo, hi, color="k", lw=2, zorder=9)
 
+    # Colors and alpha (with sensible defaults)
+    x_color = "#cfcfcf"
+    y_color = color or "#88bedc"
+    alpha_points = 0.6 if alpha is None else float(alpha)
+
     # Scatter raw data points without jitter
-    ax1.scatter(x, np.full_like(x, 1.2), color="#cfcfcf", s=10, alpha=0.6, zorder=3)
-    ax1.scatter(y, np.full_like(y, -0.2), color="#88bedc", s=10, alpha=0.6, zorder=3)
+    ax1.scatter(x, np.full_like(x, 1.2), color=x_color, s=10, alpha=alpha_points, zorder=3)
+    ax1.scatter(y, np.full_like(y, -0.2), color=y_color, s=10, alpha=alpha_points, zorder=3)
 
     if violin:
         import warnings
@@ -178,9 +202,11 @@ def plot_shift(
             else:
                 verts[:, 1][verts[:, 1] <= 2] = 2
             verts[:, 1] += offset
-            bodies[idx].set_edgecolor("k")
-            bodies[idx].set_facecolor(color)
-            bodies[idx].set_alpha(0.8)
+            bodies[idx].set_edgecolor(line_color or "k")
+            # Use provided main color for the 'y' group (idx==0 corresponds to y above)
+            face_col = (y_color if idx == 0 else x_color)
+            bodies[idx].set_facecolor(face_col)
+            bodies[idx].set_alpha(0.8 if alpha is None else float(alpha))
         if show_quantile_diff:
             ax1.set_ylim(2.2, -1.2)
         else:
@@ -188,13 +214,13 @@ def plot_shift(
     if show_quantiles:
         for i in range(len(pct)):
             col = (
-                "#4c72b0"
+                (line_color or "#4c72b0")
                 if uppers[i] < 0
-                else ("#c34e52" if lowers[i] > 0 else "darkgray")
+                else ((line_color or "#c34e52") if lowers[i] > 0 else (line_color or "darkgray"))
             )
             plt.plot([y_per[i], x_per[i]], [0.2, 0.8], "o-", color=col, zorder=10)
-            plt.plot([x_per[i]] * 2, [0.8, 1.2], "k--", zorder=9)
-            plt.plot([y_per[i]] * 2, [-0.2, 0.2], "k--", zorder=9)
+            plt.plot([x_per[i]] * 2, [0.8, 1.2], line_color or "k", linestyle="--", zorder=9)
+            plt.plot([y_per[i]] * 2, [-0.2, 0.2], line_color or "k", linestyle="--", zorder=9)
 
     if show_median:
         m_x, m_y = np.median(x), np.median(y)
@@ -209,6 +235,11 @@ def plot_shift(
     # Add statistical test result to title
     p_formatted = format_p_value(p_val)
     plt.title(f"{test_name}: p = {p_formatted}", fontsize=12, pad=10)
+
+    # Optional overall title/subtitle
+    if title or subtitle:
+        full_title = f"{title}\n{subtitle}" if subtitle else cast(str, title)
+        fig.suptitle(full_title, fontsize=14, fontweight="bold", y=0.98)
 
     # Quantile shift plot (optional)
     if show_quantile_diff:

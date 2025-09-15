@@ -27,12 +27,15 @@ def plot_violin_with_stats(
     *,
     x_label: Optional[str] = None,
     y_label: Optional[str] = None,
+    title: Optional[str] = None,
+    subtitle: Optional[str] = None,
     order: Optional[List] = None,
     palette: Optional[Dict] = None,
     figsize: Tuple[int, int] = (6, 6),
     figsize_scale: float = 1.0,
     add_jitter: bool = True,
     jitter_std: float = 0.04,
+    alpha: Optional[float] = None,
     violin_width: float = 0.6,
     box_width: float = 0.15,
     global_test: bool = True,
@@ -54,6 +57,8 @@ def plot_violin_with_stats(
         Custom label for the x-axis.
     y_label : str, optional
         Custom label for the y-axis.
+    title, subtitle : str, optional
+        Overall plot title and optional subtitle.
     order : list, optional
         Order of x categories. Defaults to sorted unique values.
     palette : dict, optional
@@ -66,6 +71,8 @@ def plot_violin_with_stats(
         Whether to add jittered points.
     jitter_std : float
         Standard deviation for horizontal jitter.
+    alpha : float, optional
+        Transparency for jittered points (0-1). Defaults to 0.6.
     violin_width : float
         Width of violin plots.
     box_width : float
@@ -155,10 +162,11 @@ def plot_violin_with_stats(
     # Add jittered points
     if add_jitter:
         rng = np.random.default_rng(0)
+        alpha_points = 0.6 if alpha is None else float(alpha)
         for pos, values in zip(positions, groups):
             xs = rng.normal(pos, jitter_std, size=len(values))
             ax.scatter(
-                xs, values, s=15, color="k", alpha=0.6, zorder=3
+                xs, values, s=15, color="k", alpha=alpha_points, zorder=3
             )  # Statistical annotations
     data_min: float = np.min([np.min(g) for g in groups if len(g) > 0])
     data_max: float = np.max([np.max(g) for g in groups if len(g) > 0])
@@ -197,6 +205,12 @@ def plot_violin_with_stats(
 
     handles = [mpatches.Patch(color=color_palette[l], label=l) for l in levels]
     ax.legend(handles=handles, title=(x_label or x))
+
+    # Optional overall title/subtitle
+    if title or subtitle:
+        full_title = f"{title}\n{subtitle}" if subtitle else title
+        if full_title:
+            fig.suptitle(full_title, fontsize=14, fontweight="bold", y=0.98)
 
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)

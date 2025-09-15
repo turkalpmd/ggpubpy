@@ -83,7 +83,7 @@ import numpy as np
 before = np.random.normal(10, 2, 30)
 after = before + np.random.normal(1, 1.5, 30)
 
-fig, ax = plot_shift(
+fig = plot_shift(
     x=before,
     y=after,
     x_label="Before Treatment",
@@ -97,7 +97,7 @@ Comprehensive visualization of relationships between multiple variables.
 ```python
 from ggpubpy import plot_correlation_matrix, load_iris
 
-fig, ax = plot_correlation_matrix(
+fig, axes = plot_correlation_matrix(
     df=load_iris(),
     columns=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
     title="Iris Dataset Correlation Matrix"

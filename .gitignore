@@ -198,6 +198,8 @@ pypirc_example
 .pypirc
 *.token
 config/
+scripts/twinecode.md
+scripts/*.env
 secrets/
 
 # Development scripts (internal use only)

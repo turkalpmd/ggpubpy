@@ -45,11 +45,14 @@ plt.show()
 - `y` (str): Column name for numeric values
 - `x_label` (str, optional): Axis label for x-axis. Defaults to column name
 - `y_label` (str, optional): Axis label for y-axis. Defaults to column name
+- `title` (str, optional): Overall plot title
+- `subtitle` (str, optional): Plot subtitle
 - `order` (list, optional): Order of x categories. Defaults to sorted unique values
 - `palette` (dict, optional): Mapping from category to color
 - `figsize` (tuple): Figure size (default: (6, 6))
 - `add_jitter` (bool): Whether to add jittered points (default: True)
 - `jitter_std` (float): Standard deviation for horizontal jitter (default: 0.04)
+- `alpha` (float, optional): Transparency for jittered points (default: 0.6)
 - `violin_width` (float): Width of each violin in the plot (default: 0.6)
 - `global_test` (bool): Whether to perform and display global statistical test (default: True)
 - `pairwise_test` (bool): Whether to perform and display pairwise comparisons (default: True)

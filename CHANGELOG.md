@@ -1,9 +1,26 @@
+
 # Changelog
+
+## [0.4.3] - YYYY-MM-DD
+
+- Bump version to 0.4.3.
+
+
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.4.2] - 2025-09-15
+
+### Added
+- Shift Plot: Support `x_label`, `y_label`, `title`, `subtitle`, `color`, `line_color`, `alpha`, and `figsize` parameters.
+
+### Changed
+- Docs: Shift Plot examples now return a `Figure` and demonstrate accessing axes via `fig.axes[0]`.
+- README: Shift Plot example updated to assign only `fig`.
+- Version: Bumped to 0.4.2 and aligned `__init__` with `pyproject.toml`.
 
 ## [0.4.1] - 2024-12-19
 

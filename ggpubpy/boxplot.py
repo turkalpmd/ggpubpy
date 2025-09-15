@@ -27,11 +27,14 @@ def plot_boxplot_with_stats(
     *,
     x_label: Optional[str] = None,
     y_label: Optional[str] = None,
+    title: Optional[str] = None,
+    subtitle: Optional[str] = None,
     order: Optional[List] = None,
     palette: Optional[Dict] = None,
     figsize: Tuple[int, int] = (6, 6),
     add_jitter: bool = True,
     jitter_std: float = 0.04,
+    alpha: Optional[float] = None,
     box_width: float = 0.6,
     global_test: bool = True,
     pairwise_test: bool = True,
@@ -48,7 +51,10 @@ def plot_boxplot_with_stats(
         Column name for categories (must be categorical).
     y : str
         Column name for numeric values.
-    x_label, y_label : str, optional        Axis labels. Defaults to column names.
+    x_label, y_label : str, optional
+        Axis labels. Defaults to column names.
+    title, subtitle : str, optional
+        Overall plot title and optional subtitle.
     order : list, optional
         Order of x categories. Defaults to sorted unique values.
     palette : dict, optional
@@ -58,7 +64,10 @@ def plot_boxplot_with_stats(
     add_jitter : bool
         Whether to add jittered points.
     jitter_std : float
-        Standard deviation for horizontal jitter.    box_width : float
+        Standard deviation for horizontal jitter.
+    alpha : float, optional
+        Transparency for jittered points (0-1). Defaults to 0.7.
+    box_width : float
         Width of each box in the plot.
     global_test : bool
         Whether to perform and display global statistical test.
@@ -134,13 +143,14 @@ def plot_boxplot_with_stats(
     # Add jittered points with different markers for each group
     if add_jitter:
         rng = np.random.default_rng(0)
+        alpha_points = 0.7 if alpha is None else float(alpha)
         for idx, (pos, values) in enumerate(zip(positions, groups)):
             level = levels[idx]
             color = color_palette[level]
             marker = markers[idx % len(markers)]  # Different marker shapes
             xs = rng.normal(pos, jitter_std, size=len(values))
             ax.scatter(
-                xs, values, s=20, color=color, alpha=0.7, marker=marker, zorder=3
+                xs, values, s=20, color=color, alpha=alpha_points, marker=marker, zorder=3
             )  # Statistical annotations
     y_min: float = np.min([np.min(g) for g in groups if len(g) > 0])
     y_max: float = np.max([np.max(g) for g in groups if len(g) > 0])
@@ -177,6 +187,12 @@ def plot_boxplot_with_stats(
     # Legend
     handles = [mpatches.Patch(color=color_palette[l], label=l) for l in levels]
     ax.legend(handles=handles, title=x_label or x)
+
+    # Optional overall title/subtitle
+    if title or subtitle:
+        full_title = f"{title}\n{subtitle}" if subtitle else title
+        if full_title:
+            fig.suptitle(full_title, fontsize=14, fontweight="bold", y=0.98)
 
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)

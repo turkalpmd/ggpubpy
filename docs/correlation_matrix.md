@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 iris = load_iris()
 
 # Create correlation matrix plot
-fig, ax = plot_correlation_matrix(
+fig, axes = plot_correlation_matrix(
     df=iris,
     columns=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
     title="Iris Dataset Correlation Matrix"
@@ -40,16 +40,17 @@ plt.show()
 
 - `df` (pd.DataFrame): Input data
 - `columns` (list, optional): List of column names to include. If None, uses all numeric columns
-- `title` (str, optional): Plot title
-- `figsize` (tuple): Figure size (default: (10, 8))
+- `figsize` (tuple): Figure size (default: (10, 10))
+- `color` (str): Color for scatter points (default: '#2E86AB')
 - `alpha` (float): Transparency for scatter points (default: 0.6)
-- `correlation_method` (str): Correlation method ('pearson', 'spearman', 'kendall') (default: 'pearson')
-- `significance_level` (float): Significance level for correlation tests (default: 0.05)
-- `show_significance` (bool): Whether to show significance symbols (default: True)
-- `color_map` (str): Colormap for correlation values (default: 'RdBu_r')
+- `point_size` (float): Scatter point size (default: 20)
+- `show_stats` (bool): Whether to show significance stars (default: True)
+- `method` (str): Correlation method ('pearson', 'spearman', 'kendall') (default: 'pearson')
+- `title` (str, optional): Plot title
+- `subtitle` (str, optional): Plot subtitle
 
 **Returns:**
-- `tuple`: (figure, axes) matplotlib objects
+- `tuple`: (figure, axes_array) matplotlib objects
 
 ## Examples
 
@@ -63,7 +64,7 @@ import matplotlib.pyplot as plt
 iris = load_iris()
 
 # Create correlation matrix with 3 features
-fig, ax = plot_correlation_matrix(
+fig, axes = plot_correlation_matrix(
     df=iris,
     columns=['sepal_length', 'sepal_width', 'petal_length'],
     title="Iris Dataset - 3 Features Correlation Matrix",
@@ -85,13 +86,13 @@ import matplotlib.pyplot as plt
 iris = load_iris()
 
 # Create correlation matrix with all 4 features
-fig, ax = plot_correlation_matrix(
+fig, axes = plot_correlation_matrix(
     df=iris,
     columns=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
     title="Iris Dataset - Complete Correlation Matrix",
     figsize=(10, 8),
     alpha=0.7,
-    correlation_method='pearson'
+    method='pearson'
 )
 
 plt.show()
@@ -126,14 +127,13 @@ synthetic_data = pd.DataFrame({
 })
 
 # Create correlation matrix plot
-fig, ax = plot_correlation_matrix(
+fig, axes = plot_correlation_matrix(
     df=synthetic_data,
     title="Synthetic Data Correlation Matrix",
     subtitle="Demonstrating different correlation strengths",
     figsize=(10, 8),
     alpha=0.6,
-    correlation_method='pearson',
-    significance_level=0.01
+    method='pearson'
 )
 
 plt.show()
@@ -151,21 +151,20 @@ import matplotlib.pyplot as plt
 iris = load_iris()
 
 # Create custom styled correlation matrix
-fig, ax = plot_correlation_matrix(
+fig, axes = plot_correlation_matrix(
     df=iris,
     columns=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
     title="Custom Styled Correlation Matrix",
     figsize=(12, 10),
     alpha=0.5,
-    correlation_method='spearman',
-    significance_level=0.05,
-    show_significance=True,
-    color_map='coolwarm'
+    method='spearman',
+    show_stats=True
 )
 
-# Add custom annotations
-ax.text(0.5, 1.02, 'Spearman correlation coefficients', 
-        transform=ax.transAxes, ha='center', fontsize=12, 
+# Add custom annotations on the top-left subplot
+ax = axes[0, 0]
+ax.text(0.5, 1.02, 'Spearman correlation coefficients',
+        transform=ax.transAxes, ha='center', fontsize=12,
         bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue", alpha=0.7))
 
 plt.show()
@@ -241,7 +240,7 @@ from ggpubpy import plot_correlation_matrix, plot_boxplot_with_stats, load_iris
 iris = load_iris()
 
 # Correlation matrix for overall relationships
-fig1, ax1 = plot_correlation_matrix(iris, title="Variable Relationships")
+fig1, axes1 = plot_correlation_matrix(iris, title="Variable Relationships")
 
 # Box plots for individual variable distributions
 fig2, ax2 = plot_boxplot_with_stats(iris, "species", "sepal_length")
@@ -270,17 +269,18 @@ data['X2'] = 0.6 * data['X1'] + 0.8 * data['X2']
 data['X3'] = -0.4 * data['X1'] + 0.9 * data['X3']
 
 # Create plot
-fig, ax = plot_correlation_matrix(
+fig, axes = plot_correlation_matrix(
     df=data,
     title="Custom Correlation Analysis",
-    correlation_method='pearson',
-    significance_level=0.01
+    method='pearson'
 )
 
 # Add custom statistical information
 corr_matrix = data.corr()
 n = len(data)
 
+# Add note on the first subplot
+ax = axes[0, 0]
 ax.text(0.02, 0.98, f'Sample size: n = {n}\nMethod: Pearson correlation', 
         transform=ax.transAxes, fontsize=10, verticalalignment='top',
         bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgreen", alpha=0.7))
