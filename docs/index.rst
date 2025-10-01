@@ -16,6 +16,7 @@ ggpubpy is a Python library for creating publication-ready plots with built-in s
    alluvial_plots
    plots_manipulation
 
+
 .. toctree::
    :maxdepth: 2
    :caption: API Reference:
