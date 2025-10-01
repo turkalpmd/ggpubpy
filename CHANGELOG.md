@@ -1,6 +1,20 @@
 
 # Changelog
 
+## [0.5.0] - 2025-10-01
+
+### Added
+- QQ Plot: `qqplot()` with optional confidence envelope and regression line.
+- Bland–Altman: `plot_blandaltman()` for agreement analysis with optional CIs and annotations.
+- Docs: Added `docs/qqplot.md` and `docs/bland_altman.md`; linked in index.
+- Examples: Added `examples/qqplot_example.py` and `examples/bland_altman_example.py`; integrated into manipulation examples.
+- Tests: Added basic headless tests for both new plots.
+
+### Changed
+- Refactor: Modularized internal helpers in `qqplot.py` and `bland_altman.py`, simplified docstrings.
+- Examples/Docs: Standardized to Iris-based examples (consistent with project style).
+- Version: Bumped to 0.5.0 in `pyproject.toml` and `ggpubpy/__init__.py`.
+
 ## [0.4.4] - 2025-09-15
 
 ### Fixed
@@ -114,6 +128,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - More plot customization options
 - Interactive plot support
 - Additional dataset integrations
+
 ## [0.4.3] - 2025-09-15
 
 ### Added
