@@ -1,420 +1,238 @@
-[![PyPI version](https://img.shields.io/pypi/v/ggpubpy)](https://pypi.org/project/ggpubpy)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ggpubpy)](https://pypi.org/project/ggpubpy)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/turkalpmd/ggpubpy/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/turkalpmd/ggpubpy?style=social)](https://github.com/turkalpmd/ggpubpy)
-[![GitHub forks](https://img.shields.io/github/forks/turkalpmd/ggpubpy?style=social)](https://github.com/turkalpmd/ggpubpy)
+# ggpubpy
 
-# ggpubpy: 'matplotlib' Based Publication-Ready Plots
+[![Documentation Status](https://readthedocs.org/projects/ggpubpy/badge/?version=latest)](https://ggpubpy.readthedocs.io/en/latest/?badge=latest)
+[![PyPI version](https://badge.fury.io/py/ggpubpy.svg)](https://badge.fury.io/py/ggpubpy)
+[![CI](https://github.com/turkalpmd/ggpubpy/actions/workflows/ci.yml/badge.svg)](https://github.com/turkalpmd/ggpubpy/actions/workflows/ci.yml)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TestPyPI](https://img.shields.io/badge/TestPyPI-ggpubpy-informational)](https://test.pypi.org/project/ggpubpy/)
 
-Matplotlib is an excellent and flexible package for elegant data visualization in Python. However, the default plotting routines often require extensive boilerplate and manual styling before figures are ready for publication. Customizing complex plots can be a barrier for researchers and analysts without advanced plotting expertise.
+**ggpubpy** is a Python library for creating publication-ready plots with built-in statistical tests and automatic p-value annotations. Inspired by R's ggpubr package, ggpubpy provides easy-to-use functions for creating professional visualizations suitable for scientific publications.
 
-The **ggpubpy** library provides a suite of easy-to-use functions for creating and customizing Matplotlib-based, publication-ready plots—complete with built-in statistical tests and automatic p-value or significance star annotations. This project is directly inspired by R's [ggpubr](https://github.com/kassambara/ggpubr) package.
+## Features
 
-**📦 PyPI Package**: https://pypi.org/project/ggpubpy/  
-**🐙 GitHub Repository**: https://github.com/turkalpmd/ggpubpy  
+- 📊 **Publication-ready plots**: Clean, professional appearance suitable for scientific publications
+- 🔬 **Built-in statistical tests**: Automatic ANOVA, t-tests, correlation analysis, and more
+- ⭐ **Automatic annotations**: P-values and significance stars added automatically
+- 🎨 **Flexible customization**: Extensive options for colors, styling, and layout
+- 📈 **Multiple plot types**: Box plots, violin plots, correlation matrices, shift plots, and alluvial plots
+- 🔗 **Easy integration**: Works seamlessly with pandas DataFrames and numpy arrays
 
-
----
-
-## Installation and loading
-
-Install the latest stable release from PyPI (recommended):
+## Installation
 
 ```bash
 pip install ggpubpy
 ```
 
-**Why install from PyPI?**
-- ✅ Stable, tested releases
-- ✅ Automatic dependency management
-- ✅ Easy updates with `pip install --upgrade ggpubpy`
-- ✅ Compatible with virtual environments
-
-Or install the development version directly from GitHub:
-
-```bash
-pip install git+https://github.com/turkalpmd/ggpubpy.git
-```
-
-Load the package:
+## Quick Start
 
 ```python
-import ggpubpy
-from ggpubpy import violinggplot, boxggplot, plot_shift, plot_correlation_matrix
-from ggpubpy.datasets import load_iris  # Built-in datasets
-```
+from ggpubpy import plot_boxplot_with_stats, load_iris
+import matplotlib.pyplot as plt
 
----
-
-## Core Features
-
-- **Violin + boxplot + jitter** in one call  
-- **Correlation matrix plots** with scatter plots, histograms, and statistical annotations
-- **Shift plots** for advanced distribution comparison with quantile analysis
-- **Automatic color palettes** with ColorBrewer-inspired defaults
-- **Built-in datasets** (iris) for quick testing and examples
-- **Flexible group comparisons** - works with 2-group, 3-group, or more
-- **Built-in Kruskal–Wallis & Mann–Whitney U tests** (or ANOVA & t-tests for parametric option)  
-- **Automatic p-value or "star" annotation** with dynamic bracket placement
-- **Smart p-value formatting** - pairwise comparisons show significance stars (*, **, ns), global tests show formatted values (<0.001)  
-- **Parametric and non-parametric statistical tests** with `parametric=True/False` option
-- **Smart test selection** - t-test for 2 groups, ANOVA for 3+ groups (parametric mode)
-- **Modular, data-driven API**: custom labels, ordering, figure sizing
-
----
-
-## Quick Examples
-
-### 🎻 Violin plots with boxplots & jitter + statistical tests
-
-#### 3-Group Comparison (All Species)
-```python
-import ggpubpy
-from ggpubpy.datasets import load_iris
-
-# Load the iris dataset
+# Load sample data
 iris = load_iris()
 
-# Create the plot with default colors (automatic palette)
-fig, ax = ggpubpy.violinggplot(
-    df=iris, 
-    x="species", 
-    y="sepal_length",
-    x_label="Species", 
-    y_label="Sepal Length (cm)"
-)
-```
-
-![Violin Plot Example](examples/violin_example.png)
-
-#### 2-Group Comparison (Subset Analysis)
-```python
-# Filter for 2-group comparison
-iris_2groups = iris[iris['species'].isin(['setosa', 'versicolor'])]
-
-# Create 2-group comparison plot
-fig, ax = ggpubpy.violinggplot(
-    df=iris_2groups, 
-    x="species", 
-    y="sepal_length",
-    x_label="Species", 
-    y_label="Sepal Length (cm)"
-)
-```
-
-![Violin Plot 2-Groups](examples/violin_2groups_example.png)
-
-### 📊 Boxplots with jitter + statistical tests
-
-#### 3-Group Box Plot with Default Colors
-```python
-# Create boxplot with default automatic colors
-fig, ax = ggpubpy.boxggplot(
-    df=iris, 
-    x="species", 
-    y="sepal_length",
-    x_label="Species", 
-    y_label="Sepal Length (cm)"
-)
-```
-
-![Box Plot Example](examples/boxplot_example.png)
-
-#### 2-Group Box Plot with Statistical Tests
-```python
-# 2-group comparison with Mann-Whitney U test (non-parametric default)
-iris_2groups = iris[iris['species'].isin(['setosa', 'versicolor'])]
-
-fig, ax = ggpubpy.boxggplot(
-    df=iris_2groups, 
-    x="species", 
-    y="sepal_length",
-    x_label="Species", 
-    y_label="Sepal Length (cm)",
-    parametric=False  # Non-parametric tests (default)
-)
-```
-
-![Box Plot 2-Groups](examples/boxplot_2groups_example.png)
-
-### 📈 Shift plots for distribution comparison
-
-Shift plots provide a powerful visualization for comparing two distributions by showing:
-- **Half-violin plots** showing distribution shapes
-- **Box plots** with quartiles and outliers  
-- **Raw data points** for transparency
-- **Quantile connections** (optional) showing how percentiles shift between groups
-- **Statistical test results** in the title
-- **Quantile difference subplot** (optional) for detailed quantile analysis
-
-#### Basic Shift Plot
-```python
-# Compare two groups with shift plot
-iris_2groups = iris[iris['species'].isin(['setosa', 'versicolor'])]
-x = iris_2groups[iris_2groups['species'] == 'setosa']['sepal_length'].values
-y = iris_2groups[iris_2groups['species'] == 'versicolor']['sepal_length'].values
-
-fig = ggpubpy.plot_shift(
-    x, y, 
-    paired=False, 
-    n_boot=1000,
-    percentiles=[10, 50, 90], 
-    confidence=0.95,
-    show_quantiles=True,  # Show quantile connection lines
-    show_quantile_diff=False,  # Hide quantile difference subplot
-    x_name="Setosa", 
-    y_name="Versicolor"
-)
-```
-
-![Shift Plot Example](examples/shift_plot_example.png)
-
-#### Shift Plot with Quantile Differences
-```python
-# Same plot but with quantile difference subplot
-fig = ggpubpy.plot_shift(
-    x, y,
-    paired=False,
-    show_quantiles=True,
-    show_quantile_diff=True,  # Show quantile difference subplot
-    x_name="Setosa",
-    y_name="Versicolor"
-)
-```
-
-![Shift Plot with Differences](examples/shift_plot_with_diff_example.png)
-
-### 🔗 Correlation Matrix Plots
-
-Correlation matrix plots provide a comprehensive view of relationships between multiple variables by combining:
-- **Diagonal elements**: Histograms with KDE overlays showing the distribution of each variable
-- **Lower triangle**: Scatter plots with trend lines showing pairwise relationships
-- **Upper triangle**: Correlation coefficients with significance stars for statistical assessment
-
-This visualization is particularly powerful for:
-- **Exploratory data analysis** - quickly identify patterns and relationships
-- **Multicollinearity detection** - spot highly correlated variables
-- **Variable selection** - understand which variables are most informative
-- **Publication-ready figures** - professional appearance with proper statistical annotations
-
-#### Basic Correlation Matrix
-```python
-# Create correlation matrix for iris dataset
-fig, axes = ggpubpy.plot_correlation_matrix(
-    iris,
-    columns=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
-    figsize=(8, 8),
-    color="#27AE60",
-    alpha=0.6,
-    point_size=20,
-    show_stats=True,
-    method="pearson",
-    title="Iris Dataset - Correlation Matrix"
-)
-```
-
-![Correlation Matrix Example](examples/correlation_matrix_example.png)
-
-#### Interpreting the Correlation Matrix:
-- **Diagonal histograms**: Show the distribution shape of each variable (normal, skewed, bimodal, etc.)
-- **Scatter plots (lower triangle)**: Reveal the nature of relationships (linear, non-linear, strength)
-- **Correlation values (upper triangle)**: Quantify relationship strength with significance testing
-- **Color coding**: Strong correlations (|r| ≥ 0.7) in dark red/blue, moderate (|r| ≥ 0.3) in red/blue
-- **Significance stars**: *** (p < 0.001), ** (p < 0.01), * (p < 0.05), no stars (non-significant)
-
-#### Advanced Options
-```python
-# Different correlation methods and customization
-fig, axes = ggpubpy.plot_correlation_matrix(
-    df,
-    columns=['var1', 'var2', 'var3'],  # Specify variables
-    method="spearman",  # or "kendall" for non-parametric
-    color="#E74C3C",
-    alpha=0.7,
-    point_size=25,
-    show_stats=False,  # Hide significance stars
-    title="Custom Correlation Analysis"
-)
-```
-
-### 🎨 Advanced Features
-
-```python
-# Custom color palette
-custom_palette = {
-    "setosa": "#FF6B6B", 
-    "versicolor": "#4ECDC4", 
-    "virginica": "#45B7D1"
-}
-
-fig, ax = ggpubpy.violinggplot(
-    df=iris, 
-    x="species", 
-    y="petal_length",
-    x_label="Species", 
-    y_label="Petal Length (cm)",
-    palette=custom_palette
-)
-
-# Parametric tests (ANOVA + t-test instead of Kruskal-Wallis + Mann-Whitney)
-fig, ax = ggpubpy.violinggplot(
-    df=iris, 
-    x="species", 
-    y="sepal_length",
-    x_label="Species", 
-    y_label="Sepal Length (cm)",
-    parametric=True
-)
-
-# Custom ordering
-fig, ax = ggpubpy.violinggplot(
-    df=iris, 
+# Create a publication-ready boxplot with statistical annotations
+fig, ax = plot_boxplot_with_stats(
+    df=iris,
     x="species",
-    y="petal_width",
-    order=["virginica", "versicolor", "setosa"]  # Custom order
+    y="sepal_length",
+    title="Sepal Length by Species"
+)
+
+plt.show()
+```
+
+## Available Plot Types
+
+### 📊 Box Plots
+Create box plots with statistical annotations including ANOVA/Kruskal-Wallis tests and pairwise comparisons.
+
+```python
+from ggpubpy import plot_boxplot_with_stats, load_iris
+
+fig, ax = plot_boxplot_with_stats(
+    df=load_iris(),
+    x="species",
+    y="sepal_length",
+    parametric=False  # Use non-parametric tests
 )
 ```
 
-### 📊 Built-in Datasets
+### 🎻 Violin Plots
+Visualize data distributions with violin plots that combine the benefits of box plots and density plots.
 
 ```python
-# Load built-in datasets
-iris = ggpubpy.datasets.load_iris()
-print(f"Available datasets: {ggpubpy.datasets.list_datasets()}")
+from ggpubpy import plot_violin_with_stats, load_iris
 
-# Get recommended color palette for iris species
-palette = ggpubpy.datasets.get_iris_palette()
-print(palette)  # {'setosa': '#00AFBB', 'versicolor': '#E7B800', 'virginica': '#FC4E07'}
+fig, ax = plot_violin_with_stats(
+    df=load_iris(),
+    x="species",
+    y="petal_length",
+    palette={"setosa": "#FF6B6B", "versicolor": "#4ECDC4", "virginica": "#45B7D1"}
+)
 ```
 
----
+### 📈 Shift Plots
+Perfect for before-after comparisons and paired data analysis.
 
-## 🤝 Contributing
+```python
+from ggpubpy import plot_shift
+import numpy as np
 
-**We welcome contributions!** This project is designed to be contribution-friendly.
+# Create sample paired data
+before = np.random.normal(10, 2, 30)
+after = before + np.random.normal(1, 1.5, 30)
 
-### Ways to Contribute:
-- 🐛 **Bug reports** and feature requests
-- 📖 **Documentation** improvements  
-- 🔧 **Code contributions** (new features, optimizations, tests)
-- 🎨 **New plot types** and statistical tests
-- 📊 **Additional datasets** and examples
-
-### Getting Started:
-```bash
-# Clone and setup development environment
-git clone https://github.com/turkalpmd/ggpubpy.git
-cd ggpubpy
-pip install -e .
-pip install -r requirements-dev.txt
-
-# Run tests to verify setup
-python final_check.py
+fig = plot_shift(
+    x=before,
+    y=after,
+    x_label="Before Treatment",
+    y_label="After Treatment"
+)
 ```
 
-### Getting Help & Support
-- 🐛 **GitHub Issues**: For bug reports and feature requests.
-- 💬 **GitHub Discussions**: For questions, suggestions, and community discussion.
-- 📚 **API Reference**: Complete function documentation is available in the source code docstrings.
+### 🔗 Correlation Matrix
+Comprehensive visualization of relationships between multiple variables.
 
----
+```python
+from ggpubpy import plot_correlation_matrix, load_iris
 
-## 📚 Citation
-
-If you use **ggpubpy** in your work, please cite it as:
-
-Akbasli, I. T. (2025). *Python Based Publication-Ready Plots*. Zenodo. https://doi.org/10.5281/zenodo.15707309
-
-Or in BibTeX:
-
-```bibtex
-@software{akbasli2025ggpubpy,
-  author       = {Izzet Turkalp Akbasli},
-  title        = {Python Based Publication-Ready Plots},
-  year         = {2025},
-  publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.15707309},
-  url          = {https://doi.org/10.5281/zenodo.15707309}
-}
+fig, axes = plot_correlation_matrix(
+    df=load_iris(),
+    columns=['sepal_length', 'sepal_width', 'petal_length', 'petal_width'],
+    title="Iris Dataset Correlation Matrix"
+)
 ```
 
----
+### 🌊 Alluvial Plots
+Flow diagrams showing how data moves between categorical dimensions.
+
+```python
+from ggpubpy import plot_alluvial, load_titanic
+import pandas as pd
+import numpy as np
+
+# Load and prepare data
+titanic = load_titanic()
+titanic = titanic.dropna(subset=["Age"])
+titanic["Class"] = titanic["Pclass"].map({1: "1st", 2: "2nd", 3: "3rd"})
+titanic["AgeCat"] = np.where(titanic["Age"] < 18, "Child", "Adult")
+titanic["Survived"] = titanic["Survived"].astype(str).replace({"0": "No", "1": "Yes"})
+
+# Create frequency table
+titanic_tab = (titanic.groupby(["Class", "Sex", "AgeCat", "Survived"])
+                    .size()
+                    .reset_index(name="Freq")
+                    .rename(columns={"AgeCat": "Age"}))
+titanic_tab["alluvium"] = titanic_tab.index
+
+# Create alluvial plot
+fig, ax = plot_alluvial(
+    titanic_tab,
+    dims=["Class", "Sex", "Age"],
+    value_col="Freq",
+    color_by="Survived",
+    id_col="alluvium",
+    title="Titanic Survival Analysis"
+)
+```
+
+## Releasing
+
+Release is automated via GitHub Actions with version safeguards.
+
+- Prep version:
+  - `python scripts/bump_version.py X.Y.Z`
+  - `git commit -am "chore: bump version to X.Y.Z"`
+- Stable release to PyPI:
+  - Tag and push: `git tag vX.Y.Z && git push && git push --tags`
+  - Workflow checks tag = version in `pyproject.toml` and `ggpubpy/__init__.py`.
+  - Publishes to PyPI using `PYPITOKEN` GitHub Secret (user `__token__`).
+- Pre-release to TestPyPI (RC):
+  - Tag with suffix: `git tag vX.Y.Z-rc1 && git push --tags`
+  - Or trigger `Release-TestPyPI` workflow manually (Actions → Run workflow) with the version.
+  - Uses `TEST_PYPI_TOKEN` Secret.
+- Manual upload (fallback):
+  - `python -m build`
+  - `python -m twine upload dist/* --username __token__ --password <PYPI_TOKEN>`
+
+Secrets required in GitHub → Settings → Secrets and variables → Actions:
+- `PYPITOKEN`: PyPI API token
+- `TEST_PYPI_TOKEN`: TestPyPI API token (optional)
+
+## Releasing
+
+- Bump version consistently:
+  - `python scripts/bump_version.py X.Y.Z`
+  - `git commit -am "chore: bump version to X.Y.Z"`
+- Tag and push to trigger release workflow:
+  - `git tag vX.Y.Z && git push && git push --tags`
+- The release workflow verifies the tag matches versions in `pyproject.toml` and `ggpubpy/__init__.py`, then publishes to PyPI using `PYPITOKEN` secret.
+- For TestPyPI, use the manual workflow “Release-TestPyPI” with the desired version, or push an RC tag (e.g., `vX.Y.Z-rc1`) if configured.
+
+## Statistical Tests
+
+ggpubpy automatically performs appropriate statistical tests:
+
+- **Global Tests**: One-way ANOVA, Kruskal-Wallis
+- **Pairwise Comparisons**: t-tests, Mann-Whitney U tests
+- **Correlation Analysis**: Pearson, Spearman, Kendall
+- **Significance Levels**: `***` p < 0.001, `**` p < 0.01, `*` p < 0.05, `ns` p ≥ 0.05
+
+## Documentation
+
+📖 **Complete documentation** is available at [https://ggpubpy.readthedocs.io](https://ggpubpy.readthedocs.io)
+
+The documentation includes:
+- Detailed function references
+- Comprehensive examples
+- Statistical test explanations
+- Customization guides
+- Best practices
+
+## Examples
+
+Check out the `examples/` directory for complete working examples:
+
+- `basic_usage.py`: Introduction to ggpubpy functions
+- `alluvial_examples.py`: Alluvial plot examples
+- `correlation_matrix_example.py`: Correlation matrix examples
+
+## Dependencies
+
+- Python 3.8+
+- matplotlib
+- pandas
+- numpy
+- scipy (for statistical tests)
+
+## Contributing
+
+We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for more information.
 
 ## License
 
-**ggpubpy** is released under the MIT License. See [LICENSE](https://github.com/turkalpmd/ggpubpy/blob/main/LICENSE) for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Citation
+
+If you use ggpubpy in your research, please cite:
+
+```bibtex
+@software{ggpubpy,
+  title={ggpubpy: Publication-Ready Plots for Python},
+  author={Izzet Turkalp Akbasli},
+  year={2024},
+  url={https://github.com/yourusername/ggpubpy}
+}
+```
+
+## Support
+
+For questions, bug reports, or feature requests, please open an issue on our [GitHub repository](https://github.com/yourusername/ggpubpy).
 
 ---
 
-## 📈 Project Status
-
-🎉 **PUBLISHED ON PyPI**: August 16, 2025  
-📦 **Latest Version**: 0.3.0  
-🌟 **Status**: Stable and ready for production use  
-🤝 **Contributing**: Open for community contributions  
-
-**Install now**: `pip install ggpubpy`
-
----
-
-## 🛠️ Development
-
-For developers and contributors:
-
-### Development Scripts
-- **`scripts/`** - Development and maintenance utilities
-  - `pre_upload_check.py` - PyPI upload checklist and automation
-  - `final_check.py` - Comprehensive testing and quality checks
-  - `run_checks.sh` - Quick quality checks (Linux/macOS)
-
-### Project Structure
-```
-ggpubpy/
-├── ggpubpy/           # Main package code
-├── tests/             # Test suite
-├── examples/          # Usage examples and generated plots
-├── scripts/           # Development utilities
-├── docs/              # Additional documentation
-└── README.md          # This file
-```
-
-### Running Tests
-```bash
-# Run all tests
-python -m pytest tests/
-
-# Run with coverage
-python -m pytest tests/ --cov=ggpubpy
-
-# Run development checks
-python scripts/final_check.py
-```
-
----
-
-## Changelog
-
-### Version 0.3.0 (August 16, 2025)
-**🆕 Major Feature Addition: Correlation Matrix Plots**
-
-- ✨ **New function**: `plot_correlation_matrix()` - Create comprehensive correlation matrix visualizations
-- 📊 **Diagonal plots**: Histograms with KDE overlay for univariate distributions
-- 🔗 **Lower triangle**: Scatter plots with trend lines and confidence intervals
-- 📈 **Upper triangle**: Correlation coefficients with statistical significance indicators
-- 🎯 **Multiple methods**: Support for Pearson, Spearman, and Kendall correlations
-- 🎨 **Customizable**: Full control over colors, sizes, transparency, and statistical display
-- 📚 **Documentation**: Comprehensive examples and usage guide added
-- 🧪 **Tests**: Complete test coverage for all new functionality
-
-**Improvements:**
-- Enhanced error handling and input validation
-- Better integration with existing plotting functions
-- Updated examples and documentation
-- Improved code organization and type hints
-
-### Version 0.2.1 (June 20, 2025)
-- Stability improvements and bug fixes
-- Enhanced documentation
-
-### Version 0.2.0 (June 20, 2025)
-- Initial stable release with core plotting functions
+**Happy plotting! 📊✨**

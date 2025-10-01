@@ -14,9 +14,10 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ggpubpy import load_iris, plot_correlation_matrix
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def create_sample_data():
+def create_sample_data() -> pd.DataFrame:
     """Create sample data with different correlation patterns."""
     np.random.seed(42)
     n = 150
@@ -34,7 +35,7 @@ def create_sample_data():
     return df
 
 
-def main():
+def main() -> None:
     """Run correlation matrix plot examples."""
     print("Creating correlation matrix plot examples...")
 
@@ -53,9 +54,7 @@ def main():
         title="Synthetic Data Correlation Matrix",
     )
 
-    plt.savefig(
-        "correlation_matrix_synthetic_example.png", dpi=300, bbox_inches="tight"
-    )
+    plt.savefig(os.path.join(OUT_DIR, "correlation_matrix_synthetic_example.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     # Example 2: Using iris dataset - 3 features
@@ -75,7 +74,7 @@ def main():
         title="Iris Dataset - 3 Features Correlation Matrix",
     )
 
-    plt.savefig("correlation_matrix_iris_3features.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "correlation_matrix_iris_3features.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     # Example 3: Using iris dataset - All 4 features
@@ -94,7 +93,25 @@ def main():
         title="Iris Dataset - All Features Spearman Correlation",
     )
 
-    plt.savefig("correlation_matrix_iris_4features.png", dpi=300, bbox_inches="tight")
+    plt.savefig(os.path.join(OUT_DIR, "correlation_matrix_iris_4features.png"), dpi=300, bbox_inches="tight")
+    plt.show()
+
+    # Example 4: Docs top image — Iris 4 features, Pearson (matches docs snippet)
+    print("\n4. Docs top image (Iris - 4 features, Pearson)...")
+    features_doc = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+    fig4, axes4 = plot_correlation_matrix(
+        iris_df,
+        columns=features_doc,
+        figsize=(8, 8),
+        color="#27AE60",
+        alpha=0.6,
+        point_size=20,
+        show_stats=True,
+        method="pearson",
+        title="Iris Dataset - Correlation Matrix",
+        subtitle="Pearson method with significance stars",
+    )
+    plt.savefig(os.path.join(OUT_DIR, "correlation_matrix_example.png"), dpi=300, bbox_inches="tight")
     plt.show()
 
     print("\nCorrelation matrix plots saved successfully!")
@@ -102,6 +119,7 @@ def main():
     print("- correlation_matrix_synthetic_example.png")
     print("- correlation_matrix_iris_3features.png")
     print("- correlation_matrix_iris_4features.png")
+    print("- correlation_matrix_example.png")
 
 
 if __name__ == "__main__":

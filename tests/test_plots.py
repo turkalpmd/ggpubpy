@@ -10,6 +10,8 @@ import pandas as pd
 import pytest
 
 from ggpubpy import (
+    plot_alluvial,
+    plot_alluvial_with_stats,
     plot_boxplot_with_stats,
     plot_correlation_matrix,
     plot_shift,
@@ -152,6 +154,19 @@ class TestPlotViolinWithStats:
         with pytest.raises(AssertionError, match="box_width must be positive"):
             plot_violin_with_stats(sample_data, x="dose", y="len", box_width=0)
 
+    def test_violin_title_subtitle_alpha(self, sample_data: pd.DataFrame) -> None:
+        """Exercise title/subtitle/alpha on violin plot."""
+        fig, ax = plot_violin_with_stats(
+            sample_data,
+            x="dose",
+            y="len",
+            title="Violin Title",
+            subtitle="Subtitle",
+            alpha=0.5,
+        )
+        assert isinstance(fig, plt.Figure)
+        plt.close(fig)
+
 
 class TestPlotBoxplotWithStats:
     """Test the plot_boxplot_with_stats function."""
@@ -248,6 +263,19 @@ class TestPlotBoxplotWithStats:
         with pytest.raises(AssertionError, match="box_width must be positive"):
             plot_boxplot_with_stats(sample_data, x="dose", y="len", box_width=0)
 
+    def test_boxplot_title_subtitle_alpha(self, sample_data: pd.DataFrame) -> None:
+        """Exercise title/subtitle/alpha on boxplot."""
+        fig, ax = plot_boxplot_with_stats(
+            sample_data,
+            x="dose",
+            y="len",
+            title="Boxplot Title",
+            subtitle="Subtitle",
+            alpha=0.5,
+        )
+        assert isinstance(fig, plt.Figure)
+        plt.close(fig)
+
 
 class TestPlotShift:
     """Test the plot_shift function."""
@@ -296,6 +324,26 @@ class TestPlotShift:
         fig = plot_shift(x, y, parametric=True)
         ax = fig.axes[0]
         assert "t-test" in ax.get_title()
+        plt.close(fig)
+
+    def test_shift_plot_with_labels_and_style(
+        self, shift_data: Tuple[np.ndarray, np.ndarray]
+    ) -> None:
+        """Test shift plot with new optional args."""
+        x, y = shift_data
+        fig = plot_shift(
+            x,
+            y,
+            x_label="Group X",
+            y_label="Group Y",
+            title="Shift Plot",
+            subtitle="Demo",
+            color="#E74C3C",
+            line_color="#2C3E50",
+            alpha=0.7,
+            figsize=(9, 5),
+        )
+        assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
 
@@ -528,6 +576,7 @@ class TestPlotCorrelationMatrix:
             show_stats=True,
             method="spearman",
             title="Custom Correlation Matrix",
+            subtitle="Subtitle",
         )
 
         assert isinstance(fig, plt.Figure)
@@ -634,3 +683,158 @@ class TestPlotCorrelationMatrix:
 
         with pytest.raises(AssertionError, match="No valid data remaining"):
             plot_correlation_matrix(df)
+
+
+class TestAlluvialPlots:
+    """Test alluvial plot functionality."""
+
+    def test_basic_alluvial_plot(self, sample_data: pd.DataFrame) -> None:
+        """Test basic alluvial plot creation."""
+        # Create sample alluvial data
+        df = pd.DataFrame(
+            {
+                "dim1": ["A", "A", "B", "B", "C", "C"],
+                "dim2": ["X", "Y", "X", "Y", "X", "Y"],
+                "color": ["red", "blue", "red", "blue", "red", "blue"],
+                "value": [10, 5, 8, 3, 6, 4],
+                "id": [0, 1, 2, 3, 4, 5],
+            }
+        )
+
+        fig, ax = plot_alluvial(
+            df=df,
+            dims=["dim1", "dim2"],
+            value_col="value",
+            color_by="color",
+            id_col="id",
+        )
+
+        assert fig is not None
+        assert ax is not None
+        plt.close(fig)
+
+    def test_alluvial_plot_with_orders(self, sample_data: pd.DataFrame) -> None:
+        """Test alluvial plot with custom orders."""
+        df = pd.DataFrame(
+            {
+                "dim1": ["A", "A", "B", "B"],
+                "dim2": ["X", "Y", "X", "Y"],
+                "color": ["red", "blue", "red", "blue"],
+                "value": [10, 5, 8, 3],
+                "id": [0, 1, 2, 3],
+            }
+        )
+
+        fig, ax = plot_alluvial(
+            df=df,
+            dims=["dim1", "dim2"],
+            value_col="value",
+            color_by="color",
+            id_col="id",
+            orders={"dim1": ["A", "B"], "dim2": ["X", "Y"]},
+        )
+
+        assert fig is not None
+        assert ax is not None
+        plt.close(fig)
+
+    def test_alluvial_plot_with_custom_colors(self, sample_data: pd.DataFrame) -> None:
+        """Test alluvial plot with custom color map."""
+        df = pd.DataFrame(
+            {
+                "dim1": ["A", "A", "B", "B"],
+                "dim2": ["X", "Y", "X", "Y"],
+                "color": ["red", "blue", "red", "blue"],
+                "value": [10, 5, 8, 3],
+                "id": [0, 1, 2, 3],
+            }
+        )
+
+        fig, ax = plot_alluvial(
+            df=df,
+            dims=["dim1", "dim2"],
+            value_col="value",
+            color_by="color",
+            id_col="id",
+            color_map={"red": "#FF0000", "blue": "#0000FF"},
+        )
+
+        assert fig is not None
+        assert ax is not None
+        plt.close(fig)
+
+    def test_alluvial_plot_with_stats(self, sample_data: pd.DataFrame) -> None:
+        """Test alluvial plot with stats function."""
+        df = pd.DataFrame(
+            {
+                "dim1": ["A", "A", "B", "B"],
+                "dim2": ["X", "Y", "X", "Y"],
+                "color": ["red", "blue", "red", "blue"],
+                "value": [10, 5, 8, 3],
+                "id": [0, 1, 2, 3],
+            }
+        )
+
+        fig, ax = plot_alluvial_with_stats(
+            df=df,
+            dims=["dim1", "dim2"],
+            value_col="value",
+            color_by="color",
+            id_col="id",
+        )
+
+        assert fig is not None
+        assert ax is not None
+        plt.close(fig)
+
+    def test_alluvial_plot_validation(self, sample_data: pd.DataFrame) -> None:
+        """Test alluvial plot input validation."""
+        df = pd.DataFrame(
+            {
+                "dim1": ["A", "A", "B", "B"],
+                "dim2": ["X", "Y", "X", "Y"],
+                "color": ["red", "blue", "red", "blue"],
+                "value": [10, 5, 8, 3],
+                "id": [0, 1, 2, 3],
+            }
+        )
+
+        # Test invalid DataFrame
+        with pytest.raises(TypeError, match="df must be a pandas DataFrame"):
+            plot_alluvial(
+                df="invalid",
+                dims=["dim1", "dim2"],
+                value_col="value",
+                color_by="color",
+                id_col="id",
+            )
+
+        # Test invalid dims
+        with pytest.raises(
+            ValueError, match="dims must be a list with at least 2 elements"
+        ):
+            plot_alluvial(
+                df=df, dims=["dim1"], value_col="value", color_by="color", id_col="id"
+            )
+
+        # Test missing column
+        with pytest.raises(ValueError, match="Column 'missing' not found in DataFrame"):
+            plot_alluvial(
+                df=df,
+                dims=["dim1", "missing"],
+                value_col="value",
+                color_by="color",
+                id_col="id",
+            )
+
+        # Test non-numeric value column
+        df_str = df.copy()
+        df_str["value"] = df_str["value"].astype(str)
+        with pytest.raises(ValueError, match="Column 'value' must be numeric"):
+            plot_alluvial(
+                df=df_str,
+                dims=["dim1", "dim2"],
+                value_col="value",
+                color_by="color",
+                id_col="id",
+            )

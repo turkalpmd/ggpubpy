@@ -198,13 +198,15 @@ pypirc_example
 .pypirc
 *.token
 config/
+scripts/twinecode.md
+scripts/*.env
 secrets/
 
 # Development scripts (internal use only)
 scripts/
 
 # Development documentation (internal use only)
-docs/
+# docs/ - commented out to allow docs/requirements.txt to be tracked
 
 # Documentation build files
 docs/_build/

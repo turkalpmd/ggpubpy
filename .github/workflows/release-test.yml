@@ -1,0 +1,70 @@
+name: Release-TestPyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build (should match project version)'
+        required: true
+        type: string
+  push:
+    tags:
+      - 'v*.*.*-*'
+
+jobs:
+  build-and-publish-testpypi:
+    name: Build and publish to TestPyPI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Determine version (dispatch input or tag)
+        id: ver
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            # For tag runs, derive version from ref name (strip leading v)
+            echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+          fi
+      - name: Verify version matches project version
+        run: |
+          python - << 'PY'
+          import os, re
+          from pathlib import Path
+          input_ver = os.environ.get('VERSION','').strip()
+          if not input_ver:
+              raise SystemExit('Missing version (dispatch input or tag)')
+          text = Path('pyproject.toml').read_text(encoding='utf-8')
+          m = re.search(r"^version\s*=\s*\"([^\"]+)\"", text, re.M)
+          if not m:
+              raise SystemExit('Could not find version in pyproject.toml')
+          py_ver = m.group(1)
+          if input_ver != py_ver:
+              raise SystemExit(f"Version mismatch: input={input_ver}, pyproject={py_ver}")
+          init = Path('ggpubpy/__init__.py').read_text(encoding='utf-8')
+          m2 = re.search(r"__version__\s*=\s*\"([^\"]+)\"", init)
+          if not m2:
+              raise SystemExit('Could not find __version__ in ggpubpy/__init__.py')
+          init_ver = m2.group(1)
+          if input_ver != init_ver:
+              raise SystemExit(f"Version mismatch: input={input_ver}, __init__={init_ver}")
+          print(f"Version OK: {input_ver}")
+          PY
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+      - name: Install build deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+      - name: Build package
+        run: python -m build
+      - name: Publish package to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.TEST_PYPI_TOKEN }}
+          repository-url: https://test.pypi.org/legacy/

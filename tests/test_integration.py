@@ -50,7 +50,7 @@ class TestIntegration:
         """Test violin plot with iris dataset."""
         iris = load_iris()
 
-        fig, ax = ggpubpy.violinggplot(
+        fig, ax = ggpubpy.plot_violin(
             df=iris,
             x="species",
             y="sepal_length",
@@ -68,7 +68,7 @@ class TestIntegration:
         """Test boxplot with iris dataset."""
         iris = load_iris()
 
-        fig, ax = ggpubpy.boxggplot(
+        fig, ax = ggpubpy.plot_boxplot(
             df=iris, x="species", y="petal_length", parametric=True
         )
 
@@ -153,12 +153,12 @@ class TestIntegration:
         iris_2groups = iris[iris["species"].isin(["setosa", "versicolor"])]
 
         # Non-parametric (default)
-        fig1, ax1 = ggpubpy.violinggplot(
+        fig1, ax1 = ggpubpy.plot_violin(
             df=iris_2groups, x="species", y="sepal_length", parametric=False
         )
 
         # Parametric
-        fig2, ax2 = ggpubpy.violinggplot(
+        fig2, ax2 = ggpubpy.plot_violin(
             df=iris_2groups, x="species", y="sepal_length", parametric=True
         )
 
@@ -178,7 +178,7 @@ class TestIntegration:
             "virginica": "#45B7D1",
         }
 
-        fig, ax = ggpubpy.violinggplot(
+        fig, ax = ggpubpy.plot_violin(
             df=iris, x="species", y="petal_width", palette=custom_palette
         )
 
@@ -205,13 +205,13 @@ class TestIntegration:
 
         # Single species (edge case)
         setosa_only = iris[iris["species"] == "setosa"]
-        fig, ax = ggpubpy.violinggplot(df=setosa_only, x="species", y="sepal_length")
+        fig, ax = ggpubpy.plot_violin(df=setosa_only, x="species", y="sepal_length")
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
         # Two species
         two_species = iris[iris["species"].isin(["setosa", "versicolor"])]
-        fig, ax = ggpubpy.boxggplot(df=two_species, x="species", y="petal_length")
+        fig, ax = ggpubpy.plot_boxplot(df=two_species, x="species", y="petal_length")
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
 
@@ -225,7 +225,7 @@ class TestIntegration:
             }
         )
 
-        fig, ax = ggpubpy.violinggplot(df=data_with_nan, x="group", y="value")
+        fig, ax = ggpubpy.plot_violin(df=data_with_nan, x="group", y="value")
 
         assert isinstance(fig, plt.Figure)
         plt.close(fig)
