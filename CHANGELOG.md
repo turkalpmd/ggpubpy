@@ -1,6 +1,14 @@
 
 # Changelog
 
+## [0.5.1] - 2025-10-01
+
+### Fixed
+- Ensure `qqplot` and `plot_blandaltman` are importable at package import time in CI (`ggpubpy/__init__.py`).
+
+### Changed
+- Documentation polish: Enhanced `docs/qqplot.md` and `docs/bland_altman.md` with features, multiple Iris examples, and embedded images.
+
 ## [0.5.0] - 2025-10-01
 
 ### Added
@@ -35,7 +43,7 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0/).
 
 ## [0.4.2] - 2025-09-15
 
@@ -128,22 +136,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - More plot customization options
 - Interactive plot support
 - Additional dataset integrations
-
-## [0.4.3] - 2025-09-15
-
-### Added
-- API harmonization across plotting functions:
-  - Shift Plot: `x_label`, `y_label`, `title`, `subtitle`, `color`, `line_color`, `alpha`, `figsize`.
-  - Violin/Boxplot: `title`, `subtitle`, `alpha` for jitter.
-  - Correlation Matrix: `subtitle` support.
-- CI/CD: GitHub Actions workflows for tests/docs, PyPI release, and TestPyPI release.
-- Scripts: `scripts/bump_version.py` for safe version bumps.
-
-### Changed
-- Docs: Updated Shift/Box/Violin/Correlation pages to reflect new parameters and return types.
-- README: Added CI/TestPyPI badges and detailed “Releasing” section.
-- Examples/Scripts: Demonstrate new parameters (title/subtitle/alpha/etc.).
-
-### Security
-- Removed accidentally committed token artifact and added ignore rules.
-- Release workflow now verifies tag-version consistency before publishing.
