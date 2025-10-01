@@ -14,6 +14,7 @@ ggpubpy is a Python library for creating publication-ready plots with built-in s
    shiftplot
    correlation_matrix
    alluvial_plots
+   plots_manipulation
 
 .. toctree::
    :maxdepth: 2
