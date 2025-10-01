@@ -15,6 +15,8 @@ ggpubpy is a Python library for creating publication-ready plots with built-in s
    correlation_matrix
    alluvial_plots
    plots_manipulation
+   qqplot
+   bland_altman
 
 
 .. toctree::
