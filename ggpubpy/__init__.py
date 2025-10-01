@@ -10,7 +10,7 @@ This project is directly inspired by R's ggpubr package.
 
 from typing import Any, List, Tuple
 
-__version__ = "0.4.4"
+__version__ = "0.5.0"
 __author__ = "Izzet Turkalp Akbasli"
 __email__ = "izzetakbasli@gmail.com"
 
@@ -23,6 +23,22 @@ from .datasets import (
     load_iris,
     load_titanic,
 )
+
+# Explicitly expose selected functions to avoid missing attributes during import in CI
+try:
+    from .qqplot import qqplot as qqplot  # type: ignore
+except Exception:
+    # Fallback to lazy import if direct import fails at runtime
+    def qqplot(*args: Any, **kwargs: Any) -> Any:  # type: ignore
+        from .qqplot import qqplot as _qq
+        return _qq(*args, **kwargs)
+
+try:
+    from .bland_altman import plot_blandaltman as plot_blandaltman  # type: ignore
+except Exception:
+    def plot_blandaltman(*args: Any, **kwargs: Any) -> Any:  # type: ignore
+        from .bland_altman import plot_blandaltman as _ba
+        return _ba(*args, **kwargs)
 
 
 # Lazy imports to avoid scipy import issues during package import
@@ -165,4 +181,6 @@ __all__ = [
     "plot_correlation_matrix",
     "plot_alluvial",
     "plot_alluvial_with_stats",
+    "qqplot",
+    "plot_blandaltman",
 ]
