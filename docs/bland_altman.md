@@ -2,19 +2,41 @@
 
 Agreement plot to compare two measurement methods with mean bias and limits of agreement.
 
-## Basic Usage
+## Examples (Iris)
 
 ```python
-from ggpubpy import plot_blandaltman
-import numpy as np
+from ggpubpy import plot_blandaltman, load_iris
 import matplotlib.pyplot as plt
 
-np.random.seed(42)
-x = np.random.normal(loc=10, scale=2, size=100)
-y = x + np.random.normal(loc=0.2, scale=1.0, size=100)
+iris = load_iris()
 fig, ax = plt.subplots(figsize=(6, 4))
-plot_blandaltman(x, y, agreement=1.96, confidence=0.95, annotate=True, ax=ax)
-ax.set_title("Bland–Altman")
+plot_blandaltman(
+    iris["sepal_length"].values,
+    iris["petal_length"].values,
+    agreement=1.96,
+    confidence=0.95,
+    annotate=True,
+    ax=ax,
+)
+ax.set_title("Iris: Bland–Altman (Sepal Length vs Petal Length)")
+plt.tight_layout()
+```
+
+```python
+from ggpubpy import plot_blandaltman, load_iris
+import matplotlib.pyplot as plt
+
+iris = load_iris()
+fig, ax = plt.subplots(figsize=(6, 4))
+plot_blandaltman(
+    iris["sepal_width"].values,
+    iris["petal_width"].values,
+    agreement=1.96,
+    confidence=0.95,
+    annotate=False,
+    ax=ax,
+)
+ax.set_title("Iris: Bland–Altman (Sepal Width vs Petal Width)")
 plt.tight_layout()
 ```
 

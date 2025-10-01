@@ -2,18 +2,27 @@
 
 Create a Quantile–Quantile (Q–Q) plot with optional confidence envelope and regression line.
 
-## Basic Usage
+## Examples (Iris)
 
 ```python
-from ggpubpy import qqplot
-import numpy as np
+from ggpubpy import qqplot, load_iris
 import matplotlib.pyplot as plt
 
-np.random.seed(42)
-x = np.random.normal(size=200)
+iris = load_iris()
 fig, ax = plt.subplots(figsize=(5, 5))
-qqplot(x, dist="norm", confidence=0.95, ax=ax)
-ax.set_title("QQ Plot (Normal)")
+qqplot(iris["sepal_length"].values, dist="norm", confidence=0.95, ax=ax)
+ax.set_title("Iris: QQ Plot (Sepal Length vs Normal)")
+plt.tight_layout()
+```
+
+```python
+from ggpubpy import qqplot, load_iris
+import matplotlib.pyplot as plt
+
+iris = load_iris()
+fig, ax = plt.subplots(figsize=(5, 5))
+qqplot(iris["petal_width"].values, dist="norm", confidence=0.95, ax=ax)
+ax.set_title("Iris: QQ Plot (Petal Width vs Normal)")
 plt.tight_layout()
 ```
 
